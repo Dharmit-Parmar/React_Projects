@@ -7,13 +7,11 @@ import jsPDF from 'jspdf';
 import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
 import {
-  Document, Packer, Paragraph, TextRun, HeadingLevel,
-} from 'docx';
-import {
   UploadCloud, ArrowRight, Download, RefreshCw,
   Loader2, CheckCircle2, X, FileText, Image as Img,
   File, Zap, Presentation,
 } from 'lucide-react';
+import { convertWordToPdf } from '../utils/spireDocConverter.js';
 
 // ── PDF.js worker (bundled via Vite, no CDN needed) ───────────────────────────
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -217,32 +215,8 @@ async function txtToHtml(file) {
 
 // ── DOCX converters ────────────────────────────────────────────────────────────
 async function docxToPdf(file) {
-  const ab = await file.arrayBuffer();
-  const { value: html } = await mammoth.convertToHtml({ arrayBuffer: ab });
-  const container = document.createElement('div');
-  container.innerHTML = html;
-  container.style.cssText =
-    'position:fixed;left:-9999px;top:0;width:595px;padding:40px;' +
-    'font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#111;background:#fff;';
-  document.body.appendChild(container);
-  const { default: html2canvas } = await import('html2canvas');
-  const canvas = await html2canvas(container, { scale: 1.5, useCORS: true });
-  document.body.removeChild(container);
-  const imgData = canvas.toDataURL('image/jpeg', 0.9);
-  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-  const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
-  const imgH = pageW * (canvas.height / canvas.width);
-  let heightLeft = imgH;
-  let pos = 0;
-  doc.addImage(imgData, 'JPEG', 0, pos, pageW, imgH);
-  heightLeft -= pageH;
-  while (heightLeft > 0) {
-    pos -= pageH; doc.addPage();
-    doc.addImage(imgData, 'JPEG', 0, pos, pageW, imgH);
-    heightLeft -= pageH;
-  }
-  return new Blob([doc.output('arraybuffer')], { type: 'application/pdf' });
+  const buf = await convertWordToPdf(file);
+  return new Blob([buf], { type: 'application/pdf' });
 }
 
 async function docxToTxt(file) {
@@ -355,26 +329,38 @@ async function htmlToPdf(file) {
   const container = document.createElement('div');
   container.innerHTML = html;
   container.style.cssText =
-    'position:fixed;left:-9999px;top:0;width:595px;padding:40px;' +
-    'font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#111;background:#fff;';
-  document.body.appendChild(container);
+    'width:515px;font-family:Arial,sans-serif;font-size:12px;line-height:1.5;color:#111;background:#fff;padding:0;margin:0;';
+
+  const elements = container.querySelectorAll('h1, h2, h3, h4, img, table, tr, pre');
+  elements.forEach(el => el.style.pageBreakInside = 'avoid');
+
+  const wrapper = document.createElement('div');
+  wrapper.style.position = 'absolute'; 
+  wrapper.style.left = '-9999px';
+  wrapper.style.top = '0px';
+  wrapper.appendChild(container);
+  document.body.appendChild(wrapper);
+
   const { default: html2canvas } = await import('html2canvas');
-  const canvas = await html2canvas(container, { scale: 1.5, useCORS: true });
-  document.body.removeChild(container);
-  const imgData = canvas.toDataURL('image/jpeg', 0.9);
+  window.html2canvas = html2canvas;
+
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-  const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
-  const imgH = pageW * (canvas.height / canvas.width);
-  let heightLeft = imgH, pos = 0;
-  doc.addImage(imgData, 'JPEG', 0, pos, pageW, imgH);
-  heightLeft -= pageH;
-  while (heightLeft > 0) {
-    pos -= pageH; doc.addPage();
-    doc.addImage(imgData, 'JPEG', 0, pos, pageW, imgH);
-    heightLeft -= pageH;
-  }
-  return new Blob([doc.output('arraybuffer')], { type: 'application/pdf' });
+
+  return new Promise((resolve, reject) => {
+    doc.html(container, {
+      callback: function (pdf) {
+        document.body.removeChild(wrapper);
+        resolve(new Blob([pdf.output('arraybuffer')], { type: 'application/pdf' }));
+      },
+      margin: [40, 40, 40, 40],
+      autoPaging: 'text',
+      windowWidth: 515,
+      width: 515
+    }).catch(err => {
+      document.body.removeChild(wrapper);
+      reject(err);
+    });
+  });
 }
 
 async function htmlToTxt(file) {

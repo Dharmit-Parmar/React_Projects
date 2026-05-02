@@ -8,6 +8,7 @@ import {
   UploadCloud, GripVertical, Trash2, FileText, Layers, Loader2,
   Image as ImageIcon, FileType, File, CheckCircle2, AlertCircle, RefreshCw
 } from 'lucide-react';
+import { convertWordToPdf } from '../utils/spireDocConverter.js';
 
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
@@ -112,47 +113,6 @@ async function convertTextToPdf(file) {
   return doc.output('arraybuffer');
 }
 
-async function convertWordToPdf(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
-
-  // Render HTML to a temporary element so we can measure / layout
-  const container = document.createElement('div');
-  container.innerHTML = html;
-  container.style.cssText = `
-    position: fixed; left: -9999px; top: 0;
-    width: 595px; padding: 40px;
-    font-family: Arial, sans-serif; font-size: 12px;
-    line-height: 1.5; color: #111; background: #fff;
-  `;
-  document.body.appendChild(container);
-
-  // Use jsPDF html method (uses html2canvas internally)
-  const { default: html2canvas } = await import('html2canvas');
-  const canvas = await html2canvas(container, { scale: 1.5, useCORS: true });
-  document.body.removeChild(container);
-
-  const imgData = canvas.toDataURL('image/jpeg', 0.9);
-  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-  const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
-  const ratio = canvas.height / canvas.width;
-  const imgH = pageW * ratio;
-
-  let heightLeft = imgH;
-  let position = 0;
-  doc.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
-  heightLeft -= pageH;
-
-  while (heightLeft > 0) {
-    position -= pageH;
-    doc.addPage();
-    doc.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
-    heightLeft -= pageH;
-  }
-
-  return doc.output('arraybuffer');
-}
 
 async function convertFileToPdfBytes(file, category) {
   switch (category) {
