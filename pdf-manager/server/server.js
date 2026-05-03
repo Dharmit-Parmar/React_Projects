@@ -37,15 +37,18 @@ app.post('/api/convert/libreoffice', upload.single('file'), (req, res) => {
 
   libre.convert(fileData, fileExt, undefined, (err, done) => {
     // Clean up uploaded file
-    fs.unlinkSync(inputPath);
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
 
     if (err) {
       console.error(`Error converting with libreoffice: ${err}`);
-      return res.status(500).send('Conversion failed. Is LibreOffice installed?');
+      return res.status(500).send(
+        'LibreOffice conversion failed. Make sure LibreOffice is installed and the file is not corrupted.'
+      );
     }
 
     res.setHeader('Content-Disposition', `attachment; filename="converted${fileExt}"`);
     res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Length', done.length);
     res.send(done);
   });
 });
@@ -59,28 +62,48 @@ app.post('/api/convert/pdf-to-docx', upload.single('file'), (req, res) => {
 
   console.log(`Converting ${req.file.originalname} to DOCX via Python pdf2docx...`);
 
-  // Path to the virtual environment python executable
-  const pythonExec = path.join(__dirname, 'venv', 'bin', 'python3');
+  // Cross-platform python path: Linux/Mac uses bin/python3, Windows uses Scripts/python.exe
+  const isWin = process.platform === 'win32';
+  const pythonExec = isWin
+    ? path.join(__dirname, 'venv', 'Scripts', 'python.exe')
+    : path.join(__dirname, 'venv', 'bin', 'python3');
   const scriptPath = path.join(__dirname, 'pdf_to_docx.py');
 
-  exec(`"${pythonExec}" "${scriptPath}" "${inputPath}" "${outputPath}"`, (error, stdout, stderr) => {
+  // Check venv exists before trying
+  if (!fs.existsSync(pythonExec)) {
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    return res.status(500).send(
+      'Python environment not set up. Run: python3 -m venv server/venv && server/venv/bin/pip install pdf2docx'
+    );
+  }
+
+  exec(`"${pythonExec}" "${scriptPath}" "${inputPath}" "${outputPath}"`, { timeout: 120000 }, (error, stdout, stderr) => {
     // Clean up input PDF
     if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
 
     if (error) {
-      console.error(`Python conversion error: ${error.message}`);
-      return res.status(500).send('Python PDF to DOCX conversion failed.');
+      console.error(`Python conversion error: ${error.message}`, stderr);
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+      return res.status(500).send(`PDF to DOCX conversion failed: ${stderr || error.message}`);
     }
 
+    if (!fs.existsSync(outputPath)) {
+      return res.status(500).send('Conversion produced no output file.');
+    }
+
+    const stat = fs.statSync(outputPath);
     res.setHeader('Content-Disposition', 'attachment; filename="converted.docx"');
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-    
+    res.setHeader('Content-Length', stat.size);
+
     res.sendFile(path.resolve(outputPath), (err) => {
-      // Clean up output DOCX after sending
       if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
     });
   });
 });
+
+// --- Health check ---
+app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}`);

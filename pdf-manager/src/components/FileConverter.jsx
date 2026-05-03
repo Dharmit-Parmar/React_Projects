@@ -12,19 +12,32 @@ import {
   File, Zap, Presentation,
 } from 'lucide-react';
 
-async function backendConvert(file, fromExt, toExt, useCloudmersive = false) {
+async function backendConvert(file, fromExt, toExt) {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('toExt', toExt);
 
-  const endpoint = useCloudmersive && fromExt === 'pdf' && toExt === 'docx' 
+  // PDF→DOCX uses the Python pdf2docx route; everything else uses LibreOffice
+  const endpoint = (fromExt === 'pdf' && toExt === 'docx')
     ? '/api/convert/pdf-to-docx'
     : '/api/convert/libreoffice';
 
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    body: formData,
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 90000);
+
+  let response;
+  try {
+    response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+      signal: controller.signal,
+    });
+  } catch (e) {
+    clearTimeout(timeout);
+    if (e.name === 'AbortError') throw new Error('Conversion timed out (90 s). Try a smaller file.');
+    throw new Error('Cannot reach the backend server. Make sure it is running on port 3001.');
+  }
+  clearTimeout(timeout);
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -79,6 +92,14 @@ const getExt = (filename) =>
   filename.split('.').pop()?.toLowerCase() || '';
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
+function formatBytes(bytes) {
+  if (bytes === 0) return '0 B';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+}
+
 function triggerDownload(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -163,11 +184,28 @@ async function pdfToText(file, onProgress) {
   const pdfDoc = await pdfjsLib.getDocument({ data: ab }).promise;
   const numPages = pdfDoc.numPages;
   let fullText = '';
+
   for (let i = 1; i <= numPages; i++) {
     onProgress?.(i, numPages);
     const page = await pdfDoc.getPage(i);
-    const content = await page.getTextContent();
-    fullText += content.items.map(item => item.str).join(' ') + '\n\n';
+
+    // pdfjs-dist v5: getTextContent() uses `for await...of ReadableStream` internally,
+    // which crashes in browsers without ReadableStream async-iteration support.
+    // Use streamTextContent() + getReader() directly — works everywhere.
+    const stream = page.streamTextContent({ includeMarkedContent: false });
+    const reader = stream.getReader();
+    const pageItems = [];
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value?.items) pageItems.push(...value.items);
+      }
+    } finally {
+      reader.releaseLock();
+    }
+
+    fullText += pageItems.map(item => item.str ?? '').join(' ') + '\n\n';
   }
   return fullText;
 }
@@ -186,9 +224,9 @@ async function pdfToHtml(file, onProgress) {
   return new Blob([html], { type: 'text/html' });
 }
 
-async function pdfToDocx(file, onProgress) {
-  // Using LibreOffice via backend instead of Cloudmersive
-  const blob = await backendConvert(file, 'pdf', 'docx', false);
+async function pdfToDocx(file) {
+  // Uses Python pdf2docx via the dedicated backend endpoint
+  const blob = await backendConvert(file, 'pdf', 'docx');
   return blob;
 }
 
@@ -213,12 +251,9 @@ async function txtToPdf(file) {
 }
 
 async function txtToDocx(file) {
-  const text = await file.text();
-  const paragraphs = text.split('\n').map(line =>
-    new Paragraph({ children: [new TextRun(line)] })
-  );
-  const doc = new Document({ sections: [{ children: paragraphs }] });
-  return Packer.toBlob(doc);
+  // Convert TXT → DOCX via LibreOffice backend (avoids importing the heavy docx npm package)
+  const blob = await backendConvert(file, 'txt', 'docx');
+  return blob;
 }
 
 async function txtToHtml(file) {
@@ -536,6 +571,15 @@ export default function FileConverter({ files, setFiles }) {
     }
   };
 
+  // Compute total download size
+  const downloadSize = React.useMemo(() => {
+    if (!resultBlobs) return 0;
+    if (resultBlobs.type === 'images') {
+      return resultBlobs.blobs.reduce((sum, b) => sum + (b.blob?.size || 0), 0);
+    }
+    return resultBlobs.blob?.size || 0;
+  }, [resultBlobs]);
+
   const reset = () => {
     // Remove the current file from the global list to process the next one
     setFiles(prev => prev.slice(1));
@@ -586,7 +630,7 @@ export default function FileConverter({ files, setFiles }) {
           <div className="fc-file-icon">{getFileIcon()}</div>
           <div className="fc-file-info">
             <span className="fc-file-name">{fileName}</span>
-            <span className="fc-file-size">{(fileSize / 1024).toFixed(1)} KB</span>
+            <span className="fc-file-size">{formatBytes(fileSize)}</span>
           </div>
           <button className="remove-btn" onClick={reset} title="Remove">
             <X size={18} />
@@ -686,10 +730,13 @@ export default function FileConverter({ files, setFiles }) {
               <span className="fc-result-sub">
                 {resultBlobs.blobs.length} page image{resultBlobs.blobs.length > 1 ? 's' : ''}
                 {resultBlobs.blobs.length > 1 ? ' — downloaded as ZIP' : ''}
+                {' · '}{formatBytes(downloadSize)}
               </span>
             )}
             {resultBlobs.type === 'single' && (
-              <span className="fc-result-sub">{resultBlobs.filename}</span>
+              <span className="fc-result-sub">
+                {resultBlobs.filename}{' · '}{formatBytes(downloadSize)}
+              </span>
             )}
           </div>
           <button className="btn-primary fc-download-btn" onClick={handleDownload}>
