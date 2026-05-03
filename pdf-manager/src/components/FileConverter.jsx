@@ -187,8 +187,8 @@ async function pdfToHtml(file, onProgress) {
 }
 
 async function pdfToDocx(file, onProgress) {
-  // Using Cloudmersive via backend
-  const blob = await backendConvert(file, 'pdf', 'docx', true);
+  // Using LibreOffice via backend instead of Cloudmersive
+  const blob = await backendConvert(file, 'pdf', 'docx', false);
   return blob;
 }
 

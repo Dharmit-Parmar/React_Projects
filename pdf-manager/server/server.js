@@ -2,10 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
 import libre from 'libreoffice-convert';
-import CloudmersiveConvertApiClient from 'cloudmersive-convert-api-client';
-import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+import { exec } from 'child_process';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -17,12 +21,6 @@ app.use(express.json());
 
 // Set up multer for file uploads
 const upload = multer({ dest: 'uploads/' });
-
-// Cloudmersive setup
-const defaultClient = CloudmersiveConvertApiClient.ApiClient.instance;
-const Apikey = defaultClient.authentications['Apikey'];
-Apikey.apiKey = process.env.CLOUDMERSIVE_API_KEY || 'YOUR_API_KEY_HERE';
-const cloudmersiveApi = new CloudmersiveConvertApiClient.ConvertDocumentApi();
 
 // --- Endpoint: LibreOffice Conversions (DOCX -> PDF, PPTX -> PDF, etc.) ---
 app.post('/api/convert/libreoffice', upload.single('file'), (req, res) => {
@@ -52,35 +50,36 @@ app.post('/api/convert/libreoffice', upload.single('file'), (req, res) => {
   });
 });
 
-// --- Endpoint: Cloudmersive PDF to DOCX ---
+// --- Endpoint: Python PDF to DOCX ---
 app.post('/api/convert/pdf-to-docx', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).send('No file uploaded.');
-  
-  if (!process.env.CLOUDMERSIVE_API_KEY && Apikey.apiKey === 'YOUR_API_KEY_HERE') {
-    fs.unlinkSync(req.file.path);
-    return res.status(500).send('Cloudmersive API Key is missing. Please set CLOUDMERSIVE_API_KEY in backend .env.');
-  }
 
-  const inputFile = Buffer.from(fs.readFileSync(req.file.path).buffer);
-  
-  console.log(`Converting ${req.file.originalname} to DOCX via Cloudmersive...`);
+  const inputPath = req.file.path;
+  const outputPath = `${inputPath}.docx`;
 
-  const callback = function(error, data, response) {
-    // Clean up
-    fs.unlinkSync(req.file.path);
+  console.log(`Converting ${req.file.originalname} to DOCX via Python pdf2docx...`);
+
+  // Path to the virtual environment python executable
+  const pythonExec = path.join(__dirname, 'venv', 'bin', 'python3');
+  const scriptPath = path.join(__dirname, 'pdf_to_docx.py');
+
+  exec(`"${pythonExec}" "${scriptPath}" "${inputPath}" "${outputPath}"`, (error, stdout, stderr) => {
+    // Clean up input PDF
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
 
     if (error) {
-      console.error(error);
-      return res.status(500).send('Cloudmersive conversion failed: ' + error.message);
-    } else {
-      res.setHeader('Content-Disposition', 'attachment; filename="converted.docx"');
-      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-      res.send(data);
+      console.error(`Python conversion error: ${error.message}`);
+      return res.status(500).send('Python PDF to DOCX conversion failed.');
     }
-  };
 
-  // ConvertDocumentPdfToDocx can take a Buffer or a File. 
-  cloudmersiveApi.convertDocumentPdfToDocx(inputFile, callback);
+    res.setHeader('Content-Disposition', 'attachment; filename="converted.docx"');
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    
+    res.sendFile(path.resolve(outputPath), (err) => {
+      // Clean up output DOCX after sending
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+    });
+  });
 });
 
 app.listen(port, () => {

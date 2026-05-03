@@ -7,7 +7,13 @@ services:
       - "5173:5173"
       - "3001:3001"
     volumes:
-      - .:/app
-      - /app/node_modules
+      # Persist uploaded/converted files between container restarts
+      - uploads_data:/app/uploads
     environment:
       - PORT=3001
+    # Optional: uncomment and add your key for the PDF→DOCX API feature
+    # env_file:
+    #   - .env
+
+volumes:
+  uploads_data:

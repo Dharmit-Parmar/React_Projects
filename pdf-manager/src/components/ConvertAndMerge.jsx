@@ -54,6 +54,7 @@ const getFileCategory = (file) => {
   if (name.endsWith('.docx') || name.endsWith('.doc') || type.includes('word')) return 'word';
   if (name.endsWith('.pptx') || name.endsWith('.ppt') || type.includes('presentation')) return 'presentation';
   if (name.endsWith('.txt') || type.includes('text/plain')) return 'text';
+  if (name.endsWith('.html') || name.endsWith('.htm') || type.includes('html')) return 'html';
   return 'unknown';
 };
 
@@ -85,6 +86,7 @@ const getCategoryIcon = (category) => {
     case 'word':         return <FileType size={22} style={{ color: '#3b82f6' }} />;
     case 'presentation': return <Presentation size={22} style={{ color: '#ff6b35' }} />;
     case 'text':         return <File size={22} style={{ color: '#a3e635' }} />;
+    case 'html':         return <File size={22} style={{ color: '#f97316' }} />;
     default:             return <File size={22} style={{ color: '#94a3b8' }} />;
   }
 };
@@ -96,6 +98,7 @@ const getCategoryBadge = (category) => {
     word:         { label: 'WORD',  color: '#3b82f6' },
     presentation: { label: 'PPT',   color: '#ff6b35' },
     text:         { label: 'TXT',   color: '#a3e635' },
+    html:         { label: 'HTML',  color: '#f97316' },
     unknown:      { label: '???',   color: '#94a3b8' },
   };
   const cfg = map[category] || map.unknown;
@@ -207,8 +210,9 @@ async function convertFileToPdfBytes(file, category) {
       return convertTextToPdf(file);
 
     case 'word':
-    case 'presentation': {
-      // Only Word and PPT go to LibreOffice backend
+    case 'presentation':
+    case 'html': {
+      // Word, PPT, and HTML go to LibreOffice backend
       const blob = await backendConvert(file, 'pdf');
       return blob.arrayBuffer();
     }
@@ -278,6 +282,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
       'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
       'application/vnd.ms-powerpoint': ['.ppt'],
       'text/plain': ['.txt'],
+      'text/html': ['.html', '.htm'],
     },
     multiple: true,
   });
@@ -419,13 +424,14 @@ export default function ConvertAndMerge({ files, setFiles }) {
         <h3 className="dropzone-text">
           {isDragActive ? 'Drop your files here' : 'Drag & drop any files here'}
         </h3>
-        <p className="dropzone-subtext">Supports DOCX, PPTX, PDF, TXT, and Images · Max 50MB per file</p>
+        <p className="dropzone-subtext">Supports DOCX, PPTX, PDF, TXT, HTML, and Images · Max 50MB per file</p>
         <div className="format-badges">
           <span className="fmt-tag fmt-word">DOCX</span>
           <span className="fmt-tag fmt-word" style={{ background: '#ff6b3522', color: '#ff6b35', borderColor: '#ff6b3544' }}>PPTX</span>
           <span className="fmt-tag fmt-pdf">PDF</span>
           <span className="fmt-tag fmt-image">JPG/PNG</span>
           <span className="fmt-tag" style={{ background: '#a3e63522', color: '#a3e635', borderColor: '#a3e63544' }}>TXT</span>
+          <span className="fmt-tag" style={{ background: '#f9731622', color: '#f97316', borderColor: '#f9731644' }}>HTML</span>
         </div>
       </div>
 
