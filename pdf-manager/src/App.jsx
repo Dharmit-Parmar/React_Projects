@@ -46,11 +46,39 @@ export default function App() {
   const [sharedFiles, setSharedFiles] = useState([]);
 
   return (
-    <div className="glass-container">
-      <header className="app-header">
-        <h1 className="app-title">PDF Manager</h1>
-        <p className="app-subtitle">Merge, convert, arrange — all formats, all in your browser.</p>
-      </header>
+    <>
+      {/* Premium Aurora Background */}
+      <div className="bg-orbs">
+        <div className="orb orb-1"></div>
+        <div className="orb orb-2"></div>
+        <div className="orb orb-3"></div>
+      </div>
+
+      <div className="glass-container">
+        <header className="app-header">
+          <div className="logo-container">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="app-logo">
+              <path d="M16 6C16 4.89543 16.8954 4 18 4H34C35.1046 4 36 4.89543 36 6V30C36 31.1046 35.1046 32 34 32H18C16.8954 32 16 31.1046 16 30V6Z" fill="url(#paint0_linear)"/>
+              <path d="M12 12C12 10.8954 12.8954 10 14 10H30C31.1046 10 32 10.8954 32 12V36C32 37.1046 31.1046 38 30 38H14C12.8954 38 12 37.1046 12 36V12Z" fill="url(#paint1_linear)"/>
+              <path d="M18 20H26" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M18 26H26" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              <circle cx="28" cy="34" r="10" fill="#10b981" />
+              <path d="M25 34.5L27 36.5L31.5 31.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <defs>
+                <linearGradient id="paint0_linear" x1="16" y1="4" x2="36" y2="32" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#818cf8" stopOpacity="0.85"/>
+                  <stop offset="1" stopColor="#c084fc" stopOpacity="0.85"/>
+                </linearGradient>
+                <linearGradient id="paint1_linear" x1="12" y1="10" x2="32" y2="38" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#4f46e5" stopOpacity="0.95"/>
+                  <stop offset="1" stopColor="#9333ea" stopOpacity="0.95"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <h1 className="app-title">PDF Manager</h1>
+          </div>
+          <p className="app-subtitle">Merge, convert, arrange — all formats, all in your browser.</p>
+        </header>
 
       {/* Tab Bar */}
       <div className="tab-bar" role="tablist">
@@ -81,5 +109,6 @@ export default function App() {
         )}
       </main>
     </div>
+    </>
   );
 }
