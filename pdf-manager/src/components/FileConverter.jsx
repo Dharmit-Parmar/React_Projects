@@ -11,7 +11,28 @@ import {
   Loader2, CheckCircle2, X, FileText, Image as Img,
   File, Zap, Presentation,
 } from 'lucide-react';
-import { convertWordToPdf } from '../utils/spireDocConverter.js';
+
+async function backendConvert(file, fromExt, toExt, useCloudmersive = false) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('toExt', toExt);
+
+  const endpoint = useCloudmersive && fromExt === 'pdf' && toExt === 'docx' 
+    ? '/api/convert/pdf-to-docx'
+    : '/api/convert/libreoffice';
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Backend conversion failed');
+  }
+
+  return response.blob();
+}
 
 // ── PDF.js worker (bundled via Vite, no CDN needed) ───────────────────────────
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -42,12 +63,12 @@ const CONVERSION_MAP = {
   webp: ['pdf', 'png', 'jpg', 'bmp'],
   gif:  ['pdf', 'png', 'jpg'],
   bmp:  ['pdf', 'png', 'jpg', 'webp'],
-  docx: ['pdf', 'txt', 'html'],
-  doc:  ['pdf', 'txt', 'html'],
+  docx: ['pdf', 'pptx', 'txt', 'html'],
+  doc:  ['pdf', 'pptx', 'txt', 'html'],
   txt:  ['pdf', 'docx', 'html'],
   html: ['pdf', 'txt'],
-  pptx: ['pdf', 'txt', 'html'],
-  ppt:  ['pdf', 'txt'],
+  pptx: ['pdf', 'docx', 'txt', 'html'],
+  ppt:  ['pdf', 'docx', 'txt'],
 };
 
 const IMAGE_EXTS = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp'];
@@ -166,13 +187,9 @@ async function pdfToHtml(file, onProgress) {
 }
 
 async function pdfToDocx(file, onProgress) {
-  const text = await pdfToText(file, onProgress);
-  const paragraphs = text.split('\n\n').filter(Boolean).map(p =>
-    new Paragraph({ children: [new TextRun(p.trim())] })
-  );
-  const doc = new Document({ sections: [{ children: paragraphs }] });
-  const buf = await Packer.toBlob(doc);
-  return buf;
+  // Using Cloudmersive via backend
+  const blob = await backendConvert(file, 'pdf', 'docx', true);
+  return blob;
 }
 
 // ── TXT converters ─────────────────────────────────────────────────────────────
@@ -215,8 +232,8 @@ async function txtToHtml(file) {
 
 // ── DOCX converters ────────────────────────────────────────────────────────────
 async function docxToPdf(file) {
-  const buf = await convertWordToPdf(file);
-  return new Blob([buf], { type: 'application/pdf' });
+  const blob = await backendConvert(file, 'docx', 'pdf');
+  return blob;
 }
 
 async function docxToTxt(file) {
@@ -262,38 +279,8 @@ async function pptxToTxt(file, onProgress) {
 }
 
 async function pptxToPdf(file, onProgress) {
-  const text = await extractPptxText(file, onProgress);
-  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-  const margin = 40;
-  const pageW = doc.internal.pageSize.getWidth() - margin * 2;
-  const pageH = doc.internal.pageSize.getHeight();
-
-  // Split by slide markers
-  const slides = text.split(/--- Slide \d+ ---/).filter(s => s.trim());
-  let slideNum = 1;
-  slides.forEach((slideText, idx) => {
-    if (idx > 0) doc.addPage();
-
-    // Slide header
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.setTextColor(80, 80, 200);
-    doc.text(`Slide ${slideNum++}`, margin, margin + 14);
-
-    // Content
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-    doc.setTextColor(30, 30, 30);
-    const lines = doc.splitTextToSize(slideText.trim(), pageW);
-    let y = margin + 36;
-    lines.forEach(line => {
-      if (y > pageH - margin) { doc.addPage(); y = margin + 14; }
-      doc.text(line, margin, y);
-      y += 14;
-    });
-  });
-
-  return new Blob([doc.output('arraybuffer')], { type: 'application/pdf' });
+  const blob = await backendConvert(file, 'pptx', 'pdf');
+  return blob;
 }
 
 async function pptxToHtml(file, onProgress) {
@@ -397,6 +384,7 @@ async function convertFile(file, fromExt, toExt, onProgress) {
     if (toExt === 'pdf')  { const b = await docxToPdf(file); return { type: 'single', blob: b, filename: `${base}.pdf` }; }
     if (toExt === 'txt')  { const b = await docxToTxt(file); return { type: 'single', blob: b, filename: `${base}.txt` }; }
     if (toExt === 'html') { const b = await docxToHtml(file); return { type: 'single', blob: b, filename: `${base}.html` }; }
+    if (toExt === 'pptx') { const b = await backendConvert(file, fromExt, 'pptx'); return { type: 'single', blob: b, filename: `${base}.pptx` }; }
   }
 
   // TXT →
@@ -411,6 +399,7 @@ async function convertFile(file, fromExt, toExt, onProgress) {
     if (toExt === 'pdf')  { const b = await pptxToPdf(file, onProgress); return { type: 'single', blob: b, filename: `${base}.pdf` }; }
     if (toExt === 'txt')  { const b = await pptxToTxt(file, onProgress); return { type: 'single', blob: b, filename: `${base}.txt` }; }
     if (toExt === 'html') { const b = await pptxToHtml(file, onProgress); return { type: 'single', blob: b, filename: `${base}.html` }; }
+    if (toExt === 'docx') { const b = await backendConvert(file, fromExt, 'docx'); return { type: 'single', blob: b, filename: `${base}.docx` }; }
   }
 
   // HTML →
@@ -459,8 +448,12 @@ function ConversionMatrix() {
 // ── Component ──────────────────────────────────────────────────────────────────
 const STATE = { IDLE: 'idle', CONVERTING: 'converting', DONE: 'done', ERROR: 'error' };
 
-export default function FileConverter() {
-  const [file, setFile] = useState(null);
+export default function FileConverter({ files, setFiles }) {
+  const activeItem = files.length > 0 ? files[0] : null;
+  const file = activeItem?.file || null;
+  const fileName = activeItem?.name || '';
+  const fileSize = activeItem?.size || 0;
+
   const [fromExt, setFromExt] = useState('');
   const [toExt, setToExt] = useState('');
   const [state, setState] = useState(STATE.IDLE);
@@ -469,18 +462,35 @@ export default function FileConverter() {
   const [error, setError] = useState('');
   const [showMatrix, setShowMatrix] = useState(false);
 
+  // Whenever the active file changes (e.g. from global state), update formats
+  React.useEffect(() => {
+    if (file) {
+      const ext = getExt(fileName);
+      setFromExt(ext);
+      setToExt(CONVERSION_MAP[ext]?.[0] || '');
+      setState(STATE.IDLE);
+      setResultBlobs(null);
+      setError('');
+      setProgress({ current: 0, total: 0 });
+    }
+  }, [file, fileName]);
+
   const onDrop = useCallback((accepted) => {
     if (!accepted.length) return;
     const f = accepted[0];
-    const ext = getExt(f.name);
-    setFile(f);
-    setFromExt(ext);
-    setToExt(CONVERSION_MAP[ext]?.[0] || '');
-    setState(STATE.IDLE);
-    setResultBlobs(null);
-    setError('');
-    setProgress({ current: 0, total: 0 });
-  }, []);
+    
+    // Prepend to the global list so it becomes files[0]
+    const newItem = {
+      id: `fc-${Date.now()}`,
+      file: f,
+      name: f.name,
+      size: f.size,
+      category: 'unknown', // Simple fallback
+      status: 'pending',
+      error: null
+    };
+    setFiles(prev => [newItem, ...prev]);
+  }, [setFiles]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -527,7 +537,8 @@ export default function FileConverter() {
   };
 
   const reset = () => {
-    setFile(null); setFromExt(''); setToExt('');
+    // Remove the current file from the global list to process the next one
+    setFiles(prev => prev.slice(1));
     setState(STATE.IDLE); setResultBlobs(null);
     setError(''); setProgress({ current: 0, total: 0 });
   };
@@ -574,8 +585,8 @@ export default function FileConverter() {
         <div className="fc-file-card">
           <div className="fc-file-icon">{getFileIcon()}</div>
           <div className="fc-file-info">
-            <span className="fc-file-name">{file.name}</span>
-            <span className="fc-file-size">{(file.size / 1024).toFixed(1)} KB</span>
+            <span className="fc-file-name">{fileName}</span>
+            <span className="fc-file-size">{(fileSize / 1024).toFixed(1)} KB</span>
           </div>
           <button className="remove-btn" onClick={reset} title="Remove">
             <X size={18} />

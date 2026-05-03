@@ -37,8 +37,7 @@ function getDragStyle(style, snapshot) {
   };
 }
 
-export default function PdfMerger() {
-  const [pdfFiles, setPdfFiles] = useState([]);
+export default function PdfMerger({ files, setFiles }) {
   const [isMerging, setIsMerging] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -49,9 +48,12 @@ export default function PdfMerger() {
       file,
       name: file.name,
       size: file.size,
+      category: 'pdf',
+      status: 'pending',
+      error: null
     }));
-    setPdfFiles(prev => [...prev, ...newFiles]);
-  }, []);
+    setFiles(prev => [...prev, ...newFiles]);
+  }, [setFiles]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -64,26 +66,27 @@ export default function PdfMerger() {
     if (!result.destination) return;
     setPreviewUrl(null);
 
-    const items = Array.from(pdfFiles);
+    const items = Array.from(files);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
-    setPdfFiles(items);
+    setFiles(items);
   };
 
   const removeFile = (id) => {
     setPreviewUrl(null);
-    setPdfFiles(prev => prev.filter(f => f.id !== id));
+    setFiles(prev => prev.filter(f => f.id !== id));
   };
 
   const mergePdfs = async () => {
-    if (pdfFiles.length === 0) return;
+    if (files.length === 0) return;
     setIsMerging(true);
 
     try {
       const mergedPdf = await PDFDocument.create();
 
-      for (const item of pdfFiles) {
+      for (const item of files) {
+        if (item.category !== 'pdf' && !item.name.toLowerCase().endsWith('.pdf')) continue;
         const arrayBuffer = await item.file.arrayBuffer();
         const pdf = await PDFDocument.load(arrayBuffer);
         const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
@@ -116,7 +119,7 @@ export default function PdfMerger() {
         <p className="dropzone-subtext">or click to browse from your computer (unlimited files supported)</p>
       </div>
 
-      {pdfFiles.length > 0 && (
+      {files.length > 0 && (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="pdf-list">
             {(provided) => (
@@ -125,7 +128,9 @@ export default function PdfMerger() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {pdfFiles.map((pdf, index) => (
+                {files.map((pdf, index) => {
+                  const isNonPdf = pdf.category !== 'pdf' && !pdf.name.toLowerCase().endsWith('.pdf');
+                  return (
                   <Draggable key={pdf.id} draggableId={pdf.id} index={index}>
                     {(provided, snapshot) => (
                       <div
@@ -138,24 +143,26 @@ export default function PdfMerger() {
                           <GripVertical size={20} />
                         </div>
 
-                        <FileText size={24} style={{ color: '#818cf8', marginRight: '16px' }} />
+                        <FileText size={24} style={{ color: isNonPdf ? '#ef4444' : '#818cf8', marginRight: '16px' }} />
 
                         <div className="pdf-info">
-                          <span className="pdf-name">{pdf.name}</span>
+                          <span className="pdf-name" style={{ color: isNonPdf ? '#ef4444' : 'inherit' }}>
+                            {pdf.name} {isNonPdf && '(Not a PDF)'}
+                          </span>
                           <span className="pdf-size">{formatBytes(pdf.size)}</span>
                         </div>
 
                         <button
                           onClick={() => removeFile(pdf.id)}
                           className="remove-btn"
-                          title="Remove PDF"
+                          title="Remove File"
                         >
                           <Trash2 size={20} />
                         </button>
                       </div>
                     )}
                   </Draggable>
-                ))}
+                )})}
                 {provided.placeholder}
               </div>
             )}
@@ -163,27 +170,38 @@ export default function PdfMerger() {
         </DragDropContext>
       )}
 
-      {pdfFiles.length > 0 && !previewUrl && (
-        <div className="actions">
-          <button
-            className="btn-primary"
-            onClick={mergePdfs}
-            disabled={isMerging || pdfFiles.length < 2}
-          >
-            {isMerging ? (
-              <>
-                <Loader2 className="spin" size={24} />
-                Merging...
-              </>
-            ) : (
-              <>
-                <Layers size={24} />
-                Merge {pdfFiles.length} PDF{pdfFiles.length !== 1 ? 's' : ''}
-              </>
+      {files.length > 0 && !previewUrl && (() => {
+        const nonPdfCount = files.filter(f => f.category !== 'pdf' && !f.name.toLowerCase().endsWith('.pdf')).length;
+        const isMergeDisabled = isMerging || files.length < 2 || nonPdfCount > 0;
+        return (
+          <>
+            {nonPdfCount > 0 && (
+              <div className="fc-error" style={{ margin: '16px 0', padding: '12px' }}>
+                ⚠ You have {nonPdfCount} non-PDF file(s) in your global list. Please remove them or switch to "Convert & Merge" to process them.
+              </div>
             )}
-          </button>
-        </div>
-      )}
+            <div className="actions">
+              <button
+                className="btn-primary"
+                onClick={mergePdfs}
+                disabled={isMergeDisabled}
+              >
+                {isMerging ? (
+                  <>
+                    <Loader2 className="spin" size={24} />
+                    Merging...
+                  </>
+                ) : (
+                  <>
+                    <Layers size={24} />
+                    Merge {files.length} PDF{files.length !== 1 ? 's' : ''}
+                  </>
+                )}
+              </button>
+            </div>
+          </>
+        );
+      })()}
 
       {previewUrl && (
         <div className="preview-container">

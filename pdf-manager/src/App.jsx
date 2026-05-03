@@ -43,6 +43,7 @@ class ErrorBoundary extends React.Component {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('merge');
+  const [sharedFiles, setSharedFiles] = useState([]);
 
   return (
     <div className="glass-container">
@@ -69,12 +70,12 @@ export default function App() {
 
       {/* Panels */}
       <main>
-        {activeTab === 'merge'     && <PdfMerger />}
-        {activeTab === 'convert'   && <ConvertAndMerge />}
+        {activeTab === 'merge'     && <PdfMerger files={sharedFiles} setFiles={setSharedFiles} />}
+        {activeTab === 'convert'   && <ConvertAndMerge files={sharedFiles} setFiles={setSharedFiles} />}
         {activeTab === 'converter' && (
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
-              <FileConverter />
+              <FileConverter files={sharedFiles} setFiles={setSharedFiles} />
             </Suspense>
           </ErrorBoundary>
         )}
