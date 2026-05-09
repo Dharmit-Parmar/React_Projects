@@ -1,6 +1,7 @@
 import React, { useState, Suspense, lazy } from 'react';
 import PdfMerger from './components/PdfMerger';
 import ConvertAndMerge from './components/ConvertAndMerge';
+import PdfEditor from './components/PdfEditor';
 
 // Lazy-load FileConverter since it uses heavy libraries (docx, pdfjs-dist)
 // that can fail at import time; this prevents a blank-screen crash.
@@ -10,13 +11,14 @@ const TABS = [
   { id: 'merge',     label: 'Merge PDFs',       icon: '📄' },
   { id: 'convert',   label: 'Convert & Merge',   icon: '🔄' },
   { id: 'converter', label: 'File Converter',    icon: '⚡' },
+  { id: 'editor',    label: 'Edit PDF',          icon: '✍️' },
 ];
 
 function LoadingFallback() {
   return (
     <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
       <div className="spin" style={{ display: 'inline-block', marginBottom: 12 }}>⏳</div>
-      <p>Loading converter…</p>
+      <p>Loading…</p>
     </div>
   );
 }
@@ -24,7 +26,7 @@ function LoadingFallback() {
 function ErrorFallback({ error }) {
   return (
     <div className="fc-error" style={{ margin: '20px 0' }}>
-      <p><strong>Failed to load File Converter:</strong></p>
+      <p><strong>Failed to load component:</strong></p>
       <pre style={{ fontSize: '0.78rem', whiteSpace: 'pre-wrap', marginTop: 8 }}>
         {error?.message || 'Unknown error'}
       </pre>
@@ -77,7 +79,7 @@ export default function App() {
             </svg>
             <h1 className="app-title">PDF Manager</h1>
           </div>
-          <p className="app-subtitle">Merge, convert, arrange — all formats, all in your browser.</p>
+          <p className="app-subtitle">Merge, convert, arrange, and edit — all formats, all in your browser.</p>
         </header>
 
       {/* Tab Bar */}
@@ -100,6 +102,7 @@ export default function App() {
       <main>
         {activeTab === 'merge'     && <PdfMerger files={sharedFiles} setFiles={setSharedFiles} />}
         {activeTab === 'convert'   && <ConvertAndMerge files={sharedFiles} setFiles={setSharedFiles} />}
+        {activeTab === 'editor'    && <PdfEditor files={sharedFiles} setFiles={setSharedFiles} />}
         {activeTab === 'converter' && (
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
