@@ -1,13 +1,16 @@
 # PDF Manager
 
-A powerful, pixel-perfect document conversion and PDF merging application built with React, Vite, and Express.
+A powerful, pixel-perfect document conversion, PDF merging, editing, and image enhancement application built with React, Vite, and Express.
 
 ## Features
+
+- **Merge PDFs:** Effortlessly arrange and combine multiple PDFs into a single document.
 - **Convert & Merge:** Drop DOCX, PPTX, Images, and TXT files, and merge them all into a single PDF.
-- **File Converter:** Universal converter between PDF, Word, PowerPoint, Images, HTML, and Text.
-- **Pixel-Perfect Formatting:** Uses a LibreOffice backend for zero layout distortion on Office files.
-- **PDF → DOCX:** Convert PDFs back to editable Word documents via the Python `pdf2docx` engine.
+- **File Converter:** Universal converter between PDF, Word, PowerPoint, Images, HTML, and Text. Uses a LibreOffice backend for zero layout distortion on Office files, and Python `pdf2docx` for PDF → DOCX.
+- **Edit PDF:** Interactive browser-based PDF editor supporting freehand drawing, text annotation, image insertion, and history-based undo/redo.
+- **Enhance Image:** AI-driven super-resolution upscaling for images. Features "Fast 2x" and "Pro 4x" tiers, memory-safe tiling algorithms for large images (2K+), and an intuitive before/after slider comparison UI.
 - **Global Shared State:** Files uploaded in one tab persist seamlessly across all features.
+- **Modern UI:** Clean, dark-themed, glass-morphism aesthetic for an intuitive and professional user experience.
 
 ---
 
@@ -51,17 +54,18 @@ This app uses **LibreOffice** for pixel-perfect Office file conversion. You must
 | **Ubuntu/Debian** | `sudo apt-get install -y libreoffice` |
 | **Windows** | Download from [libreoffice.org](https://www.libreoffice.org/) |
 
-You also need **Python 3** and `pdf2docx` for the PDF → DOCX feature:
+You also need **Python 3** and `pdf2docx` for the PDF → DOCX feature, as well as AI libraries (like `opencv-python`) for image enhancement:
 
 ```bash
 # macOS / Linux
 python3 -m venv server/venv
-server/venv/bin/pip install pdf2docx
+server/venv/bin/pip install -r server/requirements.txt  # Or install individually: pdf2docx opencv-python etc.
 
 # Windows
 python -m venv server/venv
-server\venv\Scripts\pip install pdf2docx
+server\venv\Scripts\pip install -r server/requirements.txt
 ```
+*(Note: Refer to `server/requirements.txt` if available for exact Python dependencies.)*
 
 ### 2. Install Node Packages
 
@@ -96,5 +100,5 @@ npm run dev:all
 |---|---|
 | `docker: command not found` | Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) |
 | Port 5173 already in use | Run `docker-compose down` first, or change the port in `docker-compose.yml` |
-| Build fails on `pdf2docx` | The Python venv setup requires internet access during `docker-compose up --build` |
+| Build fails on `pdf2docx` or Python | The Python venv setup requires internet access during `docker-compose up --build` |
 | LibreOffice conversion fails locally | Make sure `libreoffice` is in your PATH: run `libreoffice --version` |
