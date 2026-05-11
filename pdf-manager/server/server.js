@@ -102,6 +102,63 @@ app.post('/api/convert/pdf-to-docx', upload.single('file'), (req, res) => {
   });
 });
 
+// --- Endpoint: AI Image Enhancement ---
+app.post('/api/enhance-image', upload.single('file'), (req, res) => {
+  if (!req.file) return res.status(400).send('No file uploaded.');
+
+  const inputPath = req.file.path;
+  const originalExt = path.extname(req.file.originalname) || '.png';
+  const outputPath = `${inputPath}_enhanced${originalExt}`;
+  const mode = req.body.mode || 'cpu';
+  const target = req.body.target || '4x';
+  const postProcess = req.body.postProcess || 'false';
+  const downscale = req.body.downscale || 'true';
+
+  console.log(`Enhancing ${req.file.originalname} via Python OpenCV (Mode: ${mode}, Target: ${target}, PostProcess: ${postProcess}, Downscale: ${downscale})...`);
+
+  const isWin = process.platform === 'win32';
+  const pythonExec = isWin
+    ? path.join(__dirname, 'venv', 'Scripts', 'python.exe')
+    : path.join(__dirname, 'venv', 'bin', 'python3');
+  const scriptPath = path.join(__dirname, 'enhance_image.py');
+  const modelFile = target === '2x' ? 'ESPCN_x2.pb' : 'EDSR_x4.pb';
+  const modelPath = path.join(__dirname, modelFile);
+
+  if (!fs.existsSync(pythonExec)) {
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    return res.status(500).send('Python environment not set up.');
+  }
+
+  if (!fs.existsSync(modelPath)) {
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+    return res.status(500).send('AI Model not found on server.');
+  }
+
+  exec(`"${pythonExec}" "${scriptPath}" "${inputPath}" "${outputPath}" "${modelPath}" "${mode}" "${target}" "${postProcess}" "${downscale}"`, { timeout: 600000 }, (error, stdout, stderr) => {
+    // Clean up input image
+    if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath);
+
+    if (error) {
+      console.error(`Python enhancement error: ${error.message}`, stderr);
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+      return res.status(500).send(`Image enhancement failed: ${stderr || error.message}`);
+    }
+
+    if (!fs.existsSync(outputPath)) {
+      return res.status(500).send('Enhancement produced no output file.');
+    }
+
+    const stat = fs.statSync(outputPath);
+    res.setHeader('Content-Disposition', `attachment; filename="enhanced_${req.file.originalname}"`);
+    res.setHeader('Content-Type', req.file.mimetype || 'image/png');
+    res.setHeader('Content-Length', stat.size);
+
+    res.sendFile(path.resolve(outputPath), (err) => {
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath);
+    });
+  });
+});
+
 // --- Health check ---
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 

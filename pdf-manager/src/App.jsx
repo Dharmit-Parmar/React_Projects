@@ -6,12 +6,14 @@ import PdfEditor from './components/PdfEditor';
 // Lazy-load FileConverter since it uses heavy libraries (docx, pdfjs-dist)
 // that can fail at import time; this prevents a blank-screen crash.
 const FileConverter = lazy(() => import('./components/FileConverter'));
+const ImageEnhancer = lazy(() => import('./components/ImageEnhancer'));
 
 const TABS = [
   { id: 'merge',     label: 'Merge PDFs',       icon: '📄' },
   { id: 'convert',   label: 'Convert & Merge',   icon: '🔄' },
   { id: 'converter', label: 'File Converter',    icon: '⚡' },
   { id: 'editor',    label: 'Edit PDF',          icon: '✍️' },
+  { id: 'enhancer',  label: 'Enhance Image',     icon: '✨' },
 ];
 
 function LoadingFallback() {
@@ -107,6 +109,13 @@ export default function App() {
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
               <FileConverter files={sharedFiles} setFiles={setSharedFiles} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+        {activeTab === 'enhancer' && (
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+              <ImageEnhancer />
             </Suspense>
           </ErrorBoundary>
         )}
