@@ -4,7 +4,7 @@ import { Virtuoso } from 'react-virtuoso';
 import ChatBubble from './ChatBubble';
 import DateSeparator from './DateSeparator';
 
-export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, jumpToMessageId, setJumpToMessageId }) {
+export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, jumpToMessageId, setJumpToMessageId, searchQuery }) {
   const virtuosoRef = useRef(null);
 
   // Pre-process messages into a flat list of items containing separators and messages
@@ -98,6 +98,7 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
                   message={item.msg} 
                   isSelf={item.isSelf} 
                   showSenderName={item.showSenderName} 
+                  searchQuery={searchQuery}
                 />
               </div>
             );

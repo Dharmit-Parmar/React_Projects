@@ -614,10 +614,12 @@ body {
 }
 
 mark.highlight {
-  background-color: rgba(255, 235, 59, 0.4);
-  color: inherit;
-  border-radius: 3px;
-  padding: 0 2px;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .chat-bubble-wrapper.self {
