@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { format } from 'date-fns';
 
-export default function ChatBubble({ message, isSelf, showSenderName }) {
+export default function ChatBubble({ message, isSelf, showSenderName, searchQuery }) {
   const [showTime, setShowTime] = useState(false);
 
   const handlers = useSwipeable({
@@ -12,6 +12,18 @@ export default function ChatBubble({ message, isSelf, showSenderName }) {
   });
 
   const timeString = format(message.timestamp, 'p'); // e.g. 10:30 AM
+
+  // Helper function to highlight text
+  const renderHighlightedText = (text, query) => {
+    if (!query || !query.trim()) return text;
+    
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return parts.map((part, i) => 
+      part.toLowerCase() === query.toLowerCase() 
+        ? <mark key={i} className="highlight">{part}</mark> 
+        : part
+    );
+  };
 
   return (
     <div 
@@ -35,7 +47,7 @@ export default function ChatBubble({ message, isSelf, showSenderName }) {
           <div className="message-text">
             {message.content.split('\n').map((line, i) => (
               <React.Fragment key={i}>
-                {line}
+                {renderHighlightedText(line, searchQuery)}
                 {i !== message.content.split('\n').length - 1 && <br />}
               </React.Fragment>
             ))}

@@ -1,8 +1,9 @@
 import React from 'react';
 import { ArrowLeft, ArrowRightLeft } from 'lucide-react';
 import JumpToDate from './JumpToDate';
+import ChatSearch from './ChatSearch';
 
-export default function Header({ otherName, onTogglePerspective, onReset, availableDates, onDateSelect }) {
+export default function Header({ otherName, onTogglePerspective, onReset, availableDates, onDateSelect, messages, onJumpToMessage, onSearchQueryChange }) {
   const avatarLetter = otherName ? otherName.charAt(0) : '?';
 
   return (
@@ -16,6 +17,11 @@ export default function Header({ otherName, onTogglePerspective, onReset, availa
       </div>
       
       <div className="header-right">
+        <ChatSearch 
+          messages={messages} 
+          onJumpToMessage={onJumpToMessage} 
+          onSearchQueryChange={onSearchQueryChange} 
+        />
         <button className="icon-button" onClick={onTogglePerspective} title="Switch View">
           <ArrowRightLeft size={20} />
         </button>
