@@ -1,18 +1,21 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import React, { use } from "react";
 import { useRef } from "react";
-import onlineSvg from "../../assets/avatar-people-profile-svgrepo-com.svg";
+import onlineSvg from "../../assets/avatar-people-profile-svgrepo-com.svg"
+ 
+import DotGrid from "../GridBackground/DotGrid"
+import SkillCards from '../Home/smallSkillCards/SkillCards'
 
 export default function Hero() {
-    const skillCard = useRef(null);
-    const rotatingCircle = useRef(null);
+    const skillCard = useRef(null)
+    const rotatingCircle = useRef(null)
+    const shakingText = useRef(null)
 
     useGSAP(() => {
-        const e = skillCard.current;
-        if (!e) return;
-        const maxTilt = 25;
-        gsap.fromTo(e, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 2 });
+        const e = skillCard.current
+        if (!e) return
+        const maxTilt = 25
+        gsap.fromTo(e, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 2 })
 
         gsap.to(e, {
             duration: 3,
@@ -28,32 +31,32 @@ export default function Hero() {
             const rect = e.getBoundingClientRect();
             const mouseX = el.clientX - rect.left;
             const mouseY = el.clientY - rect.top;
-            targets.xPercent = mouseX / rect.width - 0.5;
-            targets.yPercent = mouseY / rect.height - 0.5;
+            targets.xPercent = mouseX / rect.width - 0.5
+            targets.yPercent = mouseY / rect.height - 0.5
             const distanceFromCenter = Math.sqrt(
                 targets.xPercent * targets.xPercent +
                 targets.yPercent * targets.yPercent,
             );
-            targets.scale = Math.min(1 - distanceFromCenter * 0.1, 0.95);
-            const xProgress = mouseX / rect.width;
-            const yProgress = mouseY / rect.height;
-            targets.hue = Math.floor(xProgress * 240 + yProgress * 120);
+            targets.scale = Math.min(1 - distanceFromCenter * 0.1, 0.95)
+            const xProgress = mouseX / rect.width
+            const yProgress = mouseY / rect.height
+            targets.hue = Math.floor(xProgress * 240 + yProgress * 120)
         };
 
         const onMouseLeave = () => {
-            targets.xPercent = 0;
-            targets.yPercent = 0;
-            targets.scale = 1;
+            targets.xPercent = 0
+            targets.yPercent = 0
+            targets.scale = 1
 
-            gsap.to(el, {
+            gsap.to(e, {
                 rotationY: 0,
                 rotationX: 0,
                 scale: 1,
                 borderColor: "rgba(255, 255, 255, 1)",
                 duration: 0.6,
                 ease: "power3.out",
-            });
-        };
+            })
+        }
 
         gsap.ticker.add(() => {
             gsap.to(e, {
@@ -67,31 +70,85 @@ export default function Hero() {
             });
         });
 
-        e.addEventListener("mousemove", onMouseMove);
-        e.addEventListener("mouseleave", onMouseLeave);
+        e.addEventListener("mousemove", onMouseMove)
+        e.addEventListener("mouseleave", onMouseLeave)
     }, []);
 
     useGSAP(() => {
+
         gsap.to(rotatingCircle.current, {
             rotation: 360,
             duration: 10,
             repeat: -1,
             ease: "none",
         });
-    }, []);
+    }, [])
+
+    const handleShakingText = () => {
+        gsap.timeline().to( shakingText.current, { x: -4, y: 1, rotation: -0.5, duration: 0.04 })
+            .to(shakingText.current, { x: 4, y: -1, rotation: 0.5, duration: 0.04 })
+            .to(shakingText.current, { x: -3, y: -1, rotation: -0.5, duration: 0.04 })
+            .to(shakingText.current, { x: 3, y: 1, rotation: 0.5, duration: 0.04 })
+            .to(shakingText.current, { x: 0, y: 0, rotation: 0, duration: 0.04, ease: "power2.out" });
+    }
 
     return (
-        <div className="w-screen h-screen bg-[#121214] relative flex flex-col md:flex-row p-4 sm:p-8 md:p-12 overflow-y-auto overflow-x-hidden gap-8">
-            <div className="leftContentContainer flex-1 flex flex-col justify-center min-w-[280px]">
-                <h2 className="text-white text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
-                    Welcome to my Workspace
+        <div
+            style={{
+                background: ` 
+                  radial-gradient(circle at 75% 50%, rgba(88, 28, 135, 0.2) 30%, rgba(88, 28, 135, 0) 55%),
+                  radial-gradient(circle at 15% 40%, rgba(30, 58, 138, 0.15) 0%, rgba(30, 88, 138, 0) 50%),
+                  linear-gradient(135deg, #13111c 0%, #0b0914 100%)
+                `
+            }}
+            className="w-screen h-auto md:h-screen bg-[#121214] relative flex flex-col md:flex-row p-4 sm:p-8 md:p-12 overflow-y-auto overflow-x-hidden gap-8"
+        >
+
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <DotGrid
+                    dotSize={4}
+                    gap={20}
+                    baseColor="#1e293b"  
+                    activeColor="#14b8a6" 
+                    proximity={90}
+                    shockRadius={100}
+                    shockStrength={3}
+                    resistance={750}
+                    returnDuration={1.5}
+                />
+            </div>
+ 
+            <div className="leftContentContainer relative z-10 flex-1 flex flex-col justify-center items-center min-w-[280px] py-5 top-21">
+                <h2 ref={shakingText} onMouseEnter={handleShakingText} className="text-white text-4xl sm:text-7xl font-extrabold p-4 tracking-tight mb-4">
+                    Dharmit Parmar
                 </h2>
                 <p className="text-white/60 text-base sm:text-lg font-light max-w-md leading-relaxed">
                     Explore my technical profile, verified frameworks expertise, and core engine performance optimization fields directly from the card deck interface layout.
                 </p>
-            </div>
+                <div className="w-full max-w-5xl flex flex-wrap   justify-center items-center gap-5 px-4  py-15 mt-4  ">
 
-            <div className="rightCardContainer flex-1 flex justify-center md:justify-end items-center perspective-[1200px]">
+                    <SkillCards
+                        heading="C++"
+                        detail="High Performance"
+                        icon="🚀"
+                    />
+
+                    <SkillCards
+                        heading="DSA"
+                        detail="Optimized Logic"
+                        icon="🧠"
+                    />
+
+                    <SkillCards
+                        heading="React"
+                        detail="Interactive UI"
+                        icon="⚛️"
+                    />
+
+                </div>
+            </div>
+ 
+            <div className="rightCardContainer relative z-10 flex-1 flex justify-center md:justify-center items-center perspective-[1200px] py-20">
                 <div
                     ref={skillCard}
                     style={{
