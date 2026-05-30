@@ -1,11 +1,14 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { useState, useEffect, useRef, useMemo } from 'react'
 
-function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }) {
+// ⚡ 1. Pass `isMobile` down so we can disable heavy 3D math on phones
+function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false, isMobile }) {
     const x = useMotionValue(0)
     const y = useMotionValue(0)
-    const rotateX = useTransform(y, [-100, 100], [60, -60])
-    const rotateY = useTransform(x, [-100, 100], [-60, 60])
+
+    // ⚡ 2. GPU FIX: Disable 3D tilt on mobile phones. Keep it buttery smooth 2D drag only.
+    const rotateX = useTransform(y, [-100, 100], isMobile ? [0, 0] : [60, -60])
+    const rotateY = useTransform(x, [-100, 100], isMobile ? [0, 0] : [-60, 60])
 
     function handleDragEnd(_, info) {
         if (Math.abs(info.offset.x) > sensitivity || Math.abs(info.offset.y) > sensitivity) {
@@ -26,7 +29,8 @@ function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }
 
     return (
         <motion.div
-            className="absolute inset-0 cursor-grab active:cursor-grabbing will-change-transform"
+            // ⚡ 3. CRITICAL TOUCH FIX: Added `touch-none` to stop the browser from trying to scroll the page while swiping!
+            className="absolute inset-0 cursor-grab active:cursor-grabbing touch-none will-change-transform"
             style={{ x, y, rotateX, rotateY }}
             drag
             dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -38,7 +42,6 @@ function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }
     )
 }
 
-// ⚡ Added 'onCardChange' to the arguments block
 export default function Stack({
     randomRotation = false,
     sensitivity = 200,
@@ -69,7 +72,7 @@ export default function Stack({
         return cards.map((content, index) => ({
             id: index + 1,
             content,
-            originalIndex: index, // ⚡ Store original position index to map your data cleanly
+            originalIndex: index,
             rotationOffset: randomRotation ? Math.random() * 10 - 5 : 0
         }))
     }, [cards, randomRotation])
@@ -81,12 +84,11 @@ export default function Stack({
         stackRef.current = stack
     }, [stack])
 
-    // ⚡ Sync top card data on initial component mount
     useEffect(() => {
         if (onCardChange && stack.length > 0) {
             onCardChange(stack[stack.length - 1].originalIndex)
         }
-    }, [])
+    }, [stack])
 
     const sendToBack = (id) => {
         setStack((prev) => {
@@ -96,11 +98,6 @@ export default function Stack({
 
             const [card] = newStack.splice(index, 1)
             newStack.unshift(card)
-
-            // ⚡ Alert the parent layout exactly which dynamic project data array element is sitting on top
-            if (onCardChange && newStack.length > 0) {
-                onCardChange(newStack[newStack.length - 1].originalIndex)
-            }
 
             return newStack
         })
@@ -129,6 +126,8 @@ export default function Stack({
             {stack.map((card, index) => {
                 const rotateZ = (stack.length - index - 1) * 4 + card.rotationOffset
                 const scale = 1 + index * 0.06 - stack.length * 0.06
+                // Check if card is visible
+                const isVisible = index >= stack.length - 3
 
                 return (
                     <CardRotate
@@ -136,6 +135,7 @@ export default function Stack({
                         onSendToBack={() => sendToBack(card.id)}
                         sensitivity={sensitivity}
                         disableDrag={shouldDisableDrag}
+                        isMobile={isMobile} // ⚡ Pass screen state down
                     >
                         <motion.div
                             className="rounded-3xl overflow-hidden w-full h-full border border-white/[0.08] shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
@@ -144,7 +144,9 @@ export default function Stack({
                                 rotateZ,
                                 scale,
                                 transformOrigin: '90% 90%',
-                                opacity: index < stack.length - 3 ? 0 : 1
+                                opacity: isVisible ? 1 : 0,
+                                // ⚡ 4. PERFORMANCE FIX: Completely disable interactions/rendering priority for buried cards
+                                pointerEvents: isVisible ? "auto" : "none"
                             }}
                             initial={false}
                             transition={{

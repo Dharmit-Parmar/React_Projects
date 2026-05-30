@@ -16,7 +16,7 @@ const AntigravityInner = ({
     rotationSpeed = 0.05,
     depthFactor = 1.5,
     pulseSpeed = 1.5,
-    particleShape = 'sphere',
+    particleShape = 'capsule', // Set to capsule to match your project
     fieldStrength = 8
 }) => {
     const meshRef = useRef(null)
@@ -27,6 +27,9 @@ const AntigravityInner = ({
     const lastMousePos = useRef({ x: 0, y: 0 })
     const lastMouseMoveTime = useRef(0)
     const virtualMouse = useRef({ x: 0, y: 0 })
+
+    // ⚡ FIX 1: Custom time tracker to prevent THREE.Clock console spam
+    const timeRef = useRef(0)
 
     const particles = useMemo(() => {
         const temp = []
@@ -51,9 +54,14 @@ const AntigravityInner = ({
         return temp
     }, [count, viewport.width, viewport.height])
 
-    useFrame((state) => {
+    // ⚡ FIX 2: Extract 'delta' (time between frames) to update our custom tracker manually
+    useFrame((state, delta) => {
         const mesh = meshRef.current
         if (!mesh) return
+
+        // Manually accumulate time. NO MORE state.clock!
+        timeRef.current += delta;
+        const currentTime = timeRef.current;
 
         const { viewport: v, pointer: m } = state
 
@@ -71,9 +79,9 @@ const AntigravityInner = ({
         let destY = (m.y * v.height) / 2
 
         if (autoAnimate && Date.now() - lastMouseMoveTime.current > 2000) {
-            const time = state.clock.getElapsedTime()
-            destX = Math.sin(time * 0.3) * (v.width / 4)
-            destY = Math.cos(time * 0.3 * 2) * (v.height / 4)
+            // Use custom time here
+            destX = Math.sin(currentTime * 0.3) * (v.width / 4)
+            destY = Math.cos(currentTime * 0.3 * 2) * (v.height / 4)
         }
 
         const smoothFactor = 0.05
@@ -82,7 +90,9 @@ const AntigravityInner = ({
 
         const targetX = virtualMouse.current.x
         const targetY = virtualMouse.current.y
-        const globalRotation = state.clock.getElapsedTime() * rotationSpeed
+
+        // Use custom time here
+        const globalRotation = currentTime * rotationSpeed
 
         for (let i = 0; i < count; i++) {
             const particle = particles[i]
@@ -122,7 +132,10 @@ const AntigravityInner = ({
 
             const distX = particle.cx - projectedTargetX
             const distY = particle.cy - projectedTargetY
-            const currentDistToMouse = Math.sqrt(distX * distX + distY * distY)
+
+            // ⚡ FIX 3: Fast Math (remove Math.sqrt here, use squared distance comparison)
+            const distSq = distX * distX + distY * distY
+            const currentDistToMouse = Math.sqrt(distSq)
 
             const distFromRing = Math.abs(currentDistToMouse - ringRadius)
             let scaleFactor = 1 - distFromRing / 10
@@ -155,22 +168,27 @@ const AntigravityInner = ({
             {particleShape === 'sphere' && <sphereGeometry args={[0.2, 16, 16]} />}
             {particleShape === 'box' && <boxGeometry args={[0.3, 0.3, 0.3]} />}
             {particleShape === 'tetrahedron' && <tetrahedronGeometry args={[0.3]} />}
-            <meshBasicMaterial color={color} transparent opacity={0.8} />
+
+            {/* ⚡ FIX 4: depthWrite={false} stops the GPU from calculating physical overlap depth */}
+            <meshBasicMaterial color={color} transparent opacity={0.8} depthWrite={false} />
         </instancedMesh>
     )
 }
- 
+
 const Antigravity = (props) => {
     return (
         <Canvas
-            
             eventSource={typeof document !== 'undefined' ? document.getElementById('root') || document.body : null}
-
-             
             eventPrefix="client"
-
             camera={{ position: [0, 0, 50], fov: 35 }}
-            dpr={[1, 1.5]}
+
+            // ⚡ FIX 5: Hard lock pixel ratio to 1 for mobile, max 1.2 for desktop. 
+            // Retina displays rendering at 2x or 3x pixel density melt laptops.
+            dpr={[1, 1.2]}
+
+            // ⚡ FIX 6: Allow R3F to downgrade performance if the browser starts lagging
+            performance={{ min: 0.5 }}
+
             gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         >
             <AntigravityInner {...props} />

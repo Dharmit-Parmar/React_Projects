@@ -27,7 +27,7 @@ export default function DeveloperProfile() {
                       radial-gradient(circle at 15% 40%, rgba(30, 58, 138, 0.20) 0%, rgba(30, 88, 138, 0.05) 50%),
                       linear-gradient(135deg, #13111c 0%, #0b0914 100%)
                   `
-        }} className='w-screen h-screen sm:gap-[10vw] flex flex-col sm:flex-row relative justify-around items-center overflow-hidden select-none'>
+        }} className='w-screen h-auto sm:gap-[10vw] flex flex-col sm:flex-row relative justify-around items-center sm:h-screen select-none'>
  
             <div className="leftSideOfPart w-full mt-10 sm:mt-none sm:w-1/2 max-h-[400px] sm:max-h-none sm:h-full relative z-20 flex flex-col justify-center text-left p-6  sm:p-12 md:p-16">
                 <h1 className='text-white text-3xl  sm:text-6xl font-extrabold tracking-tight mb-6 px-5' >
