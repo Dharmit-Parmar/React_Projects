@@ -1,21 +1,18 @@
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { useState, useEffect, useRef, useMemo } from 'react'
 
 function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }) {
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-
-    // ⚡ Hardware accelerated 3D rotation tied to drag offset
-    const rotateX = useTransform(y, [-100, 100], [60, -60]);
-    const rotateY = useTransform(x, [-100, 100], [-60, 60]);
+    const x = useMotionValue(0)
+    const y = useMotionValue(0)
+    const rotateX = useTransform(y, [-100, 100], [60, -60])
+    const rotateY = useTransform(x, [-100, 100], [-60, 60])
 
     function handleDragEnd(_, info) {
         if (Math.abs(info.offset.x) > sensitivity || Math.abs(info.offset.y) > sensitivity) {
-            onSendToBack();
+            onSendToBack()
         } else {
-            // ⚡ Smooth spring snap-back if not dragged far enough
-            x.set(0);
-            y.set(0);
+            x.set(0)
+            y.set(0)
         }
     }
 
@@ -24,7 +21,7 @@ function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }
             <motion.div className="absolute inset-0 cursor-pointer" style={{ x: 0, y: 0 }}>
                 {children}
             </motion.div>
-        );
+        )
     }
 
     return (
@@ -38,9 +35,10 @@ function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }
         >
             {children}
         </motion.div>
-    );
+    )
 }
 
+// ⚡ Added 'onCardChange' to the arguments block
 export default function Stack({
     randomRotation = false,
     sensitivity = 200,
@@ -51,67 +49,76 @@ export default function Stack({
     autoplayDelay = 3000,
     pauseOnHover = false,
     mobileClickOnly = false,
-    mobileBreakpoint = 768
+    mobileBreakpoint = 768,
+    onCardChange
 }) {
-    const [isMobile, setIsMobile] = useState(false);
-    const [isPaused, setIsPaused] = useState(false);
+    const [isMobile, setIsMobile] = useState(false)
+    const [isPaused, setIsPaused] = useState(false)
 
-    // ⚡ OPTIMIZATION 1: Window resize listener strictly debounced
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < mobileBreakpoint);
-        checkMobile();
-        window.addEventListener('resize', checkMobile, { passive: true });
-        return () => window.removeEventListener('resize', checkMobile);
-    }, [mobileBreakpoint]);
+        const checkMobile = () => setIsMobile(window.innerWidth < mobileBreakpoint)
+        checkMobile()
+        window.addEventListener('resize', checkMobile, { passive: true })
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [mobileBreakpoint])
 
-    const shouldDisableDrag = mobileClickOnly && isMobile;
-    const shouldEnableClick = sendToBackOnClick || shouldDisableDrag;
+    const shouldDisableDrag = mobileClickOnly && isMobile
+    const shouldEnableClick = sendToBackOnClick || shouldDisableDrag
 
-    // ⚡ OPTIMIZATION 2: Bake random rotation into initial state.
-    // NEVER calculate Math.random() inside the render loop or the cards will twitch!
     const initialStack = useMemo(() => {
         return cards.map((content, index) => ({
             id: index + 1,
             content,
+            originalIndex: index, // ⚡ Store original position index to map your data cleanly
             rotationOffset: randomRotation ? Math.random() * 10 - 5 : 0
-        }));
-    }, [cards, randomRotation]);
+        }))
+    }, [cards, randomRotation])
 
-    const [stack, setStack] = useState(initialStack);
+    const [stack, setStack] = useState(initialStack)
 
-    // ⚡ OPTIMIZATION 3: Use a Ref for the stack state so the Interval doesn't memory leak
-    const stackRef = useRef(stack);
+    const stackRef = useRef(stack)
     useEffect(() => {
-        stackRef.current = stack;
-    }, [stack]);
+        stackRef.current = stack
+    }, [stack])
+
+    // ⚡ Sync top card data on initial component mount
+    useEffect(() => {
+        if (onCardChange && stack.length > 0) {
+            onCardChange(stack[stack.length - 1].originalIndex)
+        }
+    }, [])
 
     const sendToBack = (id) => {
         setStack((prev) => {
-            const newStack = [...prev];
-            const index = newStack.findIndex((card) => card.id === id);
-            if (index === -1) return prev;
+            const newStack = [...prev]
+            const index = newStack.findIndex((card) => card.id === id)
+            if (index === -1) return prev
 
-            const [card] = newStack.splice(index, 1);
-            newStack.unshift(card);
-            return newStack;
-        });
-    };
+            const [card] = newStack.splice(index, 1)
+            newStack.unshift(card)
 
-    // ⚡ OPTIMIZATION 4: Stable Interval timer. 
-    // Reads from stackRef so it never has to destroy/rebuild itself on every swipe.
+            // ⚡ Alert the parent layout exactly which dynamic project data array element is sitting on top
+            if (onCardChange && newStack.length > 0) {
+                onCardChange(newStack[newStack.length - 1].originalIndex)
+            }
+
+            return newStack
+        })
+    }
+
     useEffect(() => {
-        if (!autoplay || isPaused) return;
+        if (!autoplay || isPaused) return
 
         const interval = setInterval(() => {
-            const currentStack = stackRef.current;
+            const currentStack = stackRef.current
             if (currentStack.length > 1) {
-                const topCardId = currentStack[currentStack.length - 1].id;
-                sendToBack(topCardId);
+                const topCardId = currentStack[currentStack.length - 1].id
+                sendToBack(topCardId)
             }
-        }, autoplayDelay);
+        }, autoplayDelay)
 
-        return () => clearInterval(interval);
-    }, [autoplay, autoplayDelay, isPaused]);
+        return () => clearInterval(interval)
+    }, [autoplay, autoplayDelay, isPaused])
 
     return (
         <div
@@ -120,10 +127,8 @@ export default function Stack({
             onMouseLeave={() => pauseOnHover && setIsPaused(false)}
         >
             {stack.map((card, index) => {
-                // Calculate smooth depth stacking based on array position
-                const isTop = index === stack.length - 1;
-                const rotateZ = (stack.length - index - 1) * 4 + card.rotationOffset;
-                const scale = 1 + index * 0.06 - stack.length * 0.06;
+                const rotateZ = (stack.length - index - 1) * 4 + card.rotationOffset
+                const scale = 1 + index * 0.06 - stack.length * 0.06
 
                 return (
                     <CardRotate
@@ -133,13 +138,13 @@ export default function Stack({
                         disableDrag={shouldDisableDrag}
                     >
                         <motion.div
-                            className={`rounded-3xl overflow-hidden w-full h-full border border-white/[0.08] shadow-[0_20px_40px_rgba(0,0,0,0.4)] ${isTop ? 'shadow-emerald-500/10' : ''}`}
+                            className="rounded-3xl overflow-hidden w-full h-full border border-white/[0.08] shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
                             onClick={() => shouldEnableClick && sendToBack(card.id)}
                             animate={{
                                 rotateZ,
                                 scale,
                                 transformOrigin: '90% 90%',
-                                opacity: index < stack.length - 3 ? 0 : 1 // Hide cards too far back to save GPU rendering
+                                opacity: index < stack.length - 3 ? 0 : 1
                             }}
                             initial={false}
                             transition={{
@@ -152,8 +157,8 @@ export default function Stack({
                             {card.content}
                         </motion.div>
                     </CardRotate>
-                );
+                )
             })}
         </div>
-    );
+    )
 }

@@ -16,11 +16,14 @@ function App() {
   });
 
   return (
-    <> 
-        <Hero />
-        <DeveloperProfile />
-        <Project/>
-    </>
+     
+    <div className="overflow-x-hidden">
+
+      <Hero />
+      <DeveloperProfile />
+      <Project/>
+      </div>
+   
   );
 }
 

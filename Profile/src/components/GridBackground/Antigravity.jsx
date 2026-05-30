@@ -159,10 +159,16 @@ const AntigravityInner = ({
         </instancedMesh>
     )
 }
-
+ 
 const Antigravity = (props) => {
     return (
         <Canvas
+            
+            eventSource={typeof document !== 'undefined' ? document.getElementById('root') || document.body : null}
+
+             
+            eventPrefix="client"
+
             camera={{ position: [0, 0, 50], fov: 35 }}
             dpr={[1, 1.5]}
             gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
@@ -172,4 +178,4 @@ const Antigravity = (props) => {
     )
 }
 
-export default Antigravity
+export default Antigravity;

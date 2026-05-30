@@ -1,47 +1,48 @@
-import React from 'react';
-import Antigravity from '../GridBackground/Antigravity';
-import Stack from './Stack';
+import React, { useState } from 'react'
+import Antigravity from '../GridBackground/Antigravity'
+import Stack from './Stack'
+import PdfManagerPhoto from '../Project/images/pdfMerger.png'
 
 export default function Project() {
-   
   const githubProjects = [
     {
-      title: "Interactive React Dashboard",
-      repoName: "your-react-repo-name",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500&auto=format"
+      title: "Algorithmic Routing Engine",
+      description: "A high-performance C++ pipeline engineered to process low-level computational tasks and optimize structural time complexity matrices.",
+      repoName: "algorithmic-rigor-v1",
+      image:{PdfManagerPhoto}
     },
     {
-      title: "Node.js Backend Pipeline",
-      repoName: "your-node-repo-name",
+      title: "Interactive Web Space",
+      description: "A high-fidelity single page layout rendering smooth real-time visual spaces with optimized hardware memory controls.",
+      repoName: "luxury-portfolio-engine",
       image: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?q=80&w=500&auto=format"
     },
     {
-      title: "C++ Low-Level Architecture",
-      repoName: "your-cpp-repo-name",
+      title: "Linux Memory Pipeline",
+      description: "Low-level system architecture scripts managing cache optimization buffers and thread allocations across standard Unix nodes.",
+      repoName: "linux-core-registry",
       image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500&auto=format"
-    },
-    {
-      title: "Python Machine Learning",
-      repoName: "your-python-repo-name",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=500&auto=format"
     }
-  ];
+  ]
+
+  const [activeIndex, setActiveIndex] = useState(0)
+  const currentProject = githubProjects[activeIndex] || githubProjects[0]
 
   return (
     <div style={{
-      background: ` 
-  radial-gradient(circle at 75% 20%, rgba(88, 28, 135, 0.05) 10%, transparent 40%),
-  radial-gradient(circle at 15% 40%, rgba(30, 58, 138, 0.05) 0%, transparent 40%),
-  linear-gradient(135deg, #060512 0%, #020106 100%)
-`
-    }} className='relative w-screen h-screen flex flex-col sm:flex-row items-center justify-center select-none'>
 
-      {/* ================= BACKGROUND ================= */}
-      <div className=" absolute inset-0 z-0 opacity-50 pointer-events-none">
+      background: ` 
+        radial-gradient(circle at 75% 20%, rgba(18, 205, 143, 0.05) 10%, transparent 40%),
+        radial-gradient(circle at 15% 40%, rgba(139, 92, 246, 0.04) 0%, transparent 40%),
+        linear-gradient(135deg, #060512 0%, #020106 100%)
+      `
+    }} className="relative w-full min-h-screen sm:h-screen flex flex-col sm:flex-row overflow-hidden select-none">
+
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
         <Antigravity
-          color="#14b8a6"
+          color="#12cd8f"  
           particleShape="capsule"
-          magnetRadius={16}
+          magnetRadius={26}
           ringRadius={12}
           waveSpeed={2.9}
           waveAmplitude={1.9}
@@ -52,65 +53,63 @@ export default function Project() {
           rotationSpeed={0}
           depthFactor={1}
           pulseSpeed={3}
-          fieldStrength={10}
+          fieldStrength={20}
           autoAnimate={true}
         />
       </div>
 
-      {/* ================= STACK COMPONENT ================= */}
-      <div className="leftpart sm:w-1/2 sm:h-full  "></div>
+      
+      <div className="leftSideOfPart w-full sm:w-1/2 max-h-[500px] sm:max-h-none sm:h-full relative flex z-20 justify-center items-center p-8 sm:p-12">
+        <div className="w-[300px] h-[400px]">
+          <Stack
+            randomRotation={true}
+            sensitivity={150}
+            sendToBackOnClick={true}
+            autoplay={true}
+            autoplayDelay={2500}  
+            pauseOnHover={true}
+            onCardChange={(topCardIndex) => setActiveIndex(topCardIndex)}
+            cards={githubProjects.map((project, i) => (
+              <div key={i} className="w-full h-full rounded-3xl overflow-hidden border border-white/[0.08] shadow-2xl">
+                <img
+                  src={project.image}
+                  alt={`project-card-${i}`}
+                  className="w-full h-full object-cover pointer-events-none"
+                />
+              </div>
+            ))}
+          />
+        </div>
+      </div>
+ 
+      <div className="rightSideOfPart w-full sm:w-1/2 sm:h-full relative z-20 flex flex-col justify-center text-left p-8 sm:pr-16 md:pr-24">
 
-      <div className="rightPart sm:w-1/2 sm:h-full   flex justify-center items-center  ">
+        {/* Dynamic Counter with Emerald Accent */}
+        <span className="text-[#12cd8f] text-xs font-mono tracking-widest uppercase mb-3 block">
+          PROJECT MATRIX // 0{activeIndex + 1}
+        </span>
 
         
-      <div className="relative z-10 w-[300px] h-[400px] sm:h-[30vw] sm:w-[30vw]">
-        <Stack
-          randomRotation={true}
-          sensitivity={150}
-          sendToBackOnClick={true}
-          autoplay={true}
-          autoplayDelay={4000}
-          pauseOnHover={true}
+        <h1 className="text-white text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 transition-all duration-300">
+          {currentProject.title}
+        </h1>
 
-          // ⚡ Dynamic Card Generation
-          cards={githubProjects.map((project, i) => (
-            <div key={i} className="relative w-full h-full group">
+       
+        <p className="text-slate-400 text-sm sm:text-lg font-light leading-relaxed mb-8 transition-all duration-300 max-w-md">
+          {currentProject.description}
+        </p>
 
-              {/* Background Image */}
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover pointer-events-none"
-              />
-
-              {/* Dark Gradient Overlay for Text Readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060512]/90 via-[#060512]/40 to-transparent pointer-events-none flex flex-col justify-end p-6">
-
-                <h3 className="text-white font-bold text-xl mb-2 leading-tight">
-                  {project.title}
-                </h3>
-
-                {/* Interactive GitHub Link 
-                  pointer-events-auto allows it to be clicked without triggering the drag 
-                  onPointerDown={e => e.stopPropagation()} prevents Framer Motion from grabbing the card when you click the link
-                */}
-                <a
-                  href={`https://github.com/Dharmit-Parmar/${project.repoName}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onPointerDown={(e) => e.stopPropagation()}
-                  className="pointer-events-auto text-[#14b8a6] text-sm font-mono tracking-wide hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5 w-fit"
-                >
-                  GitHub.com ↗
-                </a>
-
-              </div>
-            </div>
-          ))}
-        />
-      </div>
+      
+        <a
+          href={`https://github.com/Dharmit-Parmar/${currentProject.repoName}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white bg-white/[0.03] border border-white/[0.08] hover:border-[#12cd8f]/50 px-6 py-3 rounded-xl font-mono text-xs tracking-wider uppercase transition-all hover:bg-white/[0.06] hover:shadow-[0_0_20px_rgba(18,205,143,0.15)] w-fit inline-flex items-center gap-2"
+        >
+          Inspect Repository <span className="text-[#12cd8f]">↗</span>
+        </a>
       </div>
 
     </div>
-  );
+  )
 }
