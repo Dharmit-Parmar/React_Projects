@@ -6,6 +6,8 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import Project from "./components/Project/Project";
 import DeveloperProfile from "./components/DeveloperProfile";
+import TechoSystem from "./components/TechoSystem/TechoSystem";
+import Contact from "./components/Contact/Contact";
 function App() {
   const HeroLoading = useRef(null);
   useGSAP(() => {
@@ -21,7 +23,9 @@ function App() {
 
       <Hero />
       <DeveloperProfile />
+      <TechoSystem/>
       <Project/>
+      <Contact/>
       </div>
    
   );

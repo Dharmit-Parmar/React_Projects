@@ -49,7 +49,7 @@ export default function SkillCards({ heading, detail, icon }) {
 
             <div className="w-full text-center mt-1">
                 {/* CHANGED: Swapped the huge text-2xl out for text-sm so it looks compact and proportional */}
-                <h3 className="text-slate-100 font-bold text-sm tracking-wide uppercase truncate px-1">{heading}</h3>
+                <h3 className="text-slate-100 font-semibold text-sm tracking-wide uppercase truncate px-1">{heading}</h3>
                 {/* CHANGED: Scaled down detail font to text-[10px] to balance the hierarchy */}
                 <p className="text-slate-500 text-[10px] font-light tracking-wider mt-0.5 truncate px-1">{detail}</p>
             </div>

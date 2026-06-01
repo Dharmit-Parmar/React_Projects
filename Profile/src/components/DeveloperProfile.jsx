@@ -33,7 +33,7 @@ export default function DeveloperProfile() {
                 <h1 className='text-white text-3xl  sm:text-6xl font-extrabold tracking-tight mb-6 px-5' >
                     The Dual-Wield <span className="bg-gradient-to-r from-purple-500 to-orange-500 bg-clip-text text-transparent p-3 block">Developer</span>
                 </h1>
-                <p className="text-sm sm:text-xl sm:text-start text-center px-5 py-3 font-semibold text-slate-200 mb-4 leading-relaxed">
+                <p className="text-sm sm:text-xl sm:text-start text-center px-5 py-3 font-medium tracking-wide text-slate-200 mb-4 leading-relaxed">
                     I don't choose between structural logic and visual immersion. I build both.
                 </p>
                 <p className="text-base sm:text-xl px-5 text-slate-200 font-light leading-relaxed">

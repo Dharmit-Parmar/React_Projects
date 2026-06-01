@@ -9,6 +9,7 @@ import SkillCards from "../Home/smallSkillCards/SkillCards"
 export default function Hero() {
     const frontFace = useRef(null)
     const backFace = useRef(null)
+    const scroolingFont = useRef(null)
 
     const rotatingCircle = useRef(null)
     const shakingText = useRef(null)
@@ -187,6 +188,11 @@ export default function Hero() {
             repeat: -1,
             ease: "none"
         })
+
+        const tl = gsap.timeline({repeat:-1}) 
+            .to(scroolingFont.current, { y: -42, duration: 4 }, "+=1")   
+            .to(scroolingFont.current, { y: -90, duration: 4 }, "+=1")
+            .to(scroolingFont.current ,{ y: 0 , duration: 4})
     }, [])
 
     const handleShakingText = () => {
@@ -244,6 +250,17 @@ export default function Hero() {
                     engine performance optimization fields directly from the card deck
                     interface layout.
                 </p>
+
+                <div className="skillNamesSliding capitalize h-13   mt-4  overflow-hidden items-start justify-start gap:0 flex flex-col text-white text-2xl sm:text-4xl font-extrabold  tracking-tight select-none cursor-default ">
+                    <div ref={scroolingFont} className="h-full" >
+
+                        <h5 className="h-full p-2 px-2 font-light tracking-wide"><span className="w-3 h-3 bg-yellow-200  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"></span>Javascript Lover</h5>
+                        <h5 className="h-full p-1 px-2 font-light tracking-wide"><span className="w-3 h-3 bg-[#12cd8f]  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"></span>frontend devloper</h5>
+                    <h5 className=" h-full p-1 px-2 font-light tracking-wide"> <span className="w-3 h-3 bg-purple-400  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"> </span>  Creative Probelm solver</h5>
+                </div>
+
+
+                </div>
                 <div className="w-full max-w-5xl flex flex-wrap justify-center items-center gap-5 px-4 py-15 mt-4">
                     <SkillCards heading="C++" detail="High Performance" icon="🚀" />
                     <SkillCards heading="DSA" detail="Optimized Logic" icon="🧠" />
