@@ -241,22 +241,23 @@ export default function Hero() {
                 <h2
                     ref={shakingText}
                     onMouseEnter={handleShakingText}
-                    className="text-white text-4xl sm:text-7xl font-extrabold p-4 tracking-tight mb-4 select-none cursor-default"
+                    style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: "-0.04em" }}
+                    className="text-white text-4xl sm:text-7xl font-bold p-4 mb-4 select-none cursor-default"
                 >
                     Dharmit Parmar
                 </h2>
-                <p className="text-white/60 text-base sm:text-lg font-light max-w-md leading-relaxed text-center">
+                <p style={{ fontFamily: "'Inter', system-ui, sans-serif" }} className="text-white/60 text-base sm:text-lg font-light max-w-md leading-relaxed text-center">
                     Explore my technical profile, verified frameworks expertise, and core
                     engine performance optimization fields directly from the card deck
                     interface layout.
                 </p>
 
-                <div className="skillNamesSliding capitalize h-13   mt-4  overflow-hidden items-start justify-start gap:0 flex flex-col text-white text-2xl sm:text-4xl font-extrabold  tracking-tight select-none cursor-default ">
+                <div style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }} className="skillNamesSliding capitalize h-13 mt-4 overflow-hidden items-start justify-start gap:0 flex flex-col text-white text-2xl sm:text-4xl font-semibold tracking-tight select-none cursor-default">
                     <div ref={scroolingFont} className="h-full" >
 
                         <h5 className="h-full p-2 px-2 font-light tracking-wide"><span className="w-3 h-3 bg-yellow-200  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"></span>Javascript Lover</h5>
-                        <h5 className="h-full p-1 px-2 font-light tracking-wide"><span className="w-3 h-3 bg-[#12cd8f]  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"></span>frontend devloper</h5>
-                    <h5 className=" h-full p-1 px-2 font-light tracking-wide"> <span className="w-3 h-3 bg-purple-400  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"> </span>  Creative Probelm solver</h5>
+                        <h5 className="h-full p-1 px-2 font-light tracking-wide"><span className="w-3 h-3 bg-[#12cd8f]  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"></span>Frontend Developer</h5>
+                    <h5 className=" h-full p-1 px-2 font-light tracking-wide"> <span className="w-3 h-3 bg-purple-400  my-1 mx-2 rounded-full inline-block animate-pulse shadow-[0_0_10px_rgba(254,240,138,0.5)]"> </span>Creative Problem Solver</h5>
                 </div>
 
 
@@ -310,9 +311,9 @@ export default function Hero() {
                         </div>
 
                         <div className="infoSection w-full flex flex-col justify-between mt-4">
-                            <div className="heading w-full p-2 sm:p-4 text-white capitalize text-2xl sm:text-3xl">
+                            <div style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: "-0.02em" }} className="heading w-full p-2 sm:p-4 text-white capitalize text-2xl sm:text-3xl font-semibold">
                                 Software Engineer
-                                <div className="text-sm sm:text-base pt-2 text-white/80 font-light normal-case tracking-wide">
+                                <div style={{ fontFamily: "'Inter', system-ui, sans-serif", letterSpacing: "0.01em" }} className="text-sm sm:text-base pt-2 text-white/80 font-light normal-case">
                                     Building scalable systems & algorithms
                                 </div>
                             </div>
@@ -329,10 +330,10 @@ export default function Hero() {
                                     }}
                                     className="infoBox flex-1 min-w-[100px] aspect-[4/3] border border-transparent rounded-2xl flex flex-col overflow-hidden backdrop-blur-lg shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
                                 >
-                                    <div className="w-full px-3 py-1.5 text-[9px] sm:text-[10px] tracking-widest uppercase font-bold text-slate-500 border-b border-black/[0.05] bg-black/[0.01]">
+                                    <div style={{ fontFamily: "'JetBrains Mono', monospace" }} className="w-full px-3 py-1.5 text-[9px] sm:text-[10px] tracking-widest uppercase font-bold text-slate-500 border-b border-black/[0.05] bg-black/[0.01]">
                                         Expert
                                     </div>
-                                    <div className="flex-1 flex items-center px-3 text-xs sm:text-sm font-bold text-orange-600 drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
+                                    <div style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }} className="flex-1 flex items-center px-3 text-xs sm:text-sm font-bold text-orange-600 drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
                                         🚀 C++
                                     </div>
                                 </div>
@@ -348,10 +349,10 @@ export default function Hero() {
                                     }}
                                     className="infoBox flex-1 min-w-[100px] aspect-[4/3] border border-transparent rounded-2xl flex flex-col overflow-hidden backdrop-blur-lg shadow-[0_8px_20px_rgba(0,0,0,0.3)]"
                                 >
-                                    <div className="w-full px-3 py-1.5 text-[9px] sm:text-[10px] tracking-widest uppercase font-bold text-slate-500 border-b border-black/[0.05] bg-black/[0.01]">
+                                    <div style={{ fontFamily: "'JetBrains Mono', monospace" }} className="w-full px-3 py-1.5 text-[9px] sm:text-[10px] tracking-widest uppercase font-bold text-slate-500 border-b border-black/[0.05] bg-black/[0.01]">
                                         Focus
                                     </div>
-                                    <div className="flex-1 flex items-center px-3 text-xs sm:text-sm font-bold text-cyan-600 drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
+                                    <div style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }} className="flex-1 flex items-center px-3 text-xs sm:text-sm font-bold text-cyan-600 drop-shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
                                         ⚛️ React
                                     </div>
                                 </div>
@@ -399,8 +400,8 @@ export default function Hero() {
                                         </svg>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-emerald-100 text-sm font-bold tracking-wide">GitHub</span>
-                                        <span className="text-emerald-500/70 text-xs font-mono mt-0.5">@Dharmit-Parmar</span>
+                                        <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }} className="text-emerald-100 text-sm font-bold tracking-wide">GitHub</span>
+                                        <span style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-emerald-500/70 text-xs mt-0.5">@Dharmit-Parmar</span>
                                     </div>
                                 </a>
 
@@ -417,8 +418,8 @@ export default function Hero() {
                                         </svg>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-emerald-100 text-sm font-bold tracking-wide">LeetCode</span>
-                                        <span className="text-emerald-500/70 text-xs font-mono mt-0.5">@Dharmit-Parmar</span>
+                                        <span style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }} className="text-emerald-100 text-sm font-bold tracking-wide">LeetCode</span>
+                                        <span style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-emerald-500/70 text-xs mt-0.5">@Dharmit-Parmar</span>
                                     </div>
                                 </a>
 

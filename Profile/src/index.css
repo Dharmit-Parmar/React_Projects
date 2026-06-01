@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+/* ─── Premium Font System ─────────────────────────────────────── */
+:root {
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Heading hierarchy: Space Grotesk ───────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01" 1, "kern" 1;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Mono elements ───────────────────────────────────────────── */
+code, kbd, samp, pre,
+.font-mono {
+  font-family: var(--font-mono) !important;
+  font-feature-settings: "zero" 1, "ss01" 1;
+}

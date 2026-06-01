@@ -147,7 +147,7 @@ export default function Project() {
 
       <div className="rightSideOfPart w-full sm:w-1/2 sm:h-full relative z-20 flex flex-col justify-center text-left p-8 sm:pr-16 md:pr-24">
 
-        <span className="text-[#12cd8f] text-xs font-mono tracking-widest uppercase mb-3 block">
+        <span style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-[#12cd8f] text-xs tracking-widest uppercase mb-3 block">
           PROJECT MATRIX // 0{activeIndex + 1}
         </span>
 
@@ -161,11 +161,11 @@ export default function Project() {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <h1 className="text-white text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+              <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: "-0.03em" }} className="text-white text-3xl sm:text-5xl font-bold mb-4">
                 {currentProject.title}
               </h1>
 
-              <p className="text-slate-400 text-sm sm:text-lg font-light leading-relaxed mb-8 max-w-md">
+              <p style={{ fontFamily: "'Inter', system-ui, sans-serif" }} className="text-slate-400 text-sm sm:text-lg font-light leading-relaxed mb-8 max-w-md">
                 {currentProject.description}
               </p>
 
@@ -173,6 +173,7 @@ export default function Project() {
                 href={`https://github.com/Dharmit-Parmar/${currentProject.repoName}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
                 className="text-white bg-white/[0.03] border border-white/[0.08] hover:border-[#12cd8f]/50 px-6 py-3 rounded-xl font-mono text-xs tracking-wider uppercase transition-all hover:bg-white/[0.06] hover:shadow-[0_0_20px_rgba(18,205,143,0.15)] w-fit inline-flex items-center gap-2 pointer-events-auto"
               >
                 Inspect Repository <span className="text-[#12cd8f]">↗</span>
