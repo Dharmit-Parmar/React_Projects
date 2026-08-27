@@ -53,7 +53,7 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
           virtuosoRef.current.scrollToIndex({
             index: targetIndex,
             align: 'start',
-            behavior: 'smooth'
+            behavior: 'auto'
           });
         }
       }, 50);
@@ -69,7 +69,7 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
         virtuosoRef.current.scrollToIndex({
           index: targetIndex,
           align: 'center',
-          behavior: 'smooth'
+          behavior: 'auto'
         });
       }
       // We don't reset jumpToMessageId here because the search bar might need to stay active 
