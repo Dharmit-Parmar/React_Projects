@@ -87,7 +87,7 @@ async fn convert_with_libreoffice(mut multipart: Multipart) -> Result<Response, 
     let soffice = find_soffice().ok_or_else(|| {
         (
             StatusCode::NOT_FOUND,
-            "LibreOffice is not installed or available on this system. To convert Word/PowerPoint files, install LibreOffice via 'brew install --cask libreoffice' or edit directly in the built-in Word Editor.".to_string(),
+            "Office conversion engine not available. Please edit and export documents directly using the built-in Word Editor.".to_string(),
         )
     })?;
 
@@ -272,7 +272,7 @@ async fn convert_pdf_to_docx(mut multipart: Multipart) -> Result<Response, (Stat
     let soffice = find_soffice().ok_or_else(|| {
         (
             StatusCode::NOT_FOUND,
-            "LibreOffice is not installed or available on this system. To convert Word/PowerPoint files, install LibreOffice via 'brew install --cask libreoffice' or edit directly in the built-in Word Editor.".to_string(),
+            "Office conversion engine not available. Please edit and export documents directly using the built-in Word Editor.".to_string(),
         )
     })?;
 

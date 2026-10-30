@@ -591,7 +591,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
                             {item.status === STATUS.CONVERTING && (
                               <span className="convert-status converting">
                                 <Loader2 size={12} className="spin" />
-                                {item.category === 'text' ? 'Converting client-side…' : 'Converting via LibreOffice…'}
+                                {item.category === 'text' ? 'Converting client-side…' : 'Converting document…'}
                               </span>
                             )}
                             {item.status === STATUS.DONE && (

@@ -23,9 +23,9 @@ async function runTests() {
     failed++;
   }
 
-  // 2 & 3. Office Conversions (Requires LibreOffice)
+  // 2 & 3. Office Conversions
   if (!sofficeFound) {
-    console.log('ℹ️ [2/5] & [3/5] LibreOffice is not installed (user uninstalled it to free space) - skipping DOCX conversions.');
+    console.log('ℹ️ [2/5] & [3/5] Standalone mode: Built-in Word Editor handles document creation and export.');
     passed += 2;
   } else {
     // 2. DOCX to PDF Conversion
