@@ -4,10 +4,9 @@ import { Virtuoso } from 'react-virtuoso';
 import ChatBubble from './ChatBubble';
 import DateSeparator from './DateSeparator';
 
-export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, jumpToMessageId, setJumpToMessageId, searchQuery }) {
+export default React.memo(function ChatWindow({ messages, selfName, jumpDate, setJumpDate, jumpToMessageId, searchQuery }) {
   const virtuosoRef = useRef(null);
 
-  // Pre-process messages into a flat list of items containing separators and messages
   const items = useMemo(() => {
     const flatList = [];
     let lastDateKey = null;
@@ -42,26 +41,20 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
     return flatList;
   }, [messages, selfName]);
 
-  // Jump to Date effect
   useEffect(() => {
     if (jumpDate && virtuosoRef.current) {
-      setTimeout(() => {
-        const targetIndex = items.findIndex(
-          item => item.type === 'date' && format(item.date, 'yyyy-MM-dd') === jumpDate
-        );
-        if (targetIndex !== -1 && virtuosoRef.current) {
-          virtuosoRef.current.scrollToIndex({
-            index: targetIndex,
-            align: 'start',
-            behavior: 'auto'
-          });
-        }
-      }, 50);
+      const targetIndex = items.findIndex(item => item.id === `date-${jumpDate}`);
+      if (targetIndex !== -1) {
+        virtuosoRef.current.scrollToIndex({
+          index: targetIndex,
+          align: 'start',
+          behavior: 'auto'
+        });
+      }
       setJumpDate(null);
     }
   }, [jumpDate, items, setJumpDate]);
 
-  // Jump to Message effect (from Search)
   useEffect(() => {
     if (jumpToMessageId && virtuosoRef.current) {
       const targetIndex = items.findIndex(item => item.id === jumpToMessageId);
@@ -72,8 +65,6 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
           behavior: 'auto'
         });
       }
-      // We don't reset jumpToMessageId here because the search bar might need to stay active 
-      // on the same ID if the user clicks next/prev rapidly.
     }
   }, [jumpToMessageId, items]);
 
@@ -83,7 +74,7 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
         ref={virtuosoRef}
         className="chat-virtuoso"
         data={items}
-        initialTopMostItemIndex={items.length > 0 ? items.length - 1 : 0}
+        initialTopMostItemIndex={Math.max(0, items.length - 1)}
         itemContent={(index, item) => {
           if (item.type === 'date') {
             return (
@@ -107,4 +98,4 @@ export default function ChatWindow({ messages, selfName, jumpDate, setJumpDate, 
       />
     </div>
   );
-}
+});

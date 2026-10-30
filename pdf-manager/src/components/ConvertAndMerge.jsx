@@ -1,18 +1,18 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import {
   UploadCloud, GripVertical, Trash2, FileText, Loader2,
-  Image as ImageIcon, FileType, File, CheckCircle2, AlertCircle, RefreshCw, Presentation
+  Image as ImageIcon, FileType, File, CheckCircle2, AlertCircle, RefreshCw, Presentation,
+  ArrowUp, ArrowDown, ArrowUpDown, Hash, Download
 } from 'lucide-react';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
-const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024; // 50 MB guard — prevents OOM crash (BUG 6 FIX)
+const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024; // 50 MB guard — prevents OOM crash
 const STATUS = { PENDING: 'pending', CONVERTING: 'converting', DONE: 'done', ERROR: 'error' };
 
 // ─── Backend Conversion (LibreOffice) ───────────────────────────────────────
-// Used ONLY for .doc, .docx, .ppt, .pptx — NOT for txt (handled client-side)
 async function backendConvert(file, toExt) {
   const formData = new FormData();
   formData.append('file', file);
@@ -24,7 +24,6 @@ async function backendConvert(file, toExt) {
   });
 
   if (!response.ok) {
-    // BUG 3 FIX: Extract specific error message from response body
     let reason = `HTTP ${response.status}`;
     try {
       const text = await response.text();
@@ -58,7 +57,6 @@ const getFileCategory = (file) => {
   return 'unknown';
 };
 
-// Fix drag offset caused by parent container transforms/backdrop-filters
 function getDragStyle(style, snapshot) {
   if (!snapshot.isDragging) return style;
   if (!style?.transform) return style;
@@ -109,7 +107,7 @@ const getCategoryBadge = (category) => {
   );
 };
 
-// ─── BUG 1 FIX: TXT → PDF handled client-side (no backend needed) ──────────
+// Client-side TXT → PDF conversion
 async function convertTextToPdf(file) {
   const pdfDoc = await PDFDocument.create();
   const font = await pdfDoc.embedFont(StandardFonts.Courier);
@@ -123,7 +121,6 @@ async function convertTextToPdf(file) {
   const LINE_HEIGHT = FONT_SIZE * 1.4;
   const MAX_LINES_PER_PAGE = Math.floor((PAGE_HEIGHT - MARGIN * 2) / LINE_HEIGHT);
 
-  // Chunk lines across pages
   for (let i = 0; i < lines.length; i += MAX_LINES_PER_PAGE) {
     const page = pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
     const pageLines = lines.slice(i, i + MAX_LINES_PER_PAGE);
@@ -139,7 +136,6 @@ async function convertTextToPdf(file) {
     });
   }
 
-  // Handle empty files
   if (lines.length === 0) {
     pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   }
@@ -147,7 +143,6 @@ async function convertTextToPdf(file) {
   return pdfDoc.save();
 }
 
-// ─── BUG 4 FIX: Image → PDF with proper blob await & null check ───────────
 async function convertImageToPdf(file) {
   const pdfDoc = await PDFDocument.create();
   const arrayBuffer = await file.arrayBuffer();
@@ -158,7 +153,6 @@ async function convertImageToPdf(file) {
   if (mime === 'image/png') {
     image = await pdfDoc.embedPng(arrayBuffer);
   } else {
-    // For JPG, GIF, WEBP, BMP — draw onto canvas and export as JPEG
     const blob = new Blob([arrayBuffer], { type: mime });
     const url = URL.createObjectURL(blob);
 
@@ -175,7 +169,6 @@ async function convertImageToPdf(file) {
     canvas.getContext('2d').drawImage(img, 0, 0);
     URL.revokeObjectURL(url);
 
-    // BUG 4 FIX: Properly await blob → arrayBuffer with null guard
     const jpgBlob = await new Promise((res, rej) => {
       canvas.toBlob(
         (b) => {
@@ -186,6 +179,10 @@ async function convertImageToPdf(file) {
         0.95
       );
     });
+    // Immediately free canvas memory buffer
+    canvas.width = 0;
+    canvas.height = 0;
+
     const jpgBytes = await jpgBlob.arrayBuffer();
     image = await pdfDoc.embedJpg(jpgBytes);
   }
@@ -196,7 +193,6 @@ async function convertImageToPdf(file) {
   return pdfDoc.save();
 }
 
-// ─── Master Conversion Router ────────────────────────────────────────────────
 async function convertFileToPdfBytes(file, category) {
   switch (category) {
     case 'pdf':
@@ -206,13 +202,11 @@ async function convertFileToPdfBytes(file, category) {
       return convertImageToPdf(file);
 
     case 'text':
-      // BUG 1 FIX: TXT is now client-side — no backend call
       return convertTextToPdf(file);
 
     case 'word':
     case 'presentation':
     case 'html': {
-      // Word, PPT, and HTML go to LibreOffice backend
       const blob = await backendConvert(file, 'pdf');
       return blob.arrayBuffer();
     }
@@ -226,9 +220,15 @@ async function convertFileToPdfBytes(file, category) {
 export default function ConvertAndMerge({ files, setFiles }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [toast, setToast] = useState(null); // BUG 3 FIX: error toast state
+  const [toast, setToast] = useState(null);
+  const [customFilename, setCustomFilename] = useState('Merged_Document.pdf');
 
-  // BUG 2 FIX: Track current blob URL in a ref so we can revoke it before creating a new one
+  // Page numbering settings
+  const [enablePageNumbers, setEnablePageNumbers] = useState(true);
+  const [pageNumberFormat, setPageNumberFormat] = useState('pageOfTotal'); // 'plain' | 'pageOfTotal' | 'slash' | 'hyphen'
+  const [pageNumberPosition, setPageNumberPosition] = useState('center'); // 'center' | 'right'
+  const [maskFooters, setMaskFooters] = useState(true);
+
   const blobUrlRef = useRef(null);
 
   const showToast = (message, type = 'error') => {
@@ -236,14 +236,25 @@ export default function ConvertAndMerge({ files, setFiles }) {
     setTimeout(() => setToast(null), 5000);
   };
 
-  // BUG 6 FIX: Reject files over 50MB at drop time
-  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
-    // Clear old preview on new drop
+  const clearPreview = useCallback(() => {
     if (blobUrlRef.current) {
       URL.revokeObjectURL(blobUrlRef.current);
       blobUrlRef.current = null;
-      setPreviewUrl(null);
     }
+    setPreviewUrl(null);
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+      }
+    };
+  }, []);
+
+  const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    clearPreview();
 
     const oversized = acceptedFiles.filter(f => f.size > MAX_FILE_SIZE_BYTES);
     const valid = acceptedFiles.filter(f => f.size <= MAX_FILE_SIZE_BYTES);
@@ -270,7 +281,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
     }));
 
     setFiles(prev => [...prev, ...mapped]);
-  }, []);
+  }, [clearPreview, setFiles]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -289,12 +300,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
 
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;
-    // BUG 2 FIX: Revoke old preview when list is reordered
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current);
-      blobUrlRef.current = null;
-      setPreviewUrl(null);
-    }
+    clearPreview();
     const reordered = Array.from(files);
     const [moved] = reordered.splice(source.index, 1);
     reordered.splice(destination.index, 0, moved);
@@ -302,12 +308,39 @@ export default function ConvertAndMerge({ files, setFiles }) {
   };
 
   const removeFile = (id) => {
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current);
-      blobUrlRef.current = null;
-      setPreviewUrl(null);
-    }
+    clearPreview();
     setFiles(prev => prev.filter(f => f.id !== id));
+  };
+
+  const moveUp = (index) => {
+    if (index === 0) return;
+    clearPreview();
+    const updated = Array.from(files);
+    const temp = updated[index - 1];
+    updated[index - 1] = updated[index];
+    updated[index] = temp;
+    setFiles(updated);
+  };
+
+  const moveDown = (index) => {
+    if (index >= files.length - 1) return;
+    clearPreview();
+    const updated = Array.from(files);
+    const temp = updated[index + 1];
+    updated[index + 1] = updated[index];
+    updated[index] = temp;
+    setFiles(updated);
+  };
+
+  const sortByName = () => {
+    clearPreview();
+    const sorted = [...files].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+    setFiles(sorted);
+  };
+
+  const reverseOrder = () => {
+    clearPreview();
+    setFiles([...files].reverse());
   };
 
   const updateStatus = (id, status, error = null) => {
@@ -317,13 +350,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
   const convertAndMerge = async () => {
     if (files.length === 0) return;
     setIsProcessing(true);
-
-    // BUG 2 FIX: Always revoke the previous blob URL before creating a new one
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current);
-      blobUrlRef.current = null;
-      setPreviewUrl(null);
-    }
+    clearPreview();
 
     let anySuccess = false;
     let errorCount = 0;
@@ -331,6 +358,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
     try {
       const mergedPdf = await PDFDocument.create();
 
+      // Process strictly in the user's defined order
       for (const item of files) {
         if (item.category === 'unknown') continue;
 
@@ -343,7 +371,6 @@ export default function ConvertAndMerge({ files, setFiles }) {
           updateStatus(item.id, STATUS.DONE);
           anySuccess = true;
         } catch (err) {
-          // BUG 3 FIX: Store the specific error message per file
           updateStatus(item.id, STATUS.ERROR, err.message);
           console.error(`Failed to convert ${item.name}:`, err);
           errorCount++;
@@ -359,31 +386,94 @@ export default function ConvertAndMerge({ files, setFiles }) {
         showToast(`${errorCount} file(s) failed to convert and were skipped.`, 'warning');
       }
 
+      // Add cohesive continuous page numbering across the merged document
+      if (enablePageNumbers) {
+        const font = await mergedPdf.embedFont(StandardFonts.Helvetica);
+        const pages = mergedPdf.getPages();
+        const totalPages = pages.length;
+
+        pages.forEach((page, idx) => {
+          const { width } = page.getSize();
+          const pageNum = idx + 1;
+          let text = `${pageNum}`;
+          if (pageNumberFormat === 'pageOfTotal') {
+            text = `Page ${pageNum} of ${totalPages}`;
+          } else if (pageNumberFormat === 'slash') {
+            text = `${pageNum} / ${totalPages}`;
+          } else if (pageNumberFormat === 'hyphen') {
+            text = `- ${pageNum} -`;
+          }
+
+          const fontSize = 10;
+          const textWidth = font.widthOfTextAtSize(text, fontSize);
+
+          // Mask existing footer page numbers (from individual doc files) with solid white
+          if (maskFooters) {
+            if (pageNumberPosition === 'center') {
+              page.drawRectangle({
+                x: width / 2 - Math.max(textWidth / 2 + 25, 80),
+                y: 10,
+                width: Math.max(textWidth + 50, 160),
+                height: 22,
+                color: rgb(1, 1, 1),
+                opacity: 1.0,
+              });
+            } else {
+              page.drawRectangle({
+                x: width - Math.max(textWidth + 40, 140) - 20,
+                y: 10,
+                width: Math.max(textWidth + 40, 140),
+                height: 22,
+                color: rgb(1, 1, 1),
+                opacity: 1.0,
+              });
+            }
+          }
+
+          const textX = pageNumberPosition === 'center'
+            ? width / 2 - textWidth / 2
+            : width - textWidth - 36;
+          const textY = 16;
+
+          page.drawText(text, {
+            x: textX,
+            y: textY,
+            size: fontSize,
+            font,
+            color: rgb(0.15, 0.15, 0.15),
+          });
+        });
+      }
+
       const bytes = await mergedPdf.save();
       const blob = new Blob([bytes], { type: 'application/pdf' });
 
-      // BUG 2 FIX: Store new URL in ref so it can be revoked later
       const newUrl = URL.createObjectURL(blob);
       blobUrlRef.current = newUrl;
       setPreviewUrl(newUrl);
 
     } catch (err) {
       console.error('Merge failed:', err);
-      // BUG 3 FIX: Show specific error in toast instead of generic alert
       showToast(`Merge failed: ${err.message}`, 'error');
     } finally {
       setIsProcessing(false);
     }
   };
 
+  const handleDownload = () => {
+    if (!previewUrl) return;
+    const finalName = customFilename.trim() || 'Merged_Document.pdf';
+    const a = document.createElement('a');
+    a.href = previewUrl;
+    a.download = finalName.toLowerCase().endsWith('.pdf') ? finalName : `${finalName}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   const clearAll = () => {
-    // BUG 2 FIX: Clean up blob URL on clear
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current);
-      blobUrlRef.current = null;
-    }
+    clearPreview();
     setFiles([]);
-    setPreviewUrl(null);
   };
 
   const supportedCount = files.filter(f => f.category !== 'unknown').length;
@@ -391,7 +481,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
 
   return (
     <div>
-      {/* Toast Notification — BUG 3 FIX */}
+      {/* Toast Notification */}
       {toast && (
         <div
           className={`toast toast-${toast.type}`}
@@ -424,9 +514,9 @@ export default function ConvertAndMerge({ files, setFiles }) {
         <h3 className="dropzone-text">
           {isDragActive ? 'Drop your files here' : 'Drag & drop any files here'}
         </h3>
-        <p className="dropzone-subtext">Supports DOCX, PPTX, PDF, TXT, HTML, and Images · Max 50MB per file</p>
+        <p className="dropzone-subtext">Supports DOCX, DOC, PPTX, PDF, TXT, HTML, and Images · Max 50MB per file</p>
         <div className="format-badges">
-          <span className="fmt-tag fmt-word">DOCX</span>
+          <span className="fmt-tag fmt-word">DOCX/DOC</span>
           <span className="fmt-tag fmt-word" style={{ background: '#ff6b3522', color: '#ff6b35', borderColor: '#ff6b3544' }}>PPTX</span>
           <span className="fmt-tag fmt-pdf">PDF</span>
           <span className="fmt-tag fmt-image">JPG/PNG</span>
@@ -435,14 +525,34 @@ export default function ConvertAndMerge({ files, setFiles }) {
         </div>
       </div>
 
-      {/* Stats bar */}
+      {/* Stats and Reordering Bar */}
       {files.length > 0 && (
-        <div className="convert-stats-bar">
-          <span>{files.length} file{files.length !== 1 ? 's' : ''} queued</span>
-          {unsupportedCount > 0 && (
-            <span className="warn-text">⚠ {unsupportedCount} unsupported file{unsupportedCount > 1 ? 's' : ''} will be skipped</span>
-          )}
-          <button className="btn-ghost" onClick={clearAll}>Clear all</button>
+        <div className="convert-stats-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span>{files.length} file{files.length !== 1 ? 's' : ''} queued in merge order</span>
+            {unsupportedCount > 0 && (
+              <span className="warn-text" style={{ marginLeft: '12px' }}>⚠ {unsupportedCount} unsupported file{unsupportedCount > 1 ? 's' : ''} will be skipped</span>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={sortByName}
+              className="btn-ghost"
+              style={{ fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 10px' }}
+              title="Sort files alphabetically A to Z"
+            >
+              <ArrowUpDown size={14} /> Sort A-Z
+            </button>
+            <button
+              onClick={reverseOrder}
+              className="btn-ghost"
+              style={{ fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 10px' }}
+              title="Reverse file sequence"
+            >
+              ⇄ Reverse
+            </button>
+            <button className="btn-ghost" onClick={clearAll}>Clear all</button>
+          </div>
         </div>
       )}
 
@@ -458,23 +568,22 @@ export default function ConvertAndMerge({ files, setFiles }) {
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        // BUG 5 FIX: No more fragile offset hack — style passed through cleanly
                         style={getDragStyle(provided.draggableProps.style, snapshot)}
                         className={`pdf-item convert-item ${snapshot.isDragging ? 'pdf-item-dragging' : ''} status-${item.status}`}
                       >
                         {/* Drag Handle */}
-                        <div {...provided.dragHandleProps} className="drag-handle">
+                        <div {...provided.dragHandleProps} className="drag-handle" title="Drag to reorder">
                           <GripVertical size={20} />
                         </div>
 
                         {/* Order Badge */}
-                        <span className="order-badge">{index + 1}</span>
+                        <span className="order-badge" title={`Merge sequence #${index + 1}`}>{index + 1}</span>
 
                         {/* Icon */}
                         <div className="file-icon-wrap">{getCategoryIcon(item.category)}</div>
 
                         {/* Info */}
-                        <div className="pdf-info">
+                        <div className="pdf-info" style={{ flex: 1, minWidth: 0 }}>
                           <span className="pdf-name">{item.name}</span>
                           <div className="file-meta">
                             <span className="pdf-size">{formatBytes(item.size)}</span>
@@ -491,7 +600,6 @@ export default function ConvertAndMerge({ files, setFiles }) {
                               </span>
                             )}
                             {item.status === STATUS.ERROR && (
-                              // BUG 3 FIX: Show full error message in title tooltip
                               <span
                                 className="convert-status error"
                                 title={item.error}
@@ -503,6 +611,44 @@ export default function ConvertAndMerge({ files, setFiles }) {
                           </div>
                         </div>
 
+                        {/* Move Up / Move Down buttons */}
+                        <div style={{ display: 'flex', gap: '2px', marginRight: '8px' }}>
+                          <button
+                            onClick={() => moveUp(index)}
+                            disabled={index === 0 || isProcessing}
+                            style={{
+                              background: 'rgba(255,255,255,0.06)',
+                              border: 'none',
+                              borderRadius: '4px',
+                              color: index === 0 ? '#475569' : '#cbd5e1',
+                              cursor: index === 0 ? 'not-allowed' : 'pointer',
+                              padding: '5px',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                            title="Move Up"
+                          >
+                            <ArrowUp size={15} />
+                          </button>
+                          <button
+                            onClick={() => moveDown(index)}
+                            disabled={index === files.length - 1 || isProcessing}
+                            style={{
+                              background: 'rgba(255,255,255,0.06)',
+                              border: 'none',
+                              borderRadius: '4px',
+                              color: index === files.length - 1 ? '#475569' : '#cbd5e1',
+                              cursor: index === files.length - 1 ? 'not-allowed' : 'pointer',
+                              padding: '5px',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                            title="Move Down"
+                          >
+                            <ArrowDown size={15} />
+                          </button>
+                        </div>
+
                         {/* Remove */}
                         <button
                           onClick={() => removeFile(item.id)}
@@ -510,7 +656,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
                           title="Remove"
                           disabled={isProcessing}
                         >
-                          <Trash2 size={20} />
+                          <Trash2 size={18} />
                         </button>
                       </div>
                     )}
@@ -523,6 +669,125 @@ export default function ConvertAndMerge({ files, setFiles }) {
         </DragDropContext>
       )}
 
+      {/* ── Page Numbering Choice at Merge Time ── */}
+      {files.length > 0 && !previewUrl && (
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.09)',
+          borderRadius: '14px',
+          padding: '16px 20px',
+          margin: '18px 0',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Hash size={16} color="#818cf8" />
+              Page Numbering at Merge Time
+            </span>
+            <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+              Harmonize multi-doc pages or preserve original page numbering
+            </span>
+          </div>
+
+          {/* Segmented Button Selection */}
+          <div style={{
+            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: enablePageNumbers ? '14px' : '4px'
+          }}>
+            <button
+              type="button"
+              onClick={() => setEnablePageNumbers(false)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
+                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.2s ease',
+                background: !enablePageNumbers ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.04)',
+                border: !enablePageNumbers ? '1.5px solid rgba(239,68,68,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                color: !enablePageNumbers ? '#fca5a5' : '#94a3b8',
+              }}
+            >
+              <span style={{ fontSize: '15px' }}>🚫</span>
+              No Page Numbers (Keep Original)
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setEnablePageNumbers(true)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
+                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.2s ease',
+                background: enablePageNumbers ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)',
+                border: enablePageNumbers ? '1.5px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.08)',
+                color: enablePageNumbers ? '#a5b4fc' : '#94a3b8',
+              }}
+            >
+              <span style={{ fontSize: '15px' }}>🔢</span>
+              Continuous Page Numbers (1 to N)
+            </button>
+          </div>
+
+          {!enablePageNumbers ? (
+            <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', paddingLeft: '4px' }}>
+              ✓ Original pages and existing footers will be merged without adding any new page numbers.
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Format:</span>
+                <select
+                  value={pageNumberFormat}
+                  onChange={e => setPageNumberFormat(e.target.value)}
+                  style={{
+                    background: 'rgba(0,0,0,0.3)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: '6px',
+                    color: '#e2e8f0',
+                    padding: '4px 8px',
+                    fontSize: '0.82rem',
+                    outline: 'none',
+                  }}
+                >
+                  <option value="pageOfTotal">Page 1 of 25</option>
+                  <option value="slash">1 / 25</option>
+                  <option value="plain">1, 2, 3...</option>
+                  <option value="hyphen">- 1 -</option>
+                </select>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Position:</span>
+                <select
+                  value={pageNumberPosition}
+                  onChange={e => setPageNumberPosition(e.target.value)}
+                  style={{
+                    background: 'rgba(0,0,0,0.3)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: '6px',
+                    color: '#e2e8f0',
+                    padding: '4px 8px',
+                    fontSize: '0.82rem',
+                    outline: 'none',
+                  }}
+                >
+                  <option value="center">Bottom Center</option>
+                  <option value="right">Bottom Right</option>
+                </select>
+              </div>
+
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#cbd5e1', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={maskFooters}
+                  onChange={e => setMaskFooters(e.target.checked)}
+                  style={{ accentColor: '#818cf8' }}
+                />
+                Cleanly mask conflicting original footer numbers
+              </label>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Action Button */}
       {files.length > 0 && !previewUrl && (
         <div className="actions">
@@ -532,7 +797,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
             disabled={isProcessing || supportedCount === 0}
           >
             {isProcessing ? (
-              <><Loader2 className="spin" size={22} /> Converting & Merging…</>
+              <><Loader2 className="spin" size={22} /> Converting & Merging in Exact Order…</>
             ) : (
               <><RefreshCw size={22} /> Convert & Merge {supportedCount} File{supportedCount !== 1 ? 's' : ''}</>
             )}
@@ -540,38 +805,51 @@ export default function ConvertAndMerge({ files, setFiles }) {
         </div>
       )}
 
-      {/* Preview */}
+      {/* Preview with Custom Renaming */}
       {previewUrl && (
         <div className="preview-container" style={{ animation: 'fadeIn 0.4s ease-out' }}>
-          <div className="preview-header">
+          <div className="preview-header" style={{ flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
             <h3 className="preview-title">✅ Merged PDF Ready</h3>
+
+            {/* Custom Filename Input */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: '240px', maxWidth: '380px' }}>
+              <label style={{ fontSize: '0.8rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>Rename file:</label>
+              <input
+                type="text"
+                value={customFilename}
+                onChange={e => setCustomFilename(e.target.value)}
+                placeholder="Merged_Document.pdf"
+                style={{
+                  background: 'rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '6px',
+                  color: '#f8fafc',
+                  padding: '6px 10px',
+                  fontSize: '0.85rem',
+                  width: '100%',
+                  outline: 'none',
+                }}
+              />
+            </div>
+
             <div style={{ display: 'flex', gap: '12px' }}>
               <button
                 className="btn-secondary"
                 onClick={() => {
-                  // BUG 2 FIX: Revoke URL on reset
-                  if (blobUrlRef.current) {
-                    URL.revokeObjectURL(blobUrlRef.current);
-                    blobUrlRef.current = null;
-                  }
-                  setPreviewUrl(null);
+                  clearPreview();
                   setFiles(prev => prev.map(f => ({ ...f, status: STATUS.PENDING, error: null })));
                 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px' }}
               >
-                <RefreshCw size={16} /> Reset
+                <RefreshCw size={16} /> Re-order / Edit
               </button>
               <button
                 className="btn-primary"
-                onClick={() => {
-                  const a = document.createElement('a');
-                  a.href = previewUrl;
-                  a.download = `Converted_Merged_${Date.now()}.pdf`;
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                }}
+                onClick={handleDownload}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px' }}
               >
-                <FileText size={16} /> Download Merged PDF
+                <Download size={18} />
+                Download Merged PDF
               </button>
             </div>
           </div>

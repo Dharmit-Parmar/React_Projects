@@ -21,36 +21,28 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('');
 
-  // Called with an array of { html, fileIndex } objects (one per uploaded file)
   const handleFilesParsed = (fileResults) => {
     setIsLoading(true);
-    setLoadingText('Parsing HTML...');
+    setLoadingText('Parsing & merging...');
 
-    // Use setTimeout to allow the browser to paint the loading state
     setTimeout(() => {
-      // Parse each file with its fileIndex so the merger can tiebreak correctly
       const parsedFiles = fileResults.map(({ html, fileIndex }) =>
         parseInstagramHTML(html, fileIndex)
       );
+      const merged = mergeParseResults(parsedFiles);
 
-      setLoadingText('Merging messages...');
+      setMessages(merged.messages);
+      setParticipants(merged.participants);
+      setConflict(merged.conflict);
+      setConflictDismissed(false);
 
-      setTimeout(() => {
-        const merged = mergeParseResults(parsedFiles);
-
-        setMessages(merged.messages);
-        setParticipants(merged.participants);
-        setConflict(merged.conflict);
-        setConflictDismissed(false);
-
-        // Set selfName if auto-detected
-        if (merged.assumedOwner && merged.participants.includes(merged.assumedOwner)) {
-          setSelfName(merged.assumedOwner);
-        } else {
-          setSelfName(null);
-        }
-        setIsLoading(false);
-      }, 50);
+      // Set selfName if auto-detected
+      if (merged.assumedOwner && merged.participants.includes(merged.assumedOwner)) {
+        setSelfName(merged.assumedOwner);
+      } else {
+        setSelfName(null);
+      }
+      setIsLoading(false);
     }, 50);
   };
 
@@ -150,7 +142,6 @@ function App() {
         jumpDate={jumpDate}
         setJumpDate={setJumpDate}
         jumpToMessageId={jumpToMessageId}
-        setJumpToMessageId={setJumpToMessageId}
         searchQuery={activeSearchQuery}
       />
     </div>

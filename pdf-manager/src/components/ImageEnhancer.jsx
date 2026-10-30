@@ -14,6 +14,15 @@ export default function ImageEnhancer() {
   const [downscale, setDownscale] = useState(true);
   const [sliderPos, setSliderPos] = useState(50);
   const [error, setError] = useState(null);
+  const [customFilename, setCustomFilename] = useState('');
+
+  // Cleanup object URLs on unmount
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+      if (enhancedPreview) URL.revokeObjectURL(enhancedPreview);
+    };
+  }, [preview, enhancedPreview]);
 
   const [origInfo, setOrigInfo] = useState({ width: 0, height: 0, bytes: 0 });
   const [enhInfo, setEnhInfo] = useState({ width: 0, height: 0, bytes: 0 });
@@ -22,7 +31,10 @@ export default function ImageEnhancer() {
     if (acceptedFiles?.length > 0) {
       const selected = acceptedFiles[0];
       if (selected.type.startsWith('image/')) {
+        if (preview) URL.revokeObjectURL(preview);
+        if (enhancedPreview) URL.revokeObjectURL(enhancedPreview);
         setFile(selected);
+        setCustomFilename(`enhanced-${selected.name}`);
         const objUrl = URL.createObjectURL(selected);
         setPreview(objUrl);
         
@@ -107,9 +119,10 @@ export default function ImageEnhancer() {
 
   const handleDownload = () => {
     if (!enhancedPreview) return;
+    const finalName = customFilename.trim() || `enhanced-${file?.name || 'image.png'}`;
     const a = document.createElement('a');
     a.href = enhancedPreview;
-    a.download = `enhanced-${file?.name || 'image.png'}`;
+    a.download = finalName;
     a.click();
   };
 
@@ -342,7 +355,26 @@ export default function ImageEnhancer() {
             </div>
           </div>
 
-          <div className="actions" style={{ marginTop: '20px' }}>
+          <div className="actions" style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <label style={{ fontSize: '0.8rem', color: '#94a3b8' }}>File name:</label>
+              <input
+                type="text"
+                value={customFilename}
+                onChange={e => setCustomFilename(e.target.value)}
+                placeholder="enhanced-image.png"
+                style={{
+                  background: 'rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '6px',
+                  color: '#f8fafc',
+                  padding: '6px 12px',
+                  fontSize: '0.85rem',
+                  minWidth: '220px',
+                  outline: 'none',
+                }}
+              />
+            </div>
             <button className="btn-primary" onClick={handleDownload}>
               <Download size={18} />
               Download Enhanced Image

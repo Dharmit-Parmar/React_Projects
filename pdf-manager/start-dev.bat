@@ -37,21 +37,13 @@ if not exist "node_modules" (
 )
 echo.
 
-:: ── Step 2: Python venv + pdf2docx ──────────
-echo   [93m[2/3][0m Setting up Python environment (pdf2docx)...
-if not exist "server\venv" (
-  where python >nul 2>nul
-  if errorlevel 1 (
-    echo         [93m!  Python not found -- PDF-to-DOCX feature will be unavailable[0m
-    echo         [93m   Install from https://www.python.org/downloads/[0m
-  ) else (
-    python -m venv server\venv
-    server\venv\Scripts\pip install --upgrade pip --quiet
-    server\venv\Scripts\pip install pdf2docx --quiet
-    echo         [92mv  Python venv created and pdf2docx installed[0m
-  )
+:: ── Step 2: Rust Backend Check ─────────────
+echo   [93m[2/3][0m Checking Rust environment...
+where cargo >nul 2>nul
+if errorlevel 1 (
+  echo         [93m!  Cargo not found -- ensure Rust is installed: https://rustup.rs[0m
 ) else (
-  echo         [92mv  Python venv already exists -- skipping[0m
+  echo         [92mv  Rust / Cargo verified[0m
 )
 echo.
 

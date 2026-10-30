@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-export default function DateSeparator({ date }) {
+export default React.memo(function DateSeparator({ date }) {
   const formattedDate = format(date, 'MMM d, yyyy');
   const dateKey = format(date, 'yyyy-MM-dd');
 
@@ -12,4 +12,4 @@ export default function DateSeparator({ date }) {
       <div className="line"></div>
     </div>
   );
-}
+});

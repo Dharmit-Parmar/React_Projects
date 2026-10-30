@@ -17,8 +17,8 @@ async function backendConvert(file, fromExt, toExt) {
   formData.append('file', file);
   formData.append('toExt', toExt);
 
-  // PDF→DOCX uses the Python pdf2docx route; everything else uses LibreOffice
-  const endpoint = (fromExt === 'pdf' && toExt === 'docx')
+  // PDF→DOCX and PDF→DOC use the Python pdf2docx route; everything else uses LibreOffice
+  const endpoint = (fromExt === 'pdf' && (toExt === 'docx' || toExt === 'doc'))
     ? '/api/convert/pdf-to-docx'
     : '/api/convert/libreoffice';
 
@@ -69,7 +69,7 @@ const FORMAT_INFO = {
 
 // ── Conversion matrix — what each format can be converted TO ──────────────────
 const CONVERSION_MAP = {
-  pdf:  ['docx', 'txt', 'png', 'jpg', 'html'],
+  pdf:  ['docx', 'doc', 'txt', 'png', 'jpg', 'html'],
   png:  ['pdf', 'jpg', 'webp', 'bmp'],
   jpg:  ['pdf', 'png', 'webp', 'bmp'],
   jpeg: ['pdf', 'png', 'webp', 'bmp'],
@@ -132,7 +132,10 @@ async function imageToImage(file, targetMime) {
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
   canvas.getContext('2d').drawImage(img, 0, 0);
-  return new Promise(res => canvas.toBlob(res, targetMime, 0.95));
+  const blob = await new Promise(res => canvas.toBlob(res, targetMime, 0.95));
+  canvas.width = 0;
+  canvas.height = 0;
+  return blob;
 }
 
 async function imageToPdf(file) {
@@ -150,6 +153,8 @@ async function imageToPdf(file) {
     canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
     canvas.getContext('2d').drawImage(img, 0, 0);
     const jpgBuf = await new Promise(res => canvas.toBlob(b => b.arrayBuffer().then(res), 'image/jpeg', 0.95));
+    canvas.width = 0;
+    canvas.height = 0;
     image = await pdfDoc.embedJpg(jpgBuf);
   }
   const { width, height } = image.scale(1);
@@ -163,51 +168,59 @@ async function imageToPdf(file) {
 async function pdfToImages(file, targetExt, onProgress) {
   const ab = await file.arrayBuffer();
   const pdfDoc = await pdfjsLib.getDocument({ data: ab }).promise;
-  const numPages = pdfDoc.numPages;
-  const blobs = [];
-  for (let i = 1; i <= numPages; i++) {
-    onProgress?.(i, numPages);
-    const page = await pdfDoc.getPage(i);
-    const vp = page.getViewport({ scale: 2 });
-    const canvas = document.createElement('canvas');
-    canvas.width = vp.width; canvas.height = vp.height;
-    await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
-    const mime = targetExt === 'png' ? 'image/png' : 'image/jpeg';
-    const blob = await new Promise(res => canvas.toBlob(res, mime, 0.92));
-    blobs.push({ blob, name: `page_${i}.${targetExt}` });
+  try {
+    const numPages = pdfDoc.numPages;
+    const blobs = [];
+    for (let i = 1; i <= numPages; i++) {
+      onProgress?.(i, numPages);
+      const page = await pdfDoc.getPage(i);
+      const vp = page.getViewport({ scale: 2 });
+      const canvas = document.createElement('canvas');
+      canvas.width = vp.width; canvas.height = vp.height;
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+      const mime = targetExt === 'png' ? 'image/png' : 'image/jpeg';
+      const blob = await new Promise(res => canvas.toBlob(res, mime, 0.92));
+      canvas.width = 0;
+      canvas.height = 0;
+      blobs.push({ blob, name: `page_${i}.${targetExt}` });
+    }
+    return blobs;
+  } finally {
+    try { pdfDoc.cleanup(); pdfDoc.destroy(); } catch (_) {}
   }
-  return blobs;
 }
 
 async function pdfToText(file, onProgress) {
   const ab = await file.arrayBuffer();
   const pdfDoc = await pdfjsLib.getDocument({ data: ab }).promise;
-  const numPages = pdfDoc.numPages;
-  let fullText = '';
+  try {
+    const numPages = pdfDoc.numPages;
+    let fullText = '';
 
-  for (let i = 1; i <= numPages; i++) {
-    onProgress?.(i, numPages);
-    const page = await pdfDoc.getPage(i);
+    for (let i = 1; i <= numPages; i++) {
+      onProgress?.(i, numPages);
+      const page = await pdfDoc.getPage(i);
 
-    // pdfjs-dist v5: getTextContent() uses `for await...of ReadableStream` internally,
-    // which crashes in browsers without ReadableStream async-iteration support.
-    // Use streamTextContent() + getReader() directly — works everywhere.
-    const stream = page.streamTextContent({ includeMarkedContent: false });
-    const reader = stream.getReader();
-    const pageItems = [];
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        if (value?.items) pageItems.push(...value.items);
+      // pdfjs-dist v5: streamTextContent() + getReader() directly
+      const stream = page.streamTextContent({ includeMarkedContent: false });
+      const reader = stream.getReader();
+      const pageItems = [];
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value?.items) pageItems.push(...value.items);
+        }
+      } finally {
+        reader.releaseLock();
       }
-    } finally {
-      reader.releaseLock();
-    }
 
-    fullText += pageItems.map(item => item.str ?? '').join(' ') + '\n\n';
+      fullText += pageItems.map(item => item.str ?? '').join(' ') + '\n\n';
+    }
+    return fullText;
+  } finally {
+    try { pdfDoc.cleanup(); pdfDoc.destroy(); } catch (_) {}
   }
-  return fullText;
 }
 
 async function pdfToTxtBlob(file, onProgress) {
@@ -363,26 +376,28 @@ async function htmlToPdf(file) {
   wrapper.appendChild(container);
   document.body.appendChild(wrapper);
 
-  const { default: html2canvas } = await import('html2canvas');
-  window.html2canvas = html2canvas;
+  try {
+    const { default: html2canvas } = await import('html2canvas');
+    window.html2canvas = html2canvas;
 
-  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
 
-  return new Promise((resolve, reject) => {
-    doc.html(container, {
-      callback: function (pdf) {
-        document.body.removeChild(wrapper);
-        resolve(new Blob([pdf.output('arraybuffer')], { type: 'application/pdf' }));
-      },
-      margin: [40, 40, 40, 40],
-      autoPaging: 'text',
-      windowWidth: 515,
-      width: 515
-    }).catch(err => {
-      document.body.removeChild(wrapper);
-      reject(err);
+    return await new Promise((resolve, reject) => {
+      doc.html(container, {
+        callback: function (pdf) {
+          resolve(new Blob([pdf.output('arraybuffer')], { type: 'application/pdf' }));
+        },
+        margin: [40, 40, 40, 40],
+        autoPaging: 'text',
+        windowWidth: 515,
+        width: 515
+      }).catch(reject);
     });
-  });
+  } finally {
+    if (wrapper.parentNode) {
+      wrapper.parentNode.removeChild(wrapper);
+    }
+  }
 }
 
 async function htmlToTxt(file) {
@@ -405,7 +420,10 @@ async function convertFile(file, fromExt, toExt, onProgress) {
     }
     if (toExt === 'txt')  { const b = await pdfToTxtBlob(file, onProgress); return { type: 'single', blob: b, filename: `${base}.txt` }; }
     if (toExt === 'html') { const b = await pdfToHtml(file, onProgress); return { type: 'single', blob: b, filename: `${base}.html` }; }
-    if (toExt === 'docx') { const b = await pdfToDocx(file, onProgress); return { type: 'single', blob: b, filename: `${base}.docx` }; }
+    if (toExt === 'docx' || toExt === 'doc') {
+      const b = await backendConvert(file, 'pdf', toExt);
+      return { type: 'single', blob: b, filename: `${base}.${toExt}` };
+    }
   }
 
   // IMAGE →
@@ -496,6 +514,7 @@ export default function FileConverter({ files, setFiles }) {
   const [resultBlobs, setResultBlobs] = useState(null);
   const [error, setError] = useState('');
   const [showMatrix, setShowMatrix] = useState(false);
+  const [customFilename, setCustomFilename] = useState('');
 
   // Whenever the active file changes (e.g. from global state), update formats
   React.useEffect(() => {
@@ -554,6 +573,7 @@ export default function FileConverter({ files, setFiles }) {
       const result = await convertFile(file, fromExt, toExt,
         (cur, tot) => setProgress({ current: cur, total: tot }));
       setResultBlobs(result);
+      setCustomFilename(result.type === 'images' ? `${result.base}_pages.zip` : result.filename);
       setState(STATE.DONE);
     } catch (err) {
       console.error(err);
@@ -564,10 +584,14 @@ export default function FileConverter({ files, setFiles }) {
 
   const handleDownload = async () => {
     if (!resultBlobs) return;
+    const finalName = customFilename.trim() || (resultBlobs.type === 'images' ? `${result.base}_pages.zip` : resultBlobs.filename);
     if (resultBlobs.type === 'images') {
-      await downloadImageBlobs(resultBlobs.blobs, resultBlobs.base);
+      const zip = new JSZip();
+      resultBlobs.blobs.forEach(({ blob, name }) => zip.file(name, blob));
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      triggerDownload(zipBlob, finalName.toLowerCase().endsWith('.zip') ? finalName : `${finalName}.zip`);
     } else {
-      triggerDownload(resultBlobs.blob, resultBlobs.filename);
+      triggerDownload(resultBlobs.blob, finalName);
     }
   };
 
@@ -722,20 +746,40 @@ export default function FileConverter({ files, setFiles }) {
 
       {/* ── Result card ───────────────────────────────────────── */}
       {state === STATE.DONE && resultBlobs && (
-        <div className="fc-result-card">
-          <CheckCircle2 size={22} style={{ color: '#10b981', flexShrink: 0 }} />
-          <div className="fc-result-info">
+        <div className="fc-result-card" style={{ flexWrap: 'wrap', gap: '12px' }}>
+          <CheckCircle2 size={24} style={{ color: '#10b981', flexShrink: 0 }} />
+          <div className="fc-result-info" style={{ flex: 1, minWidth: '220px' }}>
             <span className="fc-result-title">Conversion complete!</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px', marginBottom: '6px' }}>
+              <label style={{ fontSize: '0.8rem', color: '#94a3b8', whiteSpace: 'nowrap' }}>Rename file:</label>
+              <input
+                type="text"
+                value={customFilename}
+                onChange={e => setCustomFilename(e.target.value)}
+                placeholder="Enter file name"
+                style={{
+                  background: 'rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '6px',
+                  color: '#f8fafc',
+                  padding: '5px 10px',
+                  fontSize: '0.85rem',
+                  width: '100%',
+                  maxWidth: '280px',
+                  outline: 'none',
+                }}
+              />
+            </div>
             {resultBlobs.type === 'images' && (
               <span className="fc-result-sub">
                 {resultBlobs.blobs.length} page image{resultBlobs.blobs.length > 1 ? 's' : ''}
-                {resultBlobs.blobs.length > 1 ? ' — downloaded as ZIP' : ''}
+                {resultBlobs.blobs.length > 1 ? ' — ZIP archive' : ''}
                 {' · '}{formatBytes(downloadSize)}
               </span>
             )}
             {resultBlobs.type === 'single' && (
               <span className="fc-result-sub">
-                {resultBlobs.filename}{' · '}{formatBytes(downloadSize)}
+                Size: {formatBytes(downloadSize)}
               </span>
             )}
           </div>

@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { format } from 'date-fns';
+import DOMPurify from 'dompurify';
 
-export default function ChatBubble({ message, isSelf, showSenderName, searchQuery }) {
+export default React.memo(function ChatBubble({ message, isSelf, showSenderName, searchQuery }) {
   const [showTime, setShowTime] = useState(false);
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => { if (isSelf) setShowTime(true); else setShowTime(true); },
-    onSwipedRight: () => { setShowTime(false); },
+    onSwipedLeft: () => setShowTime(true),
+    onSwipedRight: () => setShowTime(false),
     trackMouse: false
   });
 
-  const timeString = format(message.timestamp, 'p'); // e.g. 10:30 AM
+  const timeString = format(message.timestamp, 'p');
 
-  // Helper function to highlight text
+  // Prevent ReDoS (Regular Expression Denial of Service)
+  const escapeRegExp = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
+
   const renderHighlightedText = (text, query) => {
-    if (!query || !query.trim()) return text;
+    // Sanitize content against XSS
+    const cleanText = DOMPurify.sanitize(text, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
+
+    if (!query || !query.trim()) return cleanText;
     
-    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    const safeQuery = escapeRegExp(query);
+    const parts = cleanText.split(new RegExp(`(${safeQuery})`, 'gi'));
+    
     return parts.map((part, i) => 
       part.toLowerCase() === query.toLowerCase() 
         ? <mark key={i} className="highlight">{part}</mark> 
@@ -60,4 +70,4 @@ export default function ChatBubble({ message, isSelf, showSenderName, searchQuer
       </div>
     </div>
   );
-}
+});

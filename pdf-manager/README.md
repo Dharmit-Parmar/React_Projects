@@ -83,14 +83,25 @@ CLOUDMERSIVE_API_KEY=your_free_api_key_here
 
 Get a free key at [cloudmersive.com](https://cloudmersive.com/).
 
-### 4. Start the App
+### 4. Start the Application
+
+You can start both the **Rust backend** and the **Vite frontend** with a single command:
 
 ```bash
-npm run dev:all
+npm run dev
 ```
 
 - **Frontend:** http://localhost:5173  
-- **Backend API:** http://localhost:3001
+- **Rust Backend:** http://localhost:3001
+
+Or start them individually:
+```bash
+# Start only the Rust backend (port 3001)
+npm run start-server
+
+# Start only the Vite frontend (port 5173)
+npm run dev:frontend
+```
 
 ---
 

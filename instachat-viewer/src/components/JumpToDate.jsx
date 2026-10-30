@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   format, 
   startOfMonth, 
@@ -187,15 +188,23 @@ export default function JumpToDate({ availableDates, onDateSelect }) {
         <CalendarIcon size={20} />
       </button>
       
-      {isOpen && (
-        <div className="date-dropdown calendar-dropdown">
-          <div className="calendar-container">
-            {renderHeader()}
-            {renderDays()}
-            {renderCells()}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.25 }}
+            className="date-dropdown calendar-dropdown"
+          >
+            <div className="calendar-container">
+              {renderHeader()}
+              {renderDays()}
+              {renderCells()}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

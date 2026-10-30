@@ -7,13 +7,15 @@ import PdfEditor from './components/PdfEditor';
 // that can fail at import time; this prevents a blank-screen crash.
 const FileConverter = lazy(() => import('./components/FileConverter'));
 const ImageEnhancer = lazy(() => import('./components/ImageEnhancer'));
+const WordEditor = lazy(() => import('./components/WordEditor'));
 
 const TABS = [
-  { id: 'merge',     label: 'Merge PDFs',       icon: '📄' },
-  { id: 'convert',   label: 'Convert & Merge',   icon: '🔄' },
-  { id: 'converter', label: 'File Converter',    icon: '⚡' },
-  { id: 'editor',    label: 'Edit PDF',          icon: '✍️' },
-  { id: 'enhancer',  label: 'Enhance Image',     icon: '✨' },
+  { id: 'merge',     label: 'Merge PDFs',        icon: '📄' },
+  { id: 'convert',   label: 'Convert & Merge',    icon: '🔄' },
+  { id: 'converter', label: 'File Converter',     icon: '⚡' },
+  { id: 'editor',    label: 'Edit PDF',           icon: '✍️' },
+  { id: 'word',      label: 'Word / Doc Editor',  icon: '📝' },
+  { id: 'enhancer',  label: 'Enhance Image',      icon: '✨' },
 ];
 
 function LoadingFallback() {
@@ -105,6 +107,13 @@ export default function App() {
         {activeTab === 'merge'     && <PdfMerger files={sharedFiles} setFiles={setSharedFiles} />}
         {activeTab === 'convert'   && <ConvertAndMerge files={sharedFiles} setFiles={setSharedFiles} />}
         {activeTab === 'editor'    && <PdfEditor files={sharedFiles} setFiles={setSharedFiles} />}
+        {activeTab === 'word'      && (
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+              <WordEditor />
+            </Suspense>
+          </ErrorBoundary>
+        )}
         {activeTab === 'converter' && (
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>

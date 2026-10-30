@@ -1,0 +1,123 @@
+{
+  "nodes": [
+    {
+      "id": "Doc:README",
+      "label": "README Documentation",
+      "source_file": "README.md",
+      "type": "document"
+    },
+    {
+      "id": "Feature:PDFMerge",
+      "label": "PDF Merger Feature",
+      "source_file": "README.md",
+      "type": "feature"
+    },
+    {
+      "id": "Feature:ConvertAndMerge",
+      "label": "Convert & Merge Feature",
+      "source_file": "README.md",
+      "type": "feature"
+    },
+    {
+      "id": "Feature:FileConverter",
+      "label": "File Converter Feature",
+      "source_file": "README.md",
+      "type": "feature"
+    },
+    {
+      "id": "Feature:PdfEditor",
+      "label": "Interactive PDF Editor",
+      "source_file": "README.md",
+      "type": "feature"
+    },
+    {
+      "id": "Feature:ImageEnhancer",
+      "label": "AI Image Super-Resolution",
+      "source_file": "README.md",
+      "type": "feature"
+    },
+    {
+      "id": "Backend:ExpressServer",
+      "label": "Express Backend API Server",
+      "source_file": "server/server.js",
+      "type": "service"
+    },
+    {
+      "id": "Backend:PdfToDocx",
+      "label": "Python PDF to DOCX Converter",
+      "source_file": "server/pdf_to_docx.py",
+      "type": "service"
+    },
+    {
+      "id": "Backend:ImageUpscaler",
+      "label": "Python OpenCV Super-Resolution",
+      "source_file": "server/enhance_image.py",
+      "type": "service"
+    },
+    {
+      "id": "Deploy:Docker",
+      "label": "Docker Container Deployment",
+      "source_file": "docker-compose.yml",
+      "type": "deployment"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Doc:README",
+      "target": "Feature:PDFMerge",
+      "relation": "documents",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Doc:README",
+      "target": "Feature:ConvertAndMerge",
+      "relation": "documents",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Doc:README",
+      "target": "Feature:FileConverter",
+      "relation": "documents",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Doc:README",
+      "target": "Feature:PdfEditor",
+      "relation": "documents",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Doc:README",
+      "target": "Feature:ImageEnhancer",
+      "relation": "documents",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Feature:FileConverter",
+      "target": "Backend:ExpressServer",
+      "relation": "calls_api",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Backend:ExpressServer",
+      "target": "Backend:PdfToDocx",
+      "relation": "executes_script",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Backend:ExpressServer",
+      "target": "Backend:ImageUpscaler",
+      "relation": "executes_script",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "Deploy:Docker",
+      "target": "Backend:ExpressServer",
+      "relation": "hosts",
+      "confidence": "EXTRACTED"
+    }
+  ],
+  "hyperedges": [],
+  "input_tokens": 1200,
+  "output_tokens": 450
+}

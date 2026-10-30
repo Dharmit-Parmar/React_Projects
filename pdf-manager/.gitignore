@@ -32,6 +32,14 @@ uploads/*
 
 # Environment variables
 .env
+.env.*
+
+# Graphify cache
+graphify-out/cache/
+
+# Rust build artifacts
+backend/target/
+**/target/
 
 # macOS app bundles (binary, rebuilt locally)
 *.app

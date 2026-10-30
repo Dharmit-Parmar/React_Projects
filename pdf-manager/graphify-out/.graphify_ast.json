@@ -1,0 +1,4166 @@
+{
+  "nodes": [
+    {
+      "id": "create_dummy",
+      "label": "create_dummy.js",
+      "file_type": "code",
+      "source_file": "create_dummy.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "create_dummy_doc",
+      "label": "doc",
+      "file_type": "code",
+      "source_file": "create_dummy.js",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_config",
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "package",
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_private",
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_start_server",
+      "label": "start-server",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev_all",
+      "label": "dev:all",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_build",
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_lint",
+      "label": "lint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_preview",
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies",
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_hello_pangea_dnd",
+      "label": "@hello-pangea/dnd",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "hello_pangea_dnd",
+      "label": "@hello-pangea/dnd",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_pdftron_webviewer",
+      "label": "@pdftron/webviewer",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "pdftron_webviewer",
+      "label": "@pdftron/webviewer",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_cloudmersive_convert_api_client",
+      "label": "cloudmersive-convert-api-client",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast"
+    },
+    {
+      "id": "cloudmersive_convert_api_client",
+      "label": "cloudmersive-convert-api-client",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_cors",
+      "label": "cors",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "cors",
+      "label": "cors",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_docx",
+      "label": "docx",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "docx",
+      "label": "docx",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_dotenv",
+      "label": "dotenv",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast"
+    },
+    {
+      "id": "dotenv",
+      "label": "dotenv",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_express",
+      "label": "express",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "express",
+      "label": "express",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_html2canvas",
+      "label": "html2canvas",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_json_html2canvas",
+      "label": "html2canvas",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_jspdf",
+      "label": "jspdf",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "jspdf",
+      "label": "jspdf",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_jszip",
+      "label": "jszip",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast"
+    },
+    {
+      "id": "jszip",
+      "label": "jszip",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_libreoffice_convert",
+      "label": "libreoffice-convert",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast"
+    },
+    {
+      "id": "libreoffice_convert",
+      "label": "libreoffice-convert",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_lucide_react",
+      "label": "lucide-react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast"
+    },
+    {
+      "id": "lucide_react",
+      "label": "lucide-react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_mammoth",
+      "label": "mammoth",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "mammoth",
+      "label": "mammoth",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_multer",
+      "label": "multer",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "_origin": "ast"
+    },
+    {
+      "id": "multer",
+      "label": "multer",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_pdf_lib",
+      "label": "pdf-lib",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "_origin": "ast"
+    },
+    {
+      "id": "pdf_lib",
+      "label": "pdf-lib",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_pdfjs_dist",
+      "label": "pdfjs-dist",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "_origin": "ast"
+    },
+    {
+      "id": "pdfjs_dist",
+      "label": "pdfjs-dist",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_pptx2json",
+      "label": "pptx2json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "_origin": "ast"
+    },
+    {
+      "id": "pptx2json",
+      "label": "pptx2json",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_react",
+      "label": "react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast"
+    },
+    {
+      "id": "react",
+      "label": "react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_react_dom",
+      "label": "react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "_origin": "ast"
+    },
+    {
+      "id": "react_dom",
+      "label": "react-dom",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_react_dropzone",
+      "label": "react-dropzone",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "_origin": "ast"
+    },
+    {
+      "id": "react_dropzone",
+      "label": "react-dropzone",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_spire_doc",
+      "label": "spire.doc",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "_origin": "ast"
+    },
+    {
+      "id": "spire_doc",
+      "label": "spire.doc",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies",
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint_js",
+      "label": "@eslint/js",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_js",
+      "label": "@eslint/js",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_types_react",
+      "label": "@types/react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L39",
+      "_origin": "ast"
+    },
+    {
+      "id": "types_react",
+      "label": "@types/react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L39",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_types_react_dom",
+      "label": "@types/react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L40",
+      "_origin": "ast"
+    },
+    {
+      "id": "types_react_dom",
+      "label": "@types/react-dom",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L40",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_vitejs_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L41",
+      "_origin": "ast"
+    },
+    {
+      "id": "vitejs_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L41",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_concurrently",
+      "label": "concurrently",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L42",
+      "_origin": "ast"
+    },
+    {
+      "id": "concurrently",
+      "label": "concurrently",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L42",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint",
+      "label": "eslint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L43",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint",
+      "label": "eslint",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L43",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint_plugin_react_hooks",
+      "label": "eslint-plugin-react-hooks",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L44",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_plugin_react_hooks",
+      "label": "eslint-plugin-react-hooks",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L44",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint_plugin_react_refresh",
+      "label": "eslint-plugin-react-refresh",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L45",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_plugin_react_refresh",
+      "label": "eslint-plugin-react-refresh",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L45",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_globals",
+      "label": "globals",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L46",
+      "_origin": "ast"
+    },
+    {
+      "id": "globals",
+      "label": "globals",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L46",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_vite",
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L47",
+      "_origin": "ast"
+    },
+    {
+      "id": "vite",
+      "label": "vite",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L47",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_enhance_image",
+      "label": "enhance_image.py",
+      "file_type": "code",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_enhance_image_enhance_image",
+      "label": "enhance_image()",
+      "file_type": "code",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L6",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "server_pdf_to_docx",
+      "label": "pdf_to_docx.py",
+      "file_type": "code",
+      "source_file": "server/pdf_to_docx.py",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_pdf_to_docx_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "server/pdf_to_docx.py",
+      "source_location": "L8",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "server_server",
+      "label": "server.js",
+      "file_type": "code",
+      "source_file": "server/server.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_server_filename",
+      "label": "__filename",
+      "file_type": "code",
+      "source_file": "server/server.js",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_server_dirname",
+      "label": "__dirname",
+      "file_type": "code",
+      "source_file": "server/server.js",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_server_app",
+      "label": "app",
+      "file_type": "code",
+      "source_file": "server/server.js",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "server_server_upload",
+      "label": "upload",
+      "file_type": "code",
+      "source_file": "server/server.js",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app",
+      "label": "App.jsx",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_fileconverter",
+      "label": "FileConverter",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_imageenhancer",
+      "label": "ImageEnhancer",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_tabs",
+      "label": "TABS",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_loadingfallback",
+      "label": "LoadingFallback()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L19",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_errorfallback",
+      "label": "ErrorFallback()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L28",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_errorboundary",
+      "label": "ErrorBoundary",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L39",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_errorboundary_constructor",
+      "label": ".constructor()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L40",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_errorboundary_getderivedstatefromerror",
+      "label": ".getDerivedStateFromError()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L41",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_errorboundary_render",
+      "label": ".render()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L42",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L48",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge",
+      "label": "ConvertAndMerge.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_status",
+      "label": "STATUS",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_backendconvert",
+      "label": "backendConvert()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L16",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_formatbytes",
+      "label": "formatBytes()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L40",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_getfilecategory",
+      "label": "getFileCategory()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L49",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_getdragstyle",
+      "label": "getDragStyle()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L62",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_getcategoryicon",
+      "label": "getCategoryIcon()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L82",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_getcategorybadge",
+      "label": "getCategoryBadge()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L94",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_converttexttopdf",
+      "label": "convertTextToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L113",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_convertimagetopdf",
+      "label": "convertImageToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L151",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_convertfiletopdfbytes",
+      "label": "convertFileToPdfBytes()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L200",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_convertandmerge_convertandmerge",
+      "label": "ConvertAndMerge()",
+      "file_type": "code",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L226",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter",
+      "label": "FileConverter.jsx",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_backendconvert",
+      "label": "backendConvert()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L15",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_format_info",
+      "label": "FORMAT_INFO",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L54",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_conversion_map",
+      "label": "CONVERSION_MAP",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L71",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_image_exts",
+      "label": "IMAGE_EXTS",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L87",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_doc_exts",
+      "label": "DOC_EXTS",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L88",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_ppt_exts",
+      "label": "PPT_EXTS",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L89",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_getext",
+      "label": "getExt()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L91",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_formatbytes",
+      "label": "formatBytes()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L95",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_triggerdownload",
+      "label": "triggerDownload()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L103",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_downloadimageblobs",
+      "label": "downloadImageBlobs()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L114",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_imagetoimage",
+      "label": "imageToImage()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L126",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_imagetopdf",
+      "label": "imageToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L138",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pdftoimages",
+      "label": "pdfToImages()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L163",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pdftotext",
+      "label": "pdfToText()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L182",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pdftotxtblob",
+      "label": "pdfToTxtBlob()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L213",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pdftohtml",
+      "label": "pdfToHtml()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L218",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pdftodocx",
+      "label": "pdfToDocx()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L227",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_txttopdf",
+      "label": "txtToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L234",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_txttodocx",
+      "label": "txtToDocx()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L253",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_txttohtml",
+      "label": "txtToHtml()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L259",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_docxtopdf",
+      "label": "docxToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L269",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_docxtotxt",
+      "label": "docxToTxt()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L274",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_docxtohtml",
+      "label": "docxToHtml()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L280",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_extractpptxtext",
+      "label": "extractPptxText()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L288",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pptxtotxt",
+      "label": "pptxToTxt()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L311",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pptxtopdf",
+      "label": "pptxToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L316",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_pptxtohtml",
+      "label": "pptxToHtml()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L321",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_htmltopdf",
+      "label": "htmlToPdf()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L349",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_htmltotxt",
+      "label": "htmlToTxt()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L388",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_convertfile",
+      "label": "convertFile()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L396",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_fmtbadge",
+      "label": "FmtBadge()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L450",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_conversionmatrix",
+      "label": "ConversionMatrix()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L463",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_state",
+      "label": "STATE",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L484",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_fileconverter_fileconverter",
+      "label": "FileConverter()",
+      "file_type": "code",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L486",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "html2canvas_html2canvas",
+      "label": "html2canvas",
+      "file_type": "code",
+      "source_file": "html2canvas",
+      "confidence": "EXTRACTED",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_imageenhancer",
+      "label": "ImageEnhancer.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ImageEnhancer.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_imageenhancer_imageenhancer",
+      "label": "ImageEnhancer()",
+      "file_type": "code",
+      "source_file": "src/components/ImageEnhancer.jsx",
+      "source_location": "L5",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfeditor",
+      "label": "PdfEditor.jsx",
+      "file_type": "code",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfeditor_tools",
+      "label": "TOOLS",
+      "file_type": "code",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfeditor_applytransform",
+      "label": "applyTransform()",
+      "file_type": "code",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L26",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfeditor_hextorgb",
+      "label": "hexToRgb()",
+      "file_type": "code",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L37",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfeditor_getstandardfontname",
+      "label": "getStandardFontName()",
+      "file_type": "code",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L44",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfeditor_pdfeditor",
+      "label": "PdfEditor()",
+      "file_type": "code",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L64",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfmerger",
+      "label": "PdfMerger.jsx",
+      "file_type": "code",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfmerger_formatbytes",
+      "label": "formatBytes()",
+      "file_type": "code",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L7",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfmerger_getdragstyle",
+      "label": "getDragStyle()",
+      "file_type": "code",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L20",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_pdfmerger_pdfmerger",
+      "label": "PdfMerger()",
+      "file_type": "code",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L40",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_main",
+      "label": "main.jsx",
+      "file_type": "code",
+      "source_file": "src/main.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "test_docx_pdf",
+      "label": "test-docx-pdf.js",
+      "file_type": "code",
+      "source_file": "test-docx-pdf.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "vite_config",
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "vite.config.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    }
+  ],
+  "edges": [
+    {
+      "source": "create_dummy",
+      "target": "ref_docx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "create_dummy.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "create_dummy",
+      "target": "ref_fs",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "create_dummy.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "create_dummy",
+      "target": "create_dummy_doc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "create_dummy.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_js",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_globals",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_plugin_react_hooks",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_plugin_react_refresh",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_private",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_start_server",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev_all",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_lint",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_hello_pangea_dnd",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_hello_pangea_dnd",
+      "target": "hello_pangea_dnd",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_pdftron_webviewer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_pdftron_webviewer",
+      "target": "pdftron_webviewer",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_cloudmersive_convert_api_client",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_cloudmersive_convert_api_client",
+      "target": "cloudmersive_convert_api_client",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_cors",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_cors",
+      "target": "cors",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_docx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_docx",
+      "target": "docx",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_dotenv",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_dotenv",
+      "target": "dotenv",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_express",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_express",
+      "target": "express",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_html2canvas",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_html2canvas",
+      "target": "package_json_html2canvas",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_jspdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_jspdf",
+      "target": "jspdf",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_jszip",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_jszip",
+      "target": "jszip",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_libreoffice_convert",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_libreoffice_convert",
+      "target": "libreoffice_convert",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_lucide_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_lucide_react",
+      "target": "lucide_react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_mammoth",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_mammoth",
+      "target": "mammoth",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_multer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_multer",
+      "target": "multer",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_pdf_lib",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_pdf_lib",
+      "target": "pdf_lib",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_pdfjs_dist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_pdfjs_dist",
+      "target": "pdfjs_dist",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_pptx2json",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_pptx2json",
+      "target": "pptx2json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_react",
+      "target": "react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_dom",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_react_dom",
+      "target": "react_dom",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_dropzone",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_react_dropzone",
+      "target": "react_dropzone",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_spire_doc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_spire_doc",
+      "target": "spire_doc",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_devdependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_js",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint_js",
+      "target": "eslint_js",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_types_react",
+      "target": "types_react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react_dom",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_types_react_dom",
+      "target": "types_react_dom",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vitejs_plugin_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_vitejs_plugin_react",
+      "target": "vitejs_plugin_react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_concurrently",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_concurrently",
+      "target": "concurrently",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint",
+      "target": "eslint",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_plugin_react_hooks",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint_plugin_react_hooks",
+      "target": "eslint_plugin_react_hooks",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_plugin_react_refresh",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint_plugin_react_refresh",
+      "target": "eslint_plugin_react_refresh",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_globals",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_globals",
+      "target": "globals",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vite",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_vite",
+      "target": "vite",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "server_enhance_image",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_enhance_image",
+      "target": "cv2",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_enhance_image",
+      "target": "numpy",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_enhance_image",
+      "target": "os",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_enhance_image",
+      "target": "server_enhance_image_enhance_image",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/enhance_image.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_pdf_to_docx",
+      "target": "sys",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/pdf_to_docx.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_pdf_to_docx",
+      "target": "logging",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/pdf_to_docx.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_pdf_to_docx",
+      "target": "pdf2docx",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/pdf_to_docx.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_pdf_to_docx",
+      "target": "server_pdf_to_docx_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/pdf_to_docx.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_express",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_cors",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_multer",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_libreoffice_convert",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_fs",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_path",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_child_process",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_url",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "ref_dotenv",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "server_server_filename",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "server_server_dirname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "server_server_app",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "server_server",
+      "target": "server_server_upload",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "server/server.js",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_pdfmerger",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_convertandmerge",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_pdfeditor",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_fileconverter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_imageenhancer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_tabs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_loadingfallback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_errorfallback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_errorboundary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app_errorboundary",
+      "target": "src_app_errorboundary_constructor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app_errorboundary",
+      "target": "src_app_errorboundary_getderivedstatefromerror",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app_errorboundary",
+      "target": "src_app_errorboundary_render",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_app",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app_fileconverter",
+      "target": "src_components_fileconverter",
+      "relation": "imports_from",
+      "context": "import",
+      "deferred": true,
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app_imageenhancer",
+      "target": "src_components_imageenhancer",
+      "relation": "imports_from",
+      "context": "import",
+      "deferred": true,
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_fileconverter",
+      "relation": "dynamic_import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_imageenhancer",
+      "relation": "dynamic_import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "ref_react_dropzone",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "ref_hello_pangea_dnd",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "ref_pdf_lib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_status",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_backendconvert",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_formatbytes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_getfilecategory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_getdragstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_getcategoryicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_getcategorybadge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_converttexttopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_convertimagetopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L151",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_convertfiletopdfbytes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L200",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge",
+      "target": "src_components_convertandmerge_convertandmerge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L226",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertfiletopdfbytes",
+      "target": "src_components_convertandmerge_convertimagetopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L206",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertfiletopdfbytes",
+      "target": "src_components_convertandmerge_converttexttopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L210",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertfiletopdfbytes",
+      "target": "src_components_convertandmerge_backendconvert",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L216",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertandmerge",
+      "target": "src_components_convertandmerge_getfilecategory",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L267",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertandmerge",
+      "target": "src_components_convertandmerge_convertfiletopdfbytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L339",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertandmerge",
+      "target": "src_components_convertandmerge_getdragstyle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L489",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertandmerge",
+      "target": "src_components_convertandmerge_getcategoryicon",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L501",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertandmerge",
+      "target": "src_components_convertandmerge_formatbytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L507",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_convertandmerge_convertandmerge",
+      "target": "src_components_convertandmerge_getcategorybadge",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ConvertAndMerge.jsx",
+      "source_location": "L508",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_react_dropzone",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_pdfjs_dist",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_pdfjs_dist_build_pdf_worker_min_mjs_url",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_mammoth",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_jspdf",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_jszip",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_pdf_lib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_backendconvert",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_format_info",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_conversion_map",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_image_exts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_doc_exts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_ppt_exts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_getext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_formatbytes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L95",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_triggerdownload",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L103",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_downloadimageblobs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_imagetoimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L126",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_imagetopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L138",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pdftoimages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L163",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pdftotext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L182",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pdftotxtblob",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L213",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pdftohtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L218",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pdftodocx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L227",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_txttopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L234",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_txttodocx",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L253",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_txttohtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L259",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_docxtopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L269",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_docxtotxt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L274",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_docxtohtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L280",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_extractpptxtext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L288",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pptxtotxt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L311",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pptxtopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L316",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_pptxtohtml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L321",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_htmltopdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L349",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_htmltotxt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L388",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_convertfile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L396",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_fmtbadge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L450",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_conversionmatrix",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L463",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_state",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L484",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "src_components_fileconverter_fileconverter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L486",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_downloadimageblobs",
+      "target": "src_components_fileconverter_triggerdownload",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L116",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_pdftotxtblob",
+      "target": "src_components_fileconverter_pdftotext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L214",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_pdftohtml",
+      "target": "src_components_fileconverter_pdftotext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L219",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_pdftodocx",
+      "target": "src_components_fileconverter_backendconvert",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L229",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_txttodocx",
+      "target": "src_components_fileconverter_backendconvert",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L255",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_docxtopdf",
+      "target": "src_components_fileconverter_backendconvert",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L270",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_pptxtotxt",
+      "target": "src_components_fileconverter_extractpptxtext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L312",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_pptxtopdf",
+      "target": "src_components_fileconverter_backendconvert",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L317",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_pptxtohtml",
+      "target": "src_components_fileconverter_extractpptxtext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L322",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_htmltopdf",
+      "target": "ref_html2canvas",
+      "relation": "imports_from",
+      "context": "import",
+      "deferred": true,
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L366",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pdftoimages",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L403",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pdftotxtblob",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L406",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pdftohtml",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L407",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pdftodocx",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L408",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_imagetopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L413",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_imagetoimage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L414",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_docxtopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L419",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_docxtotxt",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L420",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_docxtohtml",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L421",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_backendconvert",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L422",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_txttopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L427",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_txttodocx",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L428",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_txttohtml",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L429",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pptxtopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L434",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pptxtotxt",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L435",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_pptxtohtml",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L436",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_htmltopdf",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L442",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_convertfile",
+      "target": "src_components_fileconverter_htmltotxt",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L443",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_fileconverter",
+      "target": "src_components_fileconverter_getext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L503",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_fileconverter",
+      "target": "src_components_fileconverter_convertfile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L554",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_fileconverter",
+      "target": "src_components_fileconverter_downloadimageblobs",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L568",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_fileconverter",
+      "target": "src_components_fileconverter_triggerdownload",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L570",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter_fileconverter",
+      "target": "src_components_fileconverter_formatbytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "source_location": "L633",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_fileconverter",
+      "target": "html2canvas",
+      "relation": "dynamic_import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileConverter.jsx",
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_imageenhancer",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ImageEnhancer.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_imageenhancer",
+      "target": "ref_react_dropzone",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ImageEnhancer.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_imageenhancer",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ImageEnhancer.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_imageenhancer",
+      "target": "src_components_imageenhancer_imageenhancer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ImageEnhancer.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "ref_react_dom",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "ref_pdfjs_dist",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "ref_pdf_lib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "src_components_pdfeditor_tools",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "src_components_pdfeditor_applytransform",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "src_components_pdfeditor_hextorgb",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "src_components_pdfeditor_getstandardfontname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor",
+      "target": "src_components_pdfeditor_pdfeditor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor_pdfeditor",
+      "target": "src_components_pdfeditor_applytransform",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L217",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor_pdfeditor",
+      "target": "src_components_pdfeditor_hextorgb",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L490",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfeditor_pdfeditor",
+      "target": "src_components_pdfeditor_getstandardfontname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfEditor.jsx",
+      "source_location": "L495",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "ref_react_dropzone",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "ref_hello_pangea_dnd",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "ref_pdf_lib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "src_components_pdfmerger_formatbytes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "src_components_pdfmerger_getdragstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger",
+      "target": "src_components_pdfmerger_pdfmerger",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger_pdfmerger",
+      "target": "src_components_pdfmerger_getdragstyle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L166",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_pdfmerger_pdfmerger",
+      "target": "src_components_pdfmerger_formatbytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/PdfMerger.jsx",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "ref_react_dom_client",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_index",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_app",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "test_docx_pdf",
+      "target": "ref_fs",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "test-docx-pdf.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "test_docx_pdf",
+      "target": "ref_jspdf",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "test-docx-pdf.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "test_docx_pdf",
+      "target": "ref_pdf_lib",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "test-docx-pdf.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "test_docx_pdf",
+      "target": "ref_mammoth",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "test-docx-pdf.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "vite_config",
+      "target": "ref_vite",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "vite_config",
+      "target": "ref_vitejs_plugin_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_pdfmerger_pdfmerger",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_convertandmerge_convertandmerge",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_pdfeditor_pdfeditor",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_app_app",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "failed_sources": []
+}

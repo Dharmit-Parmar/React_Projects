@@ -4,9 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "start-server": "node server/server.js",
-    "dev:all": "concurrently \"npm run start-server\" \"npm run dev\"",
+    "dev:backend": "cargo run --manifest-path backend/Cargo.toml --release",
+    "dev:frontend": "vite --host",
+    "dev": "concurrently -k -p \"[{name}]\" -n \"backend,frontend\" -c \"cyan,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "start-server": "cargo run --manifest-path backend/Cargo.toml --release",
+    "stop": "npx --yes kill-port 3001 5173 || lsof -ti:3001,5173 | xargs kill -9 2>/dev/null || true",
+    "dev:all": "npm run dev",
+    "build:backend": "cd backend && cargo build --release",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
