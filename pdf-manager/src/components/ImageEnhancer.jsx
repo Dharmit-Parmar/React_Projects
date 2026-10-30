@@ -1,19 +1,32 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import {
   Sparkles, Download, ImageIcon, RefreshCw, ZoomIn, ZoomOut,
-  Maximize2, SplitSquareVertical, Columns, AlertCircle, FileImage
+  Maximize2, SplitSquareVertical, Columns, AlertCircle, FileImage, Check
 } from 'lucide-react';
+import { useImageProcessor } from '../hooks/useImageProcessor';
 
 export default function ImageEnhancer() {
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [enhancedPreview, setEnhancedPreview] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [error, setError] = useState(null);
+  const {
+    file,
+    previewUrl,
+    enhancedUrl,
+    setEnhancedUrl,
+    enhancedRef,
+    isProcessing,
+    setIsProcessing,
+    progress,
+    setProgress,
+    error,
+    setError,
+    origInfo,
+    enhInfo,
+    setEnhInfo,
+    loadFile,
+    reset,
+  } = useImageProcessor();
 
-  // Settings: Simple, Ponytail-style (no confusing dials)
+  // Settings: Simple, Ponytail-style
   const [scale, setScale] = useState('2x'); // '1x' | '2x' | '4x'
   const [customFilename, setCustomFilename] = useState('');
 
@@ -22,59 +35,21 @@ export default function ImageEnhancer() {
   const [sliderPos, setSliderPos] = useState(50);
   const [zoomLevel, setZoomLevel] = useState(1); // 1 = fit, 2 = 100% actual pixels, 3 = 200%
 
-  // Image metadata
-  const [origInfo, setOrigInfo] = useState({ width: 0, height: 0, bytes: 0 });
-  const [enhInfo, setEnhInfo] = useState({ width: 0, height: 0, bytes: 0 });
-
-  // Persistent URL refs to prevent accidental revoking
-  const previewUrlRef = useRef(null);
-  const enhancedUrlRef = useRef(null);
   const origContainerRef = useRef(null);
   const enhContainerRef = useRef(null);
-
-  // Clean up object URLs ONLY on unmount
-  useEffect(() => {
-    return () => {
-      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
-      if (enhancedUrlRef.current) URL.revokeObjectURL(enhancedUrlRef.current);
-    };
-  }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles?.length > 0) {
       const selected = acceptedFiles[0];
       if (selected.type.startsWith('image/')) {
-        // Revoke only previous URLs when a new file is dropped
-        if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
-        if (enhancedUrlRef.current) URL.revokeObjectURL(enhancedUrlRef.current);
-
-        setFile(selected);
+        loadFile(selected);
         const base = selected.name.replace(/\.[^/.]+$/, '');
         setCustomFilename(`${base}_enhanced`);
-
-        const objUrl = URL.createObjectURL(selected);
-        previewUrlRef.current = objUrl;
-        setPreview(objUrl);
-
-        const img = new Image();
-        img.onload = () => {
-          setOrigInfo({
-            width: img.width,
-            height: img.height,
-            bytes: selected.size,
-          });
-        };
-        img.src = objUrl;
-
-        setEnhancedPreview(null);
-        enhancedUrlRef.current = null;
-        setEnhInfo({ width: 0, height: 0, bytes: 0 });
-        setError(null);
       } else {
         setError('Please drop a valid image file (JPG, PNG, WebP).');
       }
     }
-  }, []);
+  }, [loadFile, setError]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -122,11 +97,11 @@ export default function ImageEnhancer() {
       }
 
       const blob = await response.blob();
-      if (enhancedUrlRef.current) URL.revokeObjectURL(enhancedUrlRef.current);
+      if (enhancedRef.current) URL.revokeObjectURL(enhancedRef.current);
 
       const objectUrl = URL.createObjectURL(blob);
-      enhancedUrlRef.current = objectUrl;
-      setEnhancedPreview(objectUrl);
+      enhancedRef.current = objectUrl;
+      setEnhancedUrl(objectUrl);
 
       const img = new Image();
       img.onload = () => {
@@ -152,9 +127,9 @@ export default function ImageEnhancer() {
   };
 
   const handleDownload = () => {
-    if (!enhancedPreview) return;
+    if (!enhancedUrl) return;
     const a = document.createElement('a');
-    a.href = enhancedPreview;
+    a.href = enhancedUrl;
     a.download = customFilename.trim() || 'enhanced-image.jpg';
     a.click();
   };
@@ -183,30 +158,30 @@ export default function ImageEnhancer() {
           <span style={{ fontWeight: 600 }}>Pure Rust Ultra HD Image Enhancer & Upscaler</span>
         </div>
         <span style={{ fontSize: '0.74rem', background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', padding: '3px 8px', borderRadius: '4px', fontWeight: 600 }}>
-          ⚡ High Speed • High Fidelity
+          High Speed • High Fidelity
         </span>
       </div>
 
       {/* Upload Dropzone */}
-      {!preview && (
+      {!previewUrl && (
         <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`} style={{ padding: '48px 24px' }}>
           <input {...getInputProps()} />
-          <ImageIcon size={48} className="dropzone-icon" color="#818cf8" />
+          <ImageIcon size={48} className="dropzone-icon" color="#3b82f6" />
           <div className="dropzone-text" style={{ fontSize: '1.1rem', marginTop: '12px', fontWeight: 600 }}>
-            {isDragActive ? 'Drop image here...' : 'Drag & drop your photo or wallpaper here'}
+            {isDragActive ? 'Drop image here...' : 'Drag and drop your photo or wallpaper here'}
           </div>
           <div className="dropzone-subtext" style={{ marginTop: '6px', color: '#94a3b8' }}>
-            Supports JPG, PNG, and WebP images of any size
+            Supports JPG, PNG, and WebP images of any resolution
           </div>
         </div>
       )}
 
       {/* Active File Card */}
-      {preview && (
+      {previewUrl && (
         <div className="fc-file-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
-            <div className="fc-file-icon" style={{ background: 'rgba(99, 102, 241, 0.15)', padding: '10px', borderRadius: '8px' }}>
-              <FileImage size={24} color="#818cf8" />
+            <div className="fc-file-icon" style={{ background: 'rgba(37, 99, 235, 0.12)', padding: '10px', borderRadius: '8px' }}>
+              <FileImage size={24} color="#3b82f6" />
             </div>
             <div className="fc-file-info" style={{ minWidth: 0 }}>
               <div className="fc-file-name" style={{ fontWeight: 600, color: '#f8fafc' }}>{file?.name}</div>
@@ -217,13 +192,7 @@ export default function ImageEnhancer() {
           </div>
           <button
             className="remove-btn"
-            onClick={() => {
-              if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
-              if (enhancedUrlRef.current) URL.revokeObjectURL(enhancedUrlRef.current);
-              setFile(null);
-              setPreview(null);
-              setEnhancedPreview(null);
-            }}
+            onClick={reset}
             disabled={isProcessing}
             title="Upload different image"
             style={{ padding: '6px 14px', fontSize: '0.84rem' }}
@@ -240,9 +209,9 @@ export default function ImageEnhancer() {
         </div>
       )}
 
-      {/* Upscale Controls (Before / During Enhancement) */}
-      {preview && !isProcessing && !enhancedPreview && (
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
+      {/* Upscale Controls (Before Enhancement) */}
+      {previewUrl && !isProcessing && !enhancedUrl && (
+        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
           <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#f1f5f9', marginBottom: '14px' }}>
             Select Desired Upscale Level:
           </div>
@@ -265,15 +234,15 @@ export default function ImageEnhancer() {
                     textAlign: 'left',
                     padding: '14px 16px',
                     borderRadius: '8px',
-                    border: `1.5px solid ${isSelected ? '#818cf8' : 'rgba(255,255,255,0.08)'}`,
-                    background: isSelected ? 'rgba(99, 102, 241, 0.2)' : 'rgba(0,0,0,0.2)',
+                    border: `1.5px solid ${isSelected ? '#2563eb' : 'rgba(255,255,255,0.08)'}`,
+                    background: isSelected ? 'rgba(37, 99, 235, 0.12)' : 'rgba(0,0,0,0.2)',
                     cursor: 'pointer',
                     transition: 'all 0.15s ease',
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                     <span style={{ fontSize: '0.95rem', fontWeight: 700, color: isSelected ? '#fff' : '#cbd5e1' }}>{opt.label}</span>
-                    <span style={{ fontSize: '0.68rem', padding: '2px 6px', borderRadius: '4px', background: isSelected ? '#6366f1' : 'rgba(255,255,255,0.06)', color: '#fff', fontWeight: 600 }}>
+                    <span style={{ fontSize: '0.68rem', padding: '2px 6px', borderRadius: '4px', background: isSelected ? '#2563eb' : 'rgba(255,255,255,0.06)', color: '#fff', fontWeight: 600 }}>
                       {opt.badge}
                     </span>
                   </div>
@@ -281,7 +250,7 @@ export default function ImageEnhancer() {
                     {opt.desc}
                   </div>
                   {origInfo.width > 0 && (
-                    <div style={{ fontSize: '0.72rem', color: isSelected ? '#a5b4fc' : '#64748b', fontWeight: 600 }}>
+                    <div style={{ fontSize: '0.72rem', color: isSelected ? '#93c5fd' : '#64748b', fontWeight: 600 }}>
                       Output: {targetW} × {targetH} px
                     </div>
                   )}
@@ -314,13 +283,13 @@ export default function ImageEnhancer() {
 
       {/* Progress Bar */}
       {isProcessing && (
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '24px', margin: '20px 0' }}>
+        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '24px', margin: '20px 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.86rem' }}>
             <span style={{ color: '#e2e8f0', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Sparkles size={16} className="warn-text" />
               Upscaling and enhancing image in pure Rust...
             </span>
-            <span style={{ fontWeight: 700, color: '#818cf8' }}>{progress}%</span>
+            <span style={{ fontWeight: 700, color: '#3b82f6' }}>{progress}%</span>
           </div>
           <div className="fc-progress-track" style={{ height: '8px', borderRadius: '4px', background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
             <div
@@ -328,7 +297,7 @@ export default function ImageEnhancer() {
               style={{
                 width: `${progress}%`,
                 height: '100%',
-                background: 'linear-gradient(90deg, #6366f1, #a855f7)',
+                background: '#2563eb',
                 transition: 'width 0.25s ease',
               }}
             />
@@ -337,8 +306,8 @@ export default function ImageEnhancer() {
       )}
 
       {/* Comparison Suite (When Enhanced) */}
-      {preview && enhancedPreview && (
-        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
+      {previewUrl && enhancedUrl && (
+        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
           
           {/* Controls Bar: Mode Switcher + Zoom Level */}
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '16px' }}>
@@ -353,7 +322,7 @@ export default function ImageEnhancer() {
                   padding: '7px 14px',
                   borderRadius: '6px',
                   border: 'none',
-                  background: comparisonMode === 'split' ? '#6366f1' : 'rgba(255,255,255,0.06)',
+                  background: comparisonMode === 'split' ? '#2563eb' : 'rgba(255,255,255,0.06)',
                   color: comparisonMode === 'split' ? '#fff' : '#94a3b8',
                   fontSize: '0.8rem',
                   fontWeight: 600,
@@ -361,7 +330,7 @@ export default function ImageEnhancer() {
                 }}
               >
                 <SplitSquareVertical size={15} />
-                ↔️ Split Wipe Slider
+                Split Wipe Slider
               </button>
 
               <button
@@ -374,7 +343,7 @@ export default function ImageEnhancer() {
                   padding: '7px 14px',
                   borderRadius: '6px',
                   border: 'none',
-                  background: comparisonMode === 'side' ? '#6366f1' : 'rgba(255,255,255,0.06)',
+                  background: comparisonMode === 'side' ? '#2563eb' : 'rgba(255,255,255,0.06)',
                   color: comparisonMode === 'side' ? '#fff' : '#94a3b8',
                   fontSize: '0.8rem',
                   fontWeight: 600,
@@ -382,7 +351,7 @@ export default function ImageEnhancer() {
                 }}
               >
                 <Columns size={15} />
-                🪟 Side-by-Side Dual View
+                Side-by-Side Dual View
               </button>
             </div>
 
@@ -391,7 +360,7 @@ export default function ImageEnhancer() {
               <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Inspection View:</span>
               {[
                 { level: 1, label: 'Fit to Screen' },
-                { level: 2, label: '🔍 100% Actual Pixels' },
+                { level: 2, label: '100% Actual Pixels' },
                 { level: 3, label: '200% Zoom' },
               ].map(z => (
                 <button
@@ -402,7 +371,7 @@ export default function ImageEnhancer() {
                     padding: '5px 10px',
                     borderRadius: '6px',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    background: zoomLevel === z.level ? 'rgba(99, 102, 241, 0.25)' : 'rgba(0,0,0,0.2)',
+                    background: zoomLevel === z.level ? 'rgba(37, 99, 235, 0.25)' : 'rgba(0,0,0,0.2)',
                     color: zoomLevel === z.level ? '#fff' : '#94a3b8',
                     fontSize: '0.74rem',
                     fontWeight: 600,
@@ -424,7 +393,7 @@ export default function ImageEnhancer() {
                 maxHeight: zoomLevel === 1 ? '600px' : 'none',
                 overflow: zoomLevel === 1 ? 'hidden' : 'auto',
                 borderRadius: '8px',
-                border: '1px solid var(--glass-border)',
+                border: '1px solid var(--border-subtle)',
                 background: '#0a0a0c',
                 display: 'flex',
                 alignItems: 'center',
@@ -434,7 +403,7 @@ export default function ImageEnhancer() {
               <div style={{ position: 'relative', width: zoomLevel === 1 ? '100%' : `${zoomLevel * 100}%` }}>
                 {/* Enhanced Image (Background) */}
                 <img
-                  src={enhancedPreview}
+                  src={enhancedUrl}
                   alt="Enhanced"
                   style={{
                     width: '100%',
@@ -449,7 +418,7 @@ export default function ImageEnhancer() {
 
                 {/* Original Image (Foreground with Clip) */}
                 <img
-                  src={preview}
+                  src={previewUrl}
                   alt="Original"
                   style={{
                     position: 'absolute',
@@ -514,12 +483,10 @@ export default function ImageEnhancer() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       boxShadow: '0 0 10px rgba(0,0,0,0.5)',
-                      color: '#6366f1',
+                      color: '#2563eb',
                     }}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 8l4 4-4 4M6 16l-4-4 4-4"></path>
-                    </svg>
+                    <SplitSquareVertical size={16} />
                   </div>
                 </div>
 
@@ -538,8 +505,8 @@ export default function ImageEnhancer() {
           {comparisonMode === 'side' && (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               {/* Left Column: Original Image */}
-              <div style={{ border: '1px solid var(--glass-border)', borderRadius: '8px', overflow: 'hidden', background: '#0a0a0c' }}>
-                <div style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ border: '1px solid var(--border-subtle)', borderRadius: '8px', overflow: 'hidden', background: '#0a0a0c' }}>
+                <div style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontWeight: 600, color: '#cbd5e1', fontSize: '0.82rem' }}>Original Image</span>
                   <span style={{ fontSize: '0.75rem', color: '#94a3b8', background: 'rgba(255,255,255,0.06)', padding: '2px 6px', borderRadius: '3px' }}>
                     {origInfo.width} × {origInfo.height} px ({formatSize(origInfo.bytes)})
@@ -558,7 +525,7 @@ export default function ImageEnhancer() {
                   }}
                 >
                   <img
-                    src={preview}
+                    src={previewUrl}
                     alt="Original Image"
                     style={{
                       width: zoomLevel === 1 ? '100%' : `${origInfo.width * (zoomLevel === 3 ? 2 : 1)}px`,
@@ -572,9 +539,9 @@ export default function ImageEnhancer() {
               </div>
 
               {/* Right Column: Enhanced Image */}
-              <div style={{ border: '1.5px solid rgba(99, 102, 241, 0.4)', borderRadius: '8px', overflow: 'hidden', background: '#0a0a0c' }}>
-                <div style={{ padding: '10px 14px', background: 'rgba(99, 102, 241, 0.12)', borderBottom: '1px solid rgba(99, 102, 241, 0.3)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontWeight: 700, color: '#a5b4fc', fontSize: '0.82rem' }}>Ultra HD Enhanced ({scale})</span>
+              <div style={{ border: '1.5px solid rgba(37, 99, 235, 0.4)', borderRadius: '8px', overflow: 'hidden', background: '#0a0a0c' }}>
+                <div style={{ padding: '10px 14px', background: 'rgba(37, 99, 235, 0.08)', borderBottom: '1px solid rgba(37, 99, 235, 0.25)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 700, color: '#93c5fd', fontSize: '0.82rem' }}>Ultra HD Enhanced ({scale})</span>
                   <span style={{ fontSize: '0.75rem', color: '#4ade80', background: 'rgba(34, 197, 94, 0.15)', padding: '2px 6px', borderRadius: '3px', fontWeight: 700 }}>
                     {enhInfo.width} × {enhInfo.height} px ({formatSize(enhInfo.bytes)})
                   </span>
@@ -591,7 +558,7 @@ export default function ImageEnhancer() {
                   }}
                 >
                   <img
-                    src={enhancedPreview}
+                    src={enhancedUrl}
                     alt="Enhanced Image"
                     style={{
                       width: zoomLevel === 1 ? '100%' : `${enhInfo.width * (zoomLevel === 3 ? 0.5 : 0.25) * (zoomLevel === 3 ? 2 : 1)}px`,
@@ -606,7 +573,7 @@ export default function ImageEnhancer() {
             </div>
           )}
 
-          {/* Simple, Clear Resolution Comparison Banner */}
+          {/* Clean Technical Resolution Metrics Banner */}
           <div
             style={{
               display: 'grid',
@@ -632,13 +599,13 @@ export default function ImageEnhancer() {
               <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#4ade80', marginTop: '2px' }}>
                 {enhInfo.width} × {enhInfo.height} px
               </div>
-              <div style={{ fontSize: '0.74rem', color: '#a5b4fc' }}>{formatSize(enhInfo.bytes)}</div>
+              <div style={{ fontSize: '0.74rem', color: '#93c5fd' }}>{formatSize(enhInfo.bytes)}</div>
             </div>
 
             <div>
               <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Pixel Increase</div>
-              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#818cf8', marginTop: '2px' }}>
-                {origInfo.width > 0 && ((enhInfo.width * enhInfo.height) / (origInfo.width * origInfo.height)).toFixed(0)}× More Pixels
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#3b82f6', marginTop: '2px' }}>
+                {origInfo.width > 0 && ((enhInfo.width * enhInfo.height) / (origInfo.width * origInfo.height)).toFixed(0)}× Resolution
               </div>
               <div style={{ fontSize: '0.74rem', color: '#64748b' }}>
                 {((enhInfo.width * enhInfo.height) / 1000000).toFixed(1)} Megapixels
@@ -682,7 +649,7 @@ export default function ImageEnhancer() {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 type="button"
-                onClick={() => setEnhancedPreview(null)}
+                onClick={() => setEnhancedUrl(null)}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',

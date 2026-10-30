@@ -5,7 +5,7 @@ import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
 import {
   Upload, X, Plus, Minus, ChevronLeft, ChevronRight,
   Type, Pen, Square, Highlighter, Eraser, Download, Image as ImageIcon,
-  Undo, Redo, MousePointer, RotateCcw, Check, Sparkles, Move
+  Undo, Redo, MousePointer, RotateCcw, Check, Sparkles, Move, Info
 } from 'lucide-react';
 
 // ── PDF.js worker ────────────────────────────────────────────────────────────
@@ -873,20 +873,20 @@ export default function PdfEditor() {
             style={{ display: 'none' }}
           />
           <div style={{
-            width: '80px', height: '80px', borderRadius: '22px',
-            background: 'linear-gradient(135deg,rgba(99,102,241,0.25),rgba(168,85,247,0.25))',
-            border: '1px solid rgba(99,102,241,0.4)',
+            width: '64px', height: '64px', borderRadius: '16px',
+            background: 'rgba(59, 130, 246, 0.12)',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto 24px',
+            margin: '0 auto 20px',
           }}>
             {loading ? (
               <div style={{
-                width: '32px', height: '32px', border: '3px solid rgba(99,102,241,0.3)',
-                borderTop: '3px solid #818cf8', borderRadius: '50%',
+                width: '28px', height: '28px', border: '2px solid rgba(59, 130, 246, 0.3)',
+                borderTop: '2px solid #3b82f6', borderRadius: '50%',
                 animation: 'spin 0.8s linear infinite'
               }} />
             ) : (
-              <Upload size={36} color="#a5b4fc" />
+              <Upload size={30} color="#60a5fa" />
             )}
           </div>
           <h3 style={{ color: '#f8fafc', fontSize: '1.4rem', margin: '0 0 10px', fontWeight: 600 }}>
@@ -952,9 +952,8 @@ export default function PdfEditor() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '220px' }}>
           <div style={{
             width: '32px', height: '32px', borderRadius: '8px',
-            background: 'linear-gradient(135deg, #4f46e5, #9333ea)',
+            background: 'rgba(59, 130, 246, 0.15)', border: '1px solid rgba(59, 130, 246, 0.3)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            boxShadow: '0 2px 8px rgba(79,70,229,0.3)'
           }}>
             <Type size={16} color="white" />
           </div>
@@ -1083,9 +1082,9 @@ export default function PdfEditor() {
             onClick={handleSave}
             style={{
               display: 'flex', alignItems: 'center', gap: '6px',
-              padding: '8px 16px', background: 'linear-gradient(135deg, #10b981, #059669)',
-              color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer',
-              fontWeight: 600, fontSize: '0.85rem', boxShadow: '0 2px 10px rgba(16,185,129,0.3)',
+              padding: '8px 16px', background: '#059669',
+              color: 'white', border: '1px solid #10b981', borderRadius: '8px', cursor: 'pointer',
+              fontWeight: 600, fontSize: '0.85rem',
               transition: 'all 0.15s ease'
             }}
           >
@@ -1283,18 +1282,18 @@ export default function PdfEditor() {
                     boxSizing: 'border-box',
                     borderRadius: '4px',
                     border: isBeingEdited
-                      ? '2px solid #6366f1'
+                      ? '2px solid #2563eb'
                       : isErased
                       ? '1px dashed rgba(239,68,68,0.4)'
                       : '1px solid transparent',
                     background: isBeingEdited
-                      ? 'rgba(99,102,241,0.1)'
+                      ? 'rgba(37,99,235,0.1)'
                       : 'transparent',
                     zIndex: isBeingEdited ? 50 : 10,
                     transition: 'border-color 0.15s ease',
                   }}
                   onMouseEnter={e => {
-                    if (!isBeingEdited) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.6)';
+                    if (!isBeingEdited) e.currentTarget.style.borderColor = 'rgba(37,99,235,0.6)';
                   }}
                   onMouseLeave={e => {
                     if (!isBeingEdited && !isErased) e.currentTarget.style.borderColor = 'transparent';
@@ -1307,7 +1306,7 @@ export default function PdfEditor() {
                         position: 'absolute', left: 0, top: 0,
                         minWidth: Math.max(item.w + 60, 220),
                         background: '#ffffff',
-                        border: '1.5px solid #6366f1',
+                        border: '1.5px solid #2563eb',
                         borderRadius: '6px',
                         boxShadow: '0 10px 25px rgba(0,0,0,0.35)',
                         padding: '4px 6px',
@@ -1370,7 +1369,7 @@ export default function PdfEditor() {
                         onClick={() => commitInPlaceEdit(item, inlineEditText)}
                         title="Apply (Enter)"
                         style={{
-                          background: '#4f46e5', border: 'none',
+                          background: '#2563eb', border: 'none',
                           borderRadius: '4px', color: 'white', padding: '3px 8px',
                           cursor: 'pointer', fontSize: '11px', fontWeight: 600, display: 'flex', alignItems: 'center'
                         }}
@@ -1546,8 +1545,8 @@ export default function PdfEditor() {
                   onClick={() => setColor(c)}
                   style={{
                     width: '26px', height: '26px', borderRadius: '6px',
-                    background: c, border: color === c ? '2px solid #818cf8' : '1px solid rgba(255,255,255,0.15)',
-                    cursor: 'pointer', boxShadow: color === c ? '0 0 0 1px #818cf8' : 'none'
+                    background: c, border: color === c ? '2px solid #3b82f6' : '1px solid rgba(255,255,255,0.15)',
+                    cursor: 'pointer', boxShadow: color === c ? '0 0 0 1px #3b82f6' : 'none'
                   }}
                 />
               ))}
@@ -1579,7 +1578,7 @@ export default function PdfEditor() {
                 max={24}
                 value={lineWidth}
                 onChange={e => setLineWidth(+e.target.value)}
-                style={{ width: '100%', accentColor: '#6366f1' }}
+                style={{ width: '100%', accentColor: '#2563eb' }}
               />
             </div>
           )}
@@ -1623,8 +1622,8 @@ export default function PdfEditor() {
                       onClick={() => setFontSize(sz)}
                       style={{
                         flex: 1, padding: '5px 0', borderRadius: '6px', border: 'none',
-                        background: fontSize === sz ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.05)',
-                        color: fontSize === sz ? '#818cf8' : '#94a3b8',
+                        background: fontSize === sz ? 'rgba(37,99,235,0.25)' : 'rgba(255,255,255,0.05)',
+                        color: fontSize === sz ? '#3b82f6' : '#94a3b8',
                         fontSize: '11px', cursor: 'pointer', fontWeight: 600
                       }}
                     >
@@ -1638,7 +1637,7 @@ export default function PdfEditor() {
                   max={72}
                   value={fontSize}
                   onChange={e => setFontSize(+e.target.value)}
-                  style={{ width: '100%', accentColor: '#6366f1' }}
+                  style={{ width: '100%', accentColor: '#2563eb' }}
                 />
               </div>
 
@@ -1649,9 +1648,9 @@ export default function PdfEditor() {
                     onClick={() => setIsBold(!isBold)}
                     style={{
                       flex: 1, padding: '8px 0', borderRadius: '8px',
-                      background: isBold ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.05)',
-                      border: isBold ? '1px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.08)',
-                      color: isBold ? '#818cf8' : '#cbd5e1', cursor: 'pointer', fontWeight: 'bold'
+                      background: isBold ? 'rgba(37,99,235,0.25)' : 'rgba(255,255,255,0.05)',
+                      border: isBold ? '1px solid rgba(37,99,235,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                      color: isBold ? '#3b82f6' : '#cbd5e1', cursor: 'pointer', fontWeight: 'bold'
                     }}
                   >
                     B
@@ -1660,9 +1659,9 @@ export default function PdfEditor() {
                     onClick={() => setIsItalic(!isItalic)}
                     style={{
                       flex: 1, padding: '8px 0', borderRadius: '8px',
-                      background: isItalic ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.05)',
-                      border: isItalic ? '1px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.08)',
-                      color: isItalic ? '#818cf8' : '#cbd5e1', cursor: 'pointer', fontStyle: 'italic', fontFamily: 'serif'
+                      background: isItalic ? 'rgba(37,99,235,0.25)' : 'rgba(255,255,255,0.05)',
+                      border: isItalic ? '1px solid rgba(37,99,235,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                      color: isItalic ? '#3b82f6' : '#cbd5e1', cursor: 'pointer', fontStyle: 'italic', fontFamily: 'serif'
                     }}
                   >
                     I
@@ -1676,9 +1675,9 @@ export default function PdfEditor() {
                       onClick={() => setTextAlign(align)}
                       style={{
                         flex: 1, padding: '8px 0', borderRadius: '8px',
-                        background: textAlign === align ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.05)',
-                        border: textAlign === align ? '1px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.08)',
-                        color: textAlign === align ? '#818cf8' : '#cbd5e1',
+                        background: textAlign === align ? 'rgba(37,99,235,0.25)' : 'rgba(255,255,255,0.05)',
+                        border: textAlign === align ? '1px solid rgba(37,99,235,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                        color: textAlign === align ? '#3b82f6' : '#cbd5e1',
                         cursor: 'pointer', fontSize: '11px', textTransform: 'capitalize'
                       }}
                     >
@@ -1705,7 +1704,7 @@ export default function PdfEditor() {
                   step={0.05}
                   value={opacity}
                   onChange={e => setOpacity(+e.target.value)}
-                  style={{ width: '100%', accentColor: '#6366f1' }}
+                  style={{ width: '100%', accentColor: '#2563eb' }}
                 />
               </div>
 
@@ -1716,10 +1715,10 @@ export default function PdfEditor() {
                 const currentEdit = textEdits[editingId];
                 return (
                   <div style={{
-                    background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.35)',
+                    background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.3)',
                     borderRadius: '10px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px'
                   }}>
-                    <div style={{ color: '#a5b4fc', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase' }}>
+                    <div style={{ color: '#93c5fd', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase' }}>
                       Selected Text Box
                     </div>
                     <textarea
@@ -1737,7 +1736,7 @@ export default function PdfEditor() {
                       <button
                         onClick={() => commitInPlaceEdit(item, inlineEditText)}
                         style={{
-                          flex: 1, padding: '6px 0', background: '#4f46e5', color: 'white',
+                          flex: 1, padding: '6px 0', background: '#2563eb', color: 'white',
                           border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '11px', fontWeight: 600
                         }}
                       >
@@ -1771,11 +1770,12 @@ export default function PdfEditor() {
               {/* Help Callout for SELECT Mode */}
               {tool === TOOLS.SELECT && (
                 <div style={{
-                  background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)',
+                  background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.2)',
                   borderRadius: '10px', padding: '12px', fontSize: '11px', color: '#cbd5e1', lineHeight: 1.5
                 }}>
-                  <strong style={{ color: '#a5b4fc', display: 'block', marginBottom: '4px' }}>
-                    💡 In-Place Editing Guide:
+                  <strong style={{ color: '#93c5fd', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px' }}>
+                    <Info size={13} />
+                    In-Place Editing Guide:
                   </strong>
                   • Click any text/heading to edit or erase it.<br/>
                   • The original text is seamlessly whited out.<br/>

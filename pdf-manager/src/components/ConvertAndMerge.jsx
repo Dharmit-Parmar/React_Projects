@@ -5,7 +5,7 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import {
   UploadCloud, GripVertical, Trash2, FileText, Loader2,
   Image as ImageIcon, FileType, File, CheckCircle2, AlertCircle, RefreshCw, Presentation,
-  ArrowUp, ArrowDown, ArrowUpDown, Hash, Download
+  ArrowUp, ArrowDown, ArrowUpDown, Hash, Download, Ban, Check, AlertTriangle, X
 } from 'lucide-react';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
@@ -500,9 +500,10 @@ export default function ConvertAndMerge({ files, setFiles }) {
           {toast.message}
           <button
             onClick={() => setToast(null)}
-            style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+            style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+            aria-label="Dismiss toast"
           >
-            ✕
+            <X size={15} />
           </button>
         </div>
       )}
@@ -531,7 +532,9 @@ export default function ConvertAndMerge({ files, setFiles }) {
           <div>
             <span>{files.length} file{files.length !== 1 ? 's' : ''} queued in merge order</span>
             {unsupportedCount > 0 && (
-              <span className="warn-text" style={{ marginLeft: '12px' }}>⚠ {unsupportedCount} unsupported file{unsupportedCount > 1 ? 's' : ''} will be skipped</span>
+              <span className="warn-text" style={{ marginLeft: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <AlertTriangle size={13} /> {unsupportedCount} unsupported file{unsupportedCount > 1 ? 's' : ''} will be skipped
+              </span>
             )}
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -681,7 +684,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
             <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Hash size={16} color="#818cf8" />
+              <Hash size={16} color="#3b82f6" />
               Page Numbering at Merge Time
             </span>
             <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
@@ -698,14 +701,14 @@ export default function ConvertAndMerge({ files, setFiles }) {
               onClick={() => setEnablePageNumbers(false)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
-                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.2s ease',
-                background: !enablePageNumbers ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.04)',
-                border: !enablePageNumbers ? '1.5px solid rgba(239,68,68,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                padding: '10px 14px', borderRadius: '8px', cursor: 'pointer',
+                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.18s ease',
+                background: !enablePageNumbers ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.03)',
+                border: !enablePageNumbers ? '1.5px solid rgba(239,68,68,0.4)' : '1px solid rgba(255,255,255,0.06)',
                 color: !enablePageNumbers ? '#fca5a5' : '#94a3b8',
               }}
             >
-              <span style={{ fontSize: '15px' }}>🚫</span>
+              <Ban size={15} strokeWidth={2} />
               No Page Numbers (Keep Original)
             </button>
 
@@ -714,21 +717,22 @@ export default function ConvertAndMerge({ files, setFiles }) {
               onClick={() => setEnablePageNumbers(true)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
-                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.2s ease',
-                background: enablePageNumbers ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)',
-                border: enablePageNumbers ? '1.5px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.08)',
-                color: enablePageNumbers ? '#a5b4fc' : '#94a3b8',
+                padding: '10px 14px', borderRadius: '8px', cursor: 'pointer',
+                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.18s ease',
+                background: enablePageNumbers ? 'rgba(37,99,235,0.18)' : 'rgba(255,255,255,0.03)',
+                border: enablePageNumbers ? '1.5px solid rgba(37,99,235,0.5)' : '1px solid rgba(255,255,255,0.06)',
+                color: enablePageNumbers ? '#93c5fd' : '#94a3b8',
               }}
             >
-              <span style={{ fontSize: '15px' }}>🔢</span>
+              <Hash size={15} strokeWidth={2} />
               Continuous Page Numbers (1 to N)
             </button>
           </div>
 
           {!enablePageNumbers ? (
-            <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', paddingLeft: '4px' }}>
-              ✓ Original pages and existing footers will be merged without adding any new page numbers.
+            <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', paddingLeft: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Check size={14} color="#10b981" />
+              Original pages and existing footers will be merged without adding any new page numbers.
             </div>
           ) : (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -779,7 +783,7 @@ export default function ConvertAndMerge({ files, setFiles }) {
                   type="checkbox"
                   checked={maskFooters}
                   onChange={e => setMaskFooters(e.target.checked)}
-                  style={{ accentColor: '#818cf8' }}
+                  style={{ accentColor: '#2563eb' }}
                 />
                 Cleanly mask conflicting original footer numbers
               </label>
@@ -809,7 +813,10 @@ export default function ConvertAndMerge({ files, setFiles }) {
       {previewUrl && (
         <div className="preview-container" style={{ animation: 'fadeIn 0.4s ease-out' }}>
           <div className="preview-header" style={{ flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-            <h3 className="preview-title">✅ Merged PDF Ready</h3>
+            <h3 className="preview-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <CheckCircle2 size={18} color="#10b981" />
+              Merged PDF Ready
+            </h3>
 
             {/* Custom Filename Input */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: '240px', maxWidth: '380px' }}>

@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import {
   UploadCloud, GripVertical, Trash2, FileText, Layers, Loader2,
-  ArrowUp, ArrowDown, ArrowUpDown, Hash, Download, Check
+  ArrowUp, ArrowDown, ArrowUpDown, Hash, Download, Check, Ban, AlertTriangle
 } from 'lucide-react';
 
 const formatBytes = (bytes, decimals = 2) => {
@@ -294,7 +294,7 @@ export default function PdfMerger({ files, setFiles }) {
                         {/* Order Badge */}
                         <span className="order-badge" title={`Position #${index + 1}`}>{index + 1}</span>
 
-                        <FileText size={24} style={{ color: isNonPdf ? '#ef4444' : '#818cf8', marginRight: '12px', flexShrink: 0 }} />
+                        <FileText size={24} style={{ color: isNonPdf ? '#ef4444' : '#3b82f6', marginRight: '12px', flexShrink: 0 }} />
 
                         <div className="pdf-info" style={{ flex: 1, minWidth: 0 }}>
                           <span className="pdf-name" style={{ color: isNonPdf ? '#ef4444' : 'inherit' }}>
@@ -371,7 +371,7 @@ export default function PdfMerger({ files, setFiles }) {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
             <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#f1f5f9', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Hash size={16} color="#818cf8" />
+              <Hash size={16} color="#3b82f6" />
               Page Numbering at Merge Time
             </span>
             <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
@@ -388,14 +388,14 @@ export default function PdfMerger({ files, setFiles }) {
               onClick={() => setEnablePageNumbers(false)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
-                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.2s ease',
-                background: !enablePageNumbers ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.04)',
-                border: !enablePageNumbers ? '1.5px solid rgba(239,68,68,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                padding: '10px 14px', borderRadius: '8px', cursor: 'pointer',
+                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.18s ease',
+                background: !enablePageNumbers ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.03)',
+                border: !enablePageNumbers ? '1.5px solid rgba(239,68,68,0.4)' : '1px solid rgba(255,255,255,0.06)',
                 color: !enablePageNumbers ? '#fca5a5' : '#94a3b8',
               }}
             >
-              <span style={{ fontSize: '15px' }}>🚫</span>
+              <Ban size={15} strokeWidth={2} />
               No Page Numbers (Keep Original)
             </button>
 
@@ -404,21 +404,22 @@ export default function PdfMerger({ files, setFiles }) {
               onClick={() => setEnablePageNumbers(true)}
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
-                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.2s ease',
-                background: enablePageNumbers ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)',
-                border: enablePageNumbers ? '1.5px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.08)',
-                color: enablePageNumbers ? '#a5b4fc' : '#94a3b8',
+                padding: '10px 14px', borderRadius: '8px', cursor: 'pointer',
+                fontSize: '0.84rem', fontWeight: 600, transition: 'all 0.18s ease',
+                background: enablePageNumbers ? 'rgba(37,99,235,0.18)' : 'rgba(255,255,255,0.03)',
+                border: enablePageNumbers ? '1.5px solid rgba(37,99,235,0.5)' : '1px solid rgba(255,255,255,0.06)',
+                color: enablePageNumbers ? '#93c5fd' : '#94a3b8',
               }}
             >
-              <span style={{ fontSize: '15px' }}>🔢</span>
+              <Hash size={15} strokeWidth={2} />
               Continuous Page Numbers (1 to N)
             </button>
           </div>
 
           {!enablePageNumbers ? (
-            <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', paddingLeft: '4px' }}>
-              ✓ Original pages and existing footers will be merged without adding any new page numbers.
+            <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', paddingLeft: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Check size={14} color="#10b981" />
+              Original pages and existing footers will be merged without adding any new page numbers.
             </div>
           ) : (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -469,7 +470,7 @@ export default function PdfMerger({ files, setFiles }) {
                   type="checkbox"
                   checked={maskFooters}
                   onChange={e => setMaskFooters(e.target.checked)}
-                  style={{ accentColor: '#818cf8' }}
+                  style={{ accentColor: '#2563eb' }}
                 />
                 Cleanly mask conflicting footer numbers
               </label>
@@ -484,8 +485,9 @@ export default function PdfMerger({ files, setFiles }) {
         return (
           <>
             {nonPdfCount > 0 && (
-              <div className="fc-error" style={{ margin: '16px 0', padding: '12px' }}>
-                ⚠ You have {nonPdfCount} non-PDF file(s) in your global list. Please remove them or switch to "Convert & Merge" to process them.
+              <div className="fc-error" style={{ margin: '16px 0', padding: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <AlertTriangle size={15} />
+                <span>You have {nonPdfCount} non-PDF file(s) in your global list. Please remove them or switch to "Convert & Merge" to process them.</span>
               </div>
             )}
             <div className="actions">

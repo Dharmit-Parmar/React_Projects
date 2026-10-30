@@ -180,12 +180,12 @@ export default function WordEditor() {
       {toastMessage && (
         <div style={{
           position: 'fixed', top: '24px', left: '50%', transform: 'translateX(-50%)',
-          background: 'rgba(15,23,42,0.95)', border: '1px solid rgba(99,102,241,0.5)',
+          background: 'rgba(15,23,42,0.95)', border: '1px solid rgba(37,99,235,0.4)',
           color: '#e2e8f0', padding: '10px 20px', borderRadius: '12px',
           boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 99999,
           fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px'
         }}>
-          <Check size={16} color="#818cf8" /> {toastMessage}
+          <Check size={16} color="#10b981" /> {toastMessage}
         </div>
       )}
 
@@ -200,8 +200,8 @@ export default function WordEditor() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{
             width: '32px', height: '32px', borderRadius: '8px',
-            background: 'linear-gradient(135deg, #3b82f6, #6366f1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white'
+            background: 'rgba(59, 130, 246, 0.15)', border: '1px solid rgba(59, 130, 246, 0.3)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa'
           }}>
             <FileText size={18} />
           </div>
@@ -264,9 +264,9 @@ export default function WordEditor() {
             style={{
               display: 'flex', alignItems: 'center', gap: '6px',
               padding: '8px 16px', borderRadius: '8px', cursor: 'pointer',
-              background: 'linear-gradient(135deg, #10b981, #059669)', border: 'none',
+              background: '#059669', border: '1px solid #10b981',
               color: 'white', fontSize: '0.82rem', fontWeight: 600,
-              boxShadow: '0 2px 10px rgba(16,185,129,0.3)', transition: 'all 0.15s ease'
+              transition: 'all 0.15s ease'
             }}
           >
             <Download size={14} /> {isExporting ? 'Exporting PDF...' : 'Export PDF'}

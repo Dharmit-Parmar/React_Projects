@@ -52,19 +52,19 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 // ── Format catalogue ──────────────────────────────────────────────────────────
 const FORMAT_INFO = {
-  pdf:  { label: 'PDF',   color: '#ef4444', bg: '#ef444418', icon: '📄' },
-  png:  { label: 'PNG',   color: '#22d3ee', bg: '#22d3ee18', icon: '🖼️' },
-  jpg:  { label: 'JPG',   color: '#f59e0b', bg: '#f59e0b18', icon: '🖼️' },
-  jpeg: { label: 'JPG',   color: '#f59e0b', bg: '#f59e0b18', icon: '🖼️' },
-  webp: { label: 'WEBP',  color: '#a78bfa', bg: '#a78bfa18', icon: '🖼️' },
-  gif:  { label: 'GIF',   color: '#34d399', bg: '#34d39918', icon: '🎞️' },
-  bmp:  { label: 'BMP',   color: '#94a3b8', bg: '#94a3b818', icon: '🖼️' },
-  docx: { label: 'DOCX',  color: '#3b82f6', bg: '#3b82f618', icon: '📝' },
-  doc:  { label: 'DOC',   color: '#3b82f6', bg: '#3b82f618', icon: '📝' },
-  txt:  { label: 'TXT',   color: '#a3e635', bg: '#a3e63518', icon: '📃' },
-  html: { label: 'HTML',  color: '#f97316', bg: '#f9731618', icon: '🌐' },
-  pptx: { label: 'PPTX',  color: '#ff6b35', bg: '#ff6b3518', icon: '📊' },
-  ppt:  { label: 'PPT',   color: '#ff6b35', bg: '#ff6b3518', icon: '📊' },
+  pdf:  { label: 'PDF',   color: '#ef4444', bg: '#ef444418' },
+  png:  { label: 'PNG',   color: '#22d3ee', bg: '#22d3ee18' },
+  jpg:  { label: 'JPG',   color: '#f59e0b', bg: '#f59e0b18' },
+  jpeg: { label: 'JPG',   color: '#f59e0b', bg: '#f59e0b18' },
+  webp: { label: 'WEBP',  color: '#a78bfa', bg: '#a78bfa18' },
+  gif:  { label: 'GIF',   color: '#34d399', bg: '#34d39918' },
+  bmp:  { label: 'BMP',   color: '#94a3b8', bg: '#94a3b818' },
+  docx: { label: 'DOCX',  color: '#3b82f6', bg: '#3b82f618' },
+  doc:  { label: 'DOC',   color: '#3b82f6', bg: '#3b82f618' },
+  txt:  { label: 'TXT',   color: '#a3e635', bg: '#a3e63518' },
+  html: { label: 'HTML',  color: '#f97316', bg: '#f9731618' },
+  pptx: { label: 'PPTX',  color: '#ff6b35', bg: '#ff6b3518' },
+  ppt:  { label: 'PPT',   color: '#ff6b35', bg: '#ff6b3518' },
 };
 
 // ── Conversion matrix — what each format can be converted TO ──────────────────
@@ -347,7 +347,7 @@ async function pptxToHtml(file, onProgress) {
     body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;background:#f5f5f5;}
     .slide{background:#fff;border-radius:12px;padding:32px 40px;margin-bottom:24px;
            box-shadow:0 2px 12px rgba(0,0,0,.08);}
-    h2{color:#4f46e5;margin-top:0;font-size:1.3rem;}
+    h2{color:#2563eb;margin-top:0;font-size:1.3rem;}
     p{color:#333;line-height:1.7;}
   </style>
 </head>
@@ -617,7 +617,7 @@ export default function FileConverter({ files, setFiles }) {
     if (IMAGE_EXTS.includes(fromExt)) return <Img size={28} style={{ color: '#22d3ee' }} />;
     if (fromExt === 'pdf') return <FileText size={28} style={{ color: '#ef4444' }} />;
     if (PPT_EXTS.includes(fromExt)) return <Presentation size={28} style={{ color: '#ff6b35' }} />;
-    return <File size={28} style={{ color: '#818cf8' }} />;
+    return <File size={28} style={{ color: '#3b82f6' }} />;
   };
 
   return (
@@ -625,7 +625,7 @@ export default function FileConverter({ files, setFiles }) {
 
       {/* ── Header strip ─────────────────────────────────────── */}
       <div className="fc-header-strip">
-        <Zap size={18} style={{ color: '#a78bfa' }} />
+        <Zap size={18} style={{ color: '#3b82f6' }} />
         <span>Universal converter — PDF, DOCX, PPTX, TXT, HTML, Images and more</span>
         <button
           className="fc-matrix-toggle"
@@ -671,9 +671,6 @@ export default function FileConverter({ files, setFiles }) {
             <div className="fc-detected-badge">
               {fromExt
                 ? <>
-                    <span className="fc-detected-icon">
-                      {FORMAT_INFO[fromExt]?.icon || '📄'}
-                    </span>
                     <FmtBadge ext={fromExt} large />
                     <span className="fc-detected-label">
                       {FORMAT_INFO[fromExt]?.label || fromExt.toUpperCase()}
@@ -686,7 +683,7 @@ export default function FileConverter({ files, setFiles }) {
 
           {/* Arrow */}
           <div className="fc-arrow">
-            <ArrowRight size={24} style={{ color: '#818cf8' }} />
+            <ArrowRight size={24} style={{ color: '#3b82f6' }} />
           </div>
 
           {/* TO */}
